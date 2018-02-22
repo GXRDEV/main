@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><!--  manifest="oviyam2.manifest" -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <head>        
+        <title>Oviyam 2</title>
+
+		<link rel="icon" type="image/png" href="images/favicon.png"/>
+        <link rel="stylesheet" type="text/css" href="css/jquery.ui.all.css" />
+        <!-- <link rel="stylesheet" type="text/css" href="css/layout-default-latest.css" />  -->
+        <link rel="stylesheet" type="text/css" href="css/jquery.contextMenu.css" />
+        <link href="css/demo_table_jui.css" rel="stylesheet" type="text/css">
+
+        <style type="text/css">
+            /* Using an 'optional-container' instead of 'body', so need body to have a 'height' */
+            html, body {
+                width:          100%;
+                height:         100%;
+                padding:        0;
+                margin:         0;
+                overflow:       hidden !important;
+                font-size:      80%;
+            }
+          	#optional-container {
+                border:0;
+                 
+            }
+            .ui-layout-center {
+                overflow:       hidden;
+            }
+
+            .westImgs {
+                padding-right:  3px;
+                padding-bottom: 3px;
+            }
+
+            .ui-layout-toggler {
+                background: rgb(169,3,41); /* Old browsers */
+                background: -moz-linear-gradient(top,  rgba(169,3,41,1) 0%, rgba(109,0,25,1) 81%); /* FF3.6+ */
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(169,3,41,1)), color-stop(81%,rgba(109,0,25,1))); /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(109,0,25,1) 81%); /* Chrome10+,Safari5.1+ */
+                background: -o-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(109,0,25,1) 81%); /* Opera 11.10+ */
+                background: -ms-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(109,0,25,1) 81%); /* IE10+ */
+                background: linear-gradient(to bottom,  rgba(169,3,41,1) 0%,rgba(109,0,25,1) 81%); /* W3C */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 ); /* IE6-9 */
+            }
+
+
+            #loadingView {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                height: 100%;
+                width: 100%;
+                text-align: center;
+                z-index: 10000;
+            }
+
+            #spinnerDiv {
+                position: relative;
+                margin: 25% auto;
+                margin-top: 25%;
+                height: 100px;
+                text-align: center;
+            }
+
+            #spinnerDiv img {
+                background: #232323;
+                width: 36px;
+                height: 36px;
+                opacity: .75;
+            }
+
+            .loadingText {
+                margin-top: 5px;
+                font-size: 12px;
+                font-weight: bold;
+                padding-left: .5em;
+                color: #FFFFFF;
+            }
+
+        </style>
+
+        <script type="text/javascript" src="js/lib/jquery-latest.js"></script>
+        <script type="text/javascript" src="js/lib/jquery-ui-latest.js"></script>
+        <script type="text/javascript" src="js/lib/jquery.layout-latest.js"></script>
+        <script type="text/javascript" src="js/lib/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="js/lib/jquery.cookies.min.js"></script>
+        <script type="text/javascript" src="js/lib/jquery.contextMenu.js"></script>
+        <script type="text/javascript" src="js/lib/jquery.sleep.js"></script>
+        <script type="text/javascript" src="js/features.js"></script>
+  		<script type="text/javascript" src="js/layout.js"></script>
+  		<script type="text/javascript" src="js/windowing.js"></script>
+  		<script type="text/javascript" src="js/zoom1.js"></script>
+  		<script type="text/javascript" src="js/imageMeasure.js"></script>
+  		<script type="text/javascript" src="js/LightBox.js"></script>
+        <script type="text/javascript" src="js/Ruler.js"></script>
+        <script type="text/javascript" src="js/lib/raphael-min.js"></script>
+        <script type="text/javascript" src="js/lib/raphaelle.js"></script>
+        <script type="text/javascript" src="js/lib/jquery.waitforimages.min.js"></script>
+         		  		 		       
+        <script type="text/javascript" src="js/LoadLanguage.js"></script>
+        <script type="text/javascript" src="js/lib/jqcombo.js"></script>
+       
+        <!-- theme switcher -->
+        <script type="text/javascript" src="js/lib/debug.js"></script>
+        <script type="text/javascript" src="js/lib/themeswitchertool.js"></script>
+        <script type="text/javascript" src="js/lib/date.js"></script>
+        <script type="text/javascript" src="js/viewer.js"></script>
+        <script type="text/javascript" src="js/viewer1.js"></script>
+        <script type="text/javascript" src="js/database.js"></script>
+        <script type="text/javascript" src="js/westContainer.js"></script>
+        <script type="text/javascript" src="js/filehandle.js"></script>
+        <script type="text/javascript" src="js/sync.js"></script>
+
+        <!-- Windowing  -->
+        <script type="text/javascript" src="js/lib/BinFileReader.js"></script>
+        <script type="text/javascript" src="js/dicom/DicomInputStreamReader.js"></script>
+        <script type="text/javascript" src="js/dicom/DicomElement.js"></script>
+        <script type="text/javascript" src="js/dicom/DicomParser.js"></script>
+        <script type="text/javascript" src="js/dicom/LookupTable.js"></script>
+
+        <script type="text/javascript" src="js/fullscreen.js"></script>
+
+        <!-- Scout line  -->
+        <script type="text/javascript" src="js/Localizer.js"></script>
+        <script type="text/javascript" src="js/MRLocalizer.js"></script>
+        <script type="text/javascript" src="js/SliceLocator.js"></script>
+        <script type="text/javascript" src="js/ScoutLineModel.js"></script>
+        <script type="text/javascript" src="js/ImageOrientation.js"></script>
+        
+        <script type="text/javascript" src="js/oviyam.js"></script>
+        <script type="text/javascript" src="js/dicom/NewDicomParser.js"></script>
+        <script type="text/javascript" src="js/dicom/NewDictionary.js"></script>
+        <script type="text/javascript" src="js/html/html.js"></script>
+        <script type="text/javascript" src="js/utils/string.js"></script>
+        <script type="text/javascript" src="js/viewer_tools.js"></script>
+	        
+        <!-- Annotations -->
+        <script type="text/javascript" src="js/Annotation.js"></script>
+        <script type="text/javascript" src="js/shapes.js"></script>
+        
+        <script type="text/javascript">
+            var myLayout;
+            var pageLoaded = false;   
+            
+            window.onload = function() {
+		        window.applicationCache.addEventListener('updateready', function(e) {
+		        	if(!pageLoaded) {
+			        	loadViewerPage();
+			        	pageLoaded = true;
+		        	}
+		        }, false);         
+           };
+           window.applicationCache.oncached =  function() {	            
+            	loadViewerPage();            	 
+            	pageLoaded = true;          
+            }
+            
+            window.applicationCache.onnoupdate = function() {
+            	if(!pageLoaded) {
+	            	loadViewerPage();
+	            	pageLoaded = true;
+            	}
+            }
+            
+        $(document).ready(function() {
+	        if (self != top) { 
+	        	//alert('在iframe中');  
+	        	window.parent = window;
+	        }else{
+	        	//alert('我不在');
+	        }
+        	loadViewerPage();
+       	});
+
+        </script>
+
+        <script type="text/javascript">
+
+            function initPage() {
+                //createTables();
+                //checkStudyAvailability();
+
+                getStudyDetails();
+                               
+
+                //var queryString = window.top.location.search.substring(1);
+                //var queryString = window.location.href;
+            }
+
+            function getParameter(queryString, parameterName) {
+                //Add "=" to the parameter name (i.e. parameterName=value);
+                var parameterName = parameterName + "=";
+                if(queryString.length > 0) {
+                    //Find the beginning of the string
+                    var begin = queryString.indexOf(parameterName);
+                    if(begin != -1) {
+                        //Add the length (integer) to the beginning
+                        begin += parameterName.length;
+                        var end = queryString.indexOf("&", begin);
+                        if(end == -1) {
+                            end = queryString.length;
+                        }
+                        return unescape(queryString.substring(begin, end));
+                    }
+
+                    return "null";
+                }
+            }
+
+        </script>
+		</head>              
+         <body style="cursor: auto; ">
+         	<div id="loadingView">
+                <div id="spinnerDiv"><img src="images/overlay_spinner.gif" alt="">
+                    <div id="loadingText" class="loadingText">Loading...</div>
+            </div>
+            </div> 
+	
+	<div id="optional-container" class="ui-layout-container ui-widget-content" style="overflow: hidden; position: relative; background: #333333;">
+		<div id="toolbarContainer" class="ui-layout-north ui-layout-pane ui-layout-pane-north" style="border: none; background: black; padding: 5px 7px 0px 7px;">
+		</div> <!-- toolbar container-->
+		<div id="westPane" style="height: 95%; width: 18%; display: block; float: left; "></div>
+		<div id="tabs_div" style="width: 82%; height: 95%; float: left;">
+			<iframe height="100%" width="100%"  frameborder="no" border="0" allowscriptaccess="always" marginwidth="0" marginheight="0" allowfullscreen="true" wmode="opaque" allowTransparency="true" type="application/x-shockwave-flash"></iframe>
+		</div>
+	</div> <!--optional container-->
+
+    </body>
+</html>

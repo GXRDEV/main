@@ -1,0 +1,104 @@
+html,body,.main{height:100%;box-sizing:border-box;background-color:#F5F5F5;color:#464646;font-size:14px;}
+.main{padding:0;overflow: auto; 
+	display: flex;-webkit-display: flex; 
+	flex-direction: column;-webkit-flex-direction: column;
+	-webkit-overflow-scrolling : touch; }
+.main .header{height:48px;flex:0 0 48px;-webkit-flex:0 0 48px;}
+.main .footer{height:70px; flex:0 0 66px;-webkit-flex:0 0 70px;}
+.main .serlst{flex:1 1 auto;-webkit-flex:1 1 auto;    
+	display: flex;-webkit-display: flex;
+    flex-direction: column;-webkit-flex-direction: column;
+    justify-content: center;-webkit-justify-content: center;
+}
+.main .serverlists .box{flex:1 1 auto;-webkit-flex:1 1 auto;}
+.serlst .titles,
+.serlst .serlist{flex:1 1 auto;-webkit-flex:1 1 auto;
+	display: flex;-webkit-display: flex;
+    flex-direction: column;-webkit-flex-direction: column;
+    justify-content: center;-webkit-justify-content: center;
+    overflow: hidden;
+}
+.serverlists .blckleft,.serverlists .blckright{
+	display: flex;-webkit-display: flex;
+    flex-direction: column;-webkit-flex-direction: column;
+    justify-content: center;-webkit-justify-content: center;
+}
+
+.nav-bar-container{z-index: 10;bottom:auto!important;top:0;height:48px;background-color:#fff;font-size:14px;border-bottom:1px solid #D7D3D4;}
+
+.tab-nav{font-size:0;background-color:#fff;border-top:1px solid #D7D3D4;}
+.tab-item{display:inline-block; width:50%;text-align:center;padding:5px 0;font-size:13px;}
+.tab-item .tab-title{display:block;}
+.tab-item .iconfont{display:block;padding-bottom:3px;font-size:30px;}
+
+.bar-header{}
+.bar-header .button{display:block; line-height:50px;padding:0 8px; }
+.bar-header .icon-kefus{color:#29BAAB;font-size:26px;line-height:44px;}
+
+.bar-header .ion-arrow-down{font-size:12px;vertical-align: 1px;}
+.bar-header .queryform{position:relative; line-height:30px; margin: 7px 0;border:1px solid #D6D2D3;border-radius:15px;overflow:hidden;}
+.bar-header .queryform input{width:100%;height:30px;outline:0;border:0;padding:0 10px;box-sizing:border-box;line-height:1.2em;}
+.bar-header .queryform button{position:absolute;right:0;top:0;height:100%;padding:0 8px;border: 0;background: transparent;line-height: 27px;color:#29BAAB;}
+.bar-header .queryform button .iconfont{font-size:20px;}
+
+.serlst{background-color:#fff;border-top:1px solid #E7E7E7;border-bottom:1px solid #e9e9e9;margin:5px 0 0;}
+.serlst .titles{line-height:40px;text-align:center;border-bottom:1px solid #eee;}
+.serverlists .blckleft{width:40%;text-align:center;border-right:1px solid #eee;}
+.serverlists .blckleft dd{position:relative;padding:5px 0;}
+.serverlists .blckleft .iconfont{position:relative; display: inline-block; font-size:50px;line-height: 1.5em;}
+.serverlists .blckleft .icon-persons i{font-size: 12px;position: absolute;right: -6px;top: 50%;line-height: 1em;font-style: normal;margin-top: -1.5em;}
+.serverlists .blckright dd{position:relative;padding:10px;}
+.serverlists .blckright .cols0{width:60px;text-align:center;}
+.serverlists .blckright .iconfont{color:#4AAD9B;font-size:40px;}
+
+.hoticon{font-size:10px;display:block;padding:2px 5px;background-color:#FF5354;color:#fff;border-radius:10px;overflow:hidden;
+	position:absolute;right:-30px;top: 22px;line-height: 1em;}
+.serlst dd .title{color:#838383;font-size:16px;line-height:2.6em;} 
+.serlst dd .remark{color:#c3c3c3;font-size:13px;line-height:1.6em;padding:0 1em;} 
+.serlst .blckright dd .remark{padding:0;}
+
+.hosplists .hosplst{line-height:3.5em;font-size:16px;margin:0 10px;color:#878787;}
+.hosplists .hosplst .iconfont{margin:0 10px;}
+.ddList.disabled{cursor:not-allowed;opacity:.5;}
+.ddList.disabled:after{content:"暂未开通";position:absolute;right:8px;top:8px;color:#aaa;font-size:12px;}
+
+.popup {
+	position: fixed;
+	left: 0;top: 0;right: 0;bottom: 0;z-index: 1001;
+	font-size:18.1px;
+}
+.popup .wrapper {
+	background-color: #fff;
+	position: absolute;left: 0;top: 0;right: 0;bottom: 0;
+	overflow: scroll;
+}
+.popup dt {
+	display:block;color: #999;background: #f7f7f7;padding: 10px;
+}
+.popup dd a, .popup li a {
+	color:black;display: block;padding: 0 .425rem;
+}
+.popup dd, .popup li {
+	margin: 0;border-bottom: 1px solid #ddd;
+	-webkit-appearance: none;-moz-appearance: none;
+	appearance: none;line-height: 3.333;position: relative;
+}
+.g_fixed{position:fixed!important;}
+@media (max-width: 420px) {
+	.serverlists .blckleft .iconfont{font-size:50px;}
+	.serverlists .blckright .iconfont{font-size:40px;}
+	.serlst dd .title{font-size:16px;} 
+	.serlst dd .remark{font-size:13px;} 
+}
+@media (max-width: 360px) {	
+	.serverlists .blckleft .iconfont{font-size:46px;}
+	.serverlists .blckright .iconfont{font-size:36px;}
+	.serlst dd .title{font-size:15px;} 
+	.serlst dd .remark{font-size:12px;} 
+}
+@media (max-width: 300px) {
+	.serverlists .blckleft .iconfont{font-size:40px;}
+	.serverlists .blckright .iconfont{font-size:30px;}
+	.serlst dd .title{font-size:13px;} 
+	.serlst dd .remark{font-size:10px;} 
+}

@@ -1,0 +1,31 @@
+<div class="my-enclosure">
+    <div class="row header">
+        <div class="pull-left">
+            <slot name="title"></slot>
+        </div>
+        <div class="pull-right">
+            <button v-if="isShow" type="button" class="btn btn-primary upload-img" @click="enclosureupload()"><i class="iconfont icon-upload" style="vertical-align: middle"></i>&ensp;上传</button>
+            <slot name="actions"></slot>
+        </div>
+    </div>
+    <section v-if="attachments.length">
+        <div style="margin: 3em 0; overflow: hidden" id="enclosure">
+            <div v-for="(item, ind) in attachments" class="attachments">
+                <div class="del" @click="del(ind)" v-if="isShow">×</div>
+                <p class="top"><span>{{allType[item.type]}}</span>&ensp;{{item.reportTime}}</p>
+                <p class="describe" data-toggle="tooltip" :title="item.remark">{{item.remark}}</p>
+                <div class="img">
+                    <img v-for="(filelist, fileind) in item.files" :data-src="imgsrc(filelist.fileUrl)" :key="fileind" :src="imgsrc(filelist.fileUrl)"
+                        v-show="fileind == 0">
+                    <span style="text-align: center">{{item.files.length}}</span>
+                </div>
+                <div class="change">
+                    <span @click="enclosureupload(item.active_id)" v-if="isShow">编辑</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="noresult" v-else style="padding: 3em .5em;">
+        <img src="../img/noresult.png" style="width:24px;" alt="">
+    </section>
+</div>

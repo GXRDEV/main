@@ -1,0 +1,76 @@
+[
+  {
+    "path": "/",
+    "component": "../components/page/HomePage",
+    "meta": {
+      "skipAuth": true,
+      "remark": "登录页"
+    }
+  },
+  {
+    "path": "/drugs",
+    "component": "../components/page/Main",
+    "children": [
+      {
+        "path": "",
+        "redirect": "list"
+      },
+      {
+        "path": "list",
+        "component": "../components/page/drugsadmin/List",
+        "meta": {
+          "remark": "我的订单"
+        }
+      },
+      {
+        "path": "orderdetail/:id",
+        "component": "../components/page/drugsadmin/OrderDetail",
+        "meta": {
+          "remark": "订单详情"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/admin",
+    "component": "../components/page/Main",
+    "children": [
+      {
+        "path": "",
+        "component": "../components/page/admin/HomePage",
+        "meta": {
+          "remark": "首页"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/hos",
+    "component": "../components/page/Main",
+    "children": [
+      {
+        "path": "",
+        "component": "../components/page/hosadmin/HomePage",
+        "meta": {
+          "remark": "医院首页"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/404",
+    "component": "../components/page/404.vue",
+    "meta": {
+      "skipAuth": true,
+      "remark": "404未找到"
+    }
+  },
+  {
+    "path": "*",
+    "component": "../components/page/500.vue",
+    "meta": {
+      "skipAuth": true,
+      "remark": "500内部错误"
+    }
+  }
+]

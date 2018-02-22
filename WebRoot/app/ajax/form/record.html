@@ -1,0 +1,14 @@
+<div>
+    <div class="row header">
+		<div class="pull-left"><slot name="title"></slot></div>
+        <div class="pull-left">
+            <button type="button" class="btn btn-primary upload-img" @click="synchrecordWithUpload"><i class="iconfont icon-upload" style="vertical-align: middle;"></i>&ensp;上传</button>
+        </div>
+    </div>
+    <section v-show="fdata.form.img_list.length > 0">
+        <my-webupload :id="'recordfiles'" :list="fdata.form.img_list" @success="recordfileok" :btn="false" :edit="fdata.edit" :editname="true" ref="recordfiles"></my-webupload>
+    </section>
+    <section v-if="!fdata.form.img_list.length>0" class="noresult">
+        <img src="../img/noresult.png" style="width:24px;" alt="">
+    </section>
+</div>

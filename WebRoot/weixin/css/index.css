@@ -1,0 +1,2412 @@
+html {
+    color: #1fb5ad;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+fieldset, img {
+    border: 0;
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+caption, th {
+    text-align: left;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+q:before, q:after {
+    content: '';
+}
+
+abbr, acronym {
+    border: 0;
+    font-variant: normal;
+}
+
+sup {
+    vertical-align: text-top;
+}
+
+sub {
+    vertical-align: text-bottom;
+}
+
+input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    *font-size: 100%;
+}
+
+legend {
+    color: #000;
+}
+
+#yui3-css-stamp.cssreset {
+    display: none;
+}
+
+body {
+    background: #fff;
+    min-width: 320px;
+}
+
+input[type=text], input[type=text]:focus, input[type=text]:hover {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    border-radius: 0px;
+    border: none;
+    outline: medium;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+a:link, a:visited, a:hover, a:active {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    border-radius: 0px;
+    border: none;
+    outline: medium;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    outline: none;
+    text-decoration: none;
+}
+
+a:focus {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    border-radius: 0px;
+    border: none;
+    outline: medium;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    outline: none;
+    border: 0;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+header {
+    width: 100%;
+    font-size: 1.1875em;
+    line-height: 2.35em;
+    background: #1fb5ad;
+    text-align: center;
+    color: #fff;
+}
+
+.content img {
+    width: 100%;
+    padding-top: 9px;
+}
+
+.content {
+    max-width: 640px;
+    margin: 0 auto;
+    padding-top: 6px;
+    padding-bottom: 50px;
+}
+
+    .content p {
+        font-size: 0.9375em;
+        line-height: 1.8em;
+        width: 92.1875%;
+        margin: 0 auto;
+        background-image: url(../images/shuxian.png);
+        background-repeat: no-repeat;
+        background-size: 3px 13px;
+        background-position: 0px 4px;
+        text-indent: 0.75em;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+.gray {
+    color: #bb6f57;
+}
+
+.green {
+    color: #1fb5ad;
+}
+
+.content .smallgray {
+    color: #a5a5a5;
+    font-size: 0.875em;
+    line-height: 1.5625em;
+    text-indent: 0em;
+    background: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.pd3 {
+    margin-top: 3px;
+}
+
+.wenzhen {
+    width: 79.6875%;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+
+    .wenzhen a {
+        display: block;
+        width: 100%;
+        line-height: 2.6em;
+        border-radius: 44px;
+    }
+
+        .wenzhen a:link, .wenzhen a:visited {
+            color: #fff;
+            text-align: center;
+            font-size: 1.0625em;
+            background: #f98947;
+        }
+
+        .wenzhen a:hover, .wenzhen a:active {
+            background: #f17e3b;
+        }
+/*下载页面*/
+.xiazai {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+    .xiazai div img {
+        width: 100%;
+    }
+
+    .xiazai .xiazaibtn {
+        overflow: hidden;
+        padding-bottom: 18px;
+        padding-top: 18px;
+    }
+
+        .xiazai .xiazaibtn a {
+            display: block;
+            float: left;
+            width: 42%;
+            margin-left: 4%;
+            margin-right: 4%;
+            font-size: 1.0625em;
+            line-height: 2.43em;
+            background: #fa8945;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+            .xiazai .xiazaibtn a.no2 {
+                background: #0cb1a0;
+            }
+
+    .xiazai .tu {
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .xiazai .title {
+        padding-top: 18px;
+        padding-bottom: 18px;
+    }
+
+    .xiazai .tu.no2 {
+        overflow: hidden;
+    }
+
+        .xiazai .tu.no2 img {
+            width: 40%;
+        }
+
+    .xiazai .title {
+        overflow: hidden;
+        clear: both;
+        width: 92.5%;
+        margin: 0 auto;
+    }
+
+        .xiazai .title .fl, .xiazai .title .fr {
+            width: 29%;
+            height: 1px;
+            background: #e7e7e7;
+            float: left;
+            margin-top: 7px;
+        }
+
+        .xiazai .title .middle {
+            width: 42%;
+            text-align: center;
+            font-size: 14px;
+            color: #878787;
+            float: left;
+        }
+
+    .xiazai .erweima {
+        width: 92.5%;
+        margin: 0 auto;
+        overflow: hidden;
+        font-size: 0.8125em;
+        line-height: 1.5em;
+        padding-bottom: 18px;
+    }
+
+        .xiazai .erweima .fl {
+            width: 45%;
+            float: left;
+        }
+
+        .xiazai .erweima .fr {
+            width: 45%;
+            float: right;
+        }
+
+        .xiazai .erweima div div {
+            text-align: center;
+        }
+
+            .xiazai .erweima div div img {
+                width: 64%;
+            }
+
+        .xiazai .erweima p {
+            color: #666;
+        }
+
+            .xiazai .erweima p.orange {
+                color: #fe7838;
+            }
+
+    .xiazai .last img {
+        width: 100%;
+        position: relative;
+        top: 3px;
+    }
+
+    .xiazai .last {
+        position: relative;
+    }
+
+        .xiazai .last a {
+            display: block;
+            width: 150px;
+            height: 30px;
+            font-size: 12px;
+            line-height: 30px;
+            color: #fff;
+            background: #21c2f8;
+            border-radius: 5px;
+            position: absolute;
+            left: 50%;
+            bottom: -2px;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+        }
+/*03 使用要点 */
+.headeruse {
+    background: #fff;
+    color: #333;
+    box-shadow: 0px 3px 3px #f5f5f5;
+}
+
+header {
+    position: relative;
+}
+
+    header a.back {
+        position: absolute;
+        left: 10px;
+        top: 0px;
+        padding-left: 20px;
+        width: 200px;
+        font-size: 0.9375em;
+        line-height: 2.6em;
+        color: #333;
+        background: url(../images/back.png) center left no-repeat;
+        background-size: 10px 18px;
+        text-align: left;
+    }
+
+.content p {
+    background-position: 0px 6px;
+}
+
+.nobg {
+    background: none !important;
+    text-indent: 0em !important;
+}
+
+.qianhui {
+    color: #a5a5a5;
+    font-size: 0.9375em;
+    line-height: 1.8em;
+    text-indent: 0em;
+    background: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+/*文字页面 04 文字.html*/
+.wenzi {
+    max-width: 640px;
+    margin: 0 auto;
+    padding-top: 6px;
+    padding-bottom: 100px;
+    background-image: url("../images/flowerbg.png"),url("../images/flowerbg2.png");
+    background-repeat: no-repeat, no-repeat;
+    background-position: top center,bottom center;
+    background-size: 100% auto,100% auto;
+}
+
+    .wenzi .inner {
+        width: 92.8%;
+        margin: 0 auto;
+    }
+
+    .wenzi .hd {
+        width: 62.84%;
+        margin: 0 auto;
+        font-size: 1.0625em;
+        line-height: 1.2941em;
+        color: #1fb5ad;
+    }
+
+    .wenzi .jieshao {
+        font-size: 0.875em;
+        line-height: 1.7143em;
+        color: #8d8b8b;
+        padding-top: 12px;
+    }
+
+.headbar {
+    font-size: 0.9375em;
+    line-height: 1.5em;
+    color: #f85360;
+    border-bottom: 1px dashed #fed0d4;
+    margin-bottom: 9px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+    .headbar img {
+        width: 18px;
+        position: relative;
+        top: 2px;
+        padding-right: 2px;
+    }
+
+.wenzi li {
+    font-size: 0.875em;
+    line-height: 1.75em;
+    color: #8d8b8b;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+    .wenzi li img {
+        padding-left: 1px;
+        padding-right: 4px;
+        padding-bottom: 4px;
+        width: 2px;
+    }
+
+li.qianse {
+    opacity: 0.6;
+    padding-left: 16px;
+    list-style: none;
+    background: #fff;
+}
+
+.zuotu {
+    width: 41%;
+    float: left;
+}
+
+.youtu {
+    width: 41%;
+    float: right;
+}
+
+    .zuotu img, .youtu img {
+        width: 100%;
+    }
+
+    .zuotu p, .youtu p {
+        width: 100%;
+        color: #8d8b8b;
+        font-size: 0.8125em;
+        line-height: 1.5em;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+        .zuotu p span, .youtu p span {
+            font-size: 1.05em;
+            color: #f85360;
+        }
+
+.headbar {
+    clear: both;
+}
+
+.jieshaotu {
+    overflow: hidden;
+}
+
+ol, ul, li {
+    list-style: none !important;
+}
+
+.wenzi .inner ul {
+    color: #fff;
+    background: #fff;
+}
+/*订单详情*/
+.orderDetail {
+}
+
+.orderItem, .orderMain {
+    margin-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+.item_hd {
+    border-bottom: 1px solid #d7d2d2;
+}
+
+.item_hd, .item_bd {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.orderDetail .inner {
+    width: 97%;
+    padding-left: 3%;
+}
+
+.orderDetail p {
+    font-size: 1em;
+    line-height: 1.7em;
+}
+
+.lightgray {
+    color: #999;
+}
+
+.darkgray {
+    color: #666;
+}
+
+.item_bd p:nth-child(1) span {
+    padding-right: 18px;
+}
+
+    .item_bd p:nth-child(1) span:last-child {
+        padding-right: 0px;
+    }
+
+.main_hd {
+    background: #fff;
+    border-bottom: 1px solid #d7d2d2;
+}
+
+    .main_hd .inner {
+        font-size: 1.0625em;
+        line-height: 2.96em;
+    }
+
+        .main_hd .inner img {
+            width: 16px;
+            padding-right: 4px;
+            position: relative;
+            top: 3px;
+        }
+
+.main_bd {
+    font-size: 0.9375em;
+    line-height: 1.6em;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+/*加号历史*/
+.hdLeft {
+    float: left;
+    width: 50%;
+    box-sizing: border-box;
+    border-right: 1px solid #ebebeb;
+    position: relative;
+    top: 3px;
+}
+
+.hdRight {
+    float: left;
+    width: 50%;
+    box-sizing: border-box;
+    position: relative;
+    top: 3px;
+}
+
+.cur.hdLeft, .cur.hdRight {
+    top: 0px;
+}
+
+.his_hd {
+    overflow: hidden;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 1.125em;
+    line-height: 2.8em;
+    background: #fff;
+    color: #999;
+}
+
+    .his_hd .cur {
+        color: #1fb5ad;
+    }
+
+    .his_hd .inner {
+        width: 58%;
+        margin: 0 auto;
+        position: relative;
+        text-align: center;
+    }
+
+        .his_hd .inner img {
+            width: 9px;
+            position: relative;
+            top: -3px;
+            padding-left: 3px;
+        }
+
+.xian {
+    width: 100%;
+    position: absolute;
+    height: 1px;
+    font-size: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: #1fb5ad;
+}
+
+.his_bd .bd {
+    font-size: 1em;
+    line-height: 3em;
+    color: #999;
+    background-color: #e9eaea;
+}
+
+    .his_bd .bd .inner {
+        width: 93.125%;
+        margin: 0 auto;
+    }
+
+    .his_bd .bd.cur {
+        color: #1fb5ad;
+        background-color: #f0f0f0;
+    }
+
+.his_ft {
+    padding-top: 9px;
+}
+
+.orderNum {
+    overflow: hidden;
+}
+
+    .orderNum .left {
+        float: left;
+    }
+
+    .orderNum .right {
+        float: right;
+    }
+
+.his_order .inner {
+    width: 96.3%;
+    padding-right: 3.7%;
+    font-size: 1em;
+    color: #666;
+    line-height: 1.78em;
+    border-top: 1px solid #d7d2d2;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.orange {
+    color: #fa8945;
+}
+
+.his_ft {
+    width: 97%;
+    padding-left: 3%;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.jhHistory {
+    background: #fff;
+}
+/*加号历史-订单详情*/
+.hisOrder_hd {
+    background: #fff;
+}
+
+.hisOrder .inner {
+    width: 97%;
+    padding-left: 3%;
+}
+
+.hisOrder_hd {
+    font-size: 1em;
+    line-height: 1.82em;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.hisOrder_bd {
+    margin-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+.bdhd {
+    font-size: 1.0625em;
+    line-height: 2.966em;
+}
+
+.bdbd {
+    color: #666;
+    border-top: 1px solid #d7d2d2;
+    border-bottom: 1px solid #d7d2d2;
+}
+
+    .bdbd .darkgray {
+        font-size: 0.9375em;
+        line-height: 1.3em;
+        padding-top: 11px;
+    }
+
+    .bdbd div {
+        font-size: 1em;
+        line-height: 2.46em;
+    }
+
+        .bdbd div input[type=radio] {
+            margin-right: 9px;
+        }
+
+.ftbtn {
+    width: 300px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+    .ftbtn a {
+        display: block;
+        width: 110px;
+        font-size: 1.0625em;
+        line-height: 2.5em;
+        background: #1fb5ad;
+        color: #fff;
+        margin-left: 20px;
+        margin-right: 20px;
+        text-align: center;
+        float: left;
+        border-radius: 1.29em;
+    }
+
+        .ftbtn a.quxiao {
+            background: #fa8945;
+        }
+
+.hisOrder .his_ft {
+    padding-top: 0px;
+}
+
+.hisOrder_ft {
+    border-top: 1px solid #e0e0e0;
+    margin-top: 12px;
+    background: #fff;
+}
+
+.hisOrder .his_order .inner {
+    border: none;
+    border-bottom: 1px solid #d7d2d2;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.hisOrder .his_order:nth-child(2) .inner {
+    border: none;
+}
+
+.fthd {
+    font-size: 1em;
+    line-height: 2.67em;
+    color: #666;
+    border-bottom: 1px solid #d7d2d2;
+}
+
+.hisOrder .hisOrder_ft .his_ft .his_order .inner {
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.hisft_btn a {
+    display: block;
+    width: 110px;
+    font-size: 1.0625em;
+    line-height: 2.5em;
+    height: 2.5em;
+    background: #1fb5ad;
+    color: #fff;
+    text-align: center;
+    border-radius: 1.29em;
+}
+
+.hisft_btn {
+    padding-bottom: 12px;
+}
+/*体问页面*/
+.largebox {
+    background: #fff;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-top: 12px;
+}
+
+    .largebox .inner {
+        width: 97%;
+        padding-left: 3%;
+    }
+
+        .largebox .inner .smallbox {
+            border-bottom: 1px solid #d7d2d2;
+            overflow: hidden;
+            clear: both;
+        }
+
+            .largebox .inner .smallbox:last-child {
+                border: none;
+            }
+
+.smallbox .fl {
+    width: 26%;
+    font-size: 1em;
+    line-height: 3.17em;
+}
+
+    .smallbox .fl.short {
+        width: 16%;
+    }
+
+.smallbox .fr {
+    width: 74%;
+    display: block;
+    font-size: 1em;
+    line-height: 3.17em;
+}
+
+    .smallbox .fr.long {
+        width: 84%;
+    }
+
+.smallbox p {
+    font-size: 0.8em;
+    line-height: 3.6em;
+}
+
+    .smallbox p input[type=radio] {
+        margin-right: 3px;
+        position: relative;
+        top: 2px;
+    }
+
+.largebox textarea {
+    display: block;
+    width: 100%;
+    font-size: 0.9375em;
+    height: 8.8em;
+    line-height: 1.2em;
+    border: none;
+    outline: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.piclist {
+    overflow: hidden;
+}
+
+.picbox {
+    width: 25%;
+    float: left;
+    padding: 2%;
+    padding-top: 5%;
+    padding-bottom: 4%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+    .picbox .close {
+        position: absolute;
+        width: 20%;
+        top: 10%;
+        right: 0px;
+    }
+
+        .picbox .close img {
+            width: 100%;
+        }
+
+.pickuang {
+    width: 100%;
+    margin: 0px !important;
+    overflow: hidden;
+}
+
+    .pickuang img {
+        width: 100%;
+        height: 100%;
+        padding: 0px !important;
+        margin: 0px !important;
+        border: 1px solid #dbdbdb;
+        box-sizing: border-box;
+    }
+
+.picbox.empty img {
+    border: 1px dashed #878787;
+}
+
+.tiwen .tishi p {
+    font-size: 0.9375em;
+    line-height: 1.58em;
+    color: #999;
+    padding-left: 3%;
+    padding-right: 1%;
+}
+
+.tiwen .tishi {
+    padding-top: 8px;
+}
+/*体问页面2 填写资料*/
+.sele {
+    line-height: 3.17em;
+}
+
+    .sele input[type=radio] {
+        margin-right: 3px;
+        position: relative;
+        top: 1px;
+    }
+
+    .sele img {
+        width: 13px;
+        padding-left: 4px;
+        padding-right: 14px;
+        position: relative;
+        top: 2px;
+    }
+/*预约专家*/
+.time_hd {
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+    .time_hd .inner {
+        width: 96%;
+        margin: 0 auto;
+        overflow: hidden;
+        padding-top: 3%;
+        padding-bottom: 2%;
+    }
+
+    .time_hd .left {
+        /* width: 16%; */
+        float: left;
+        padding-left: 2%;
+    }
+
+        .time_hd .left img {
+            width: 70px;
+            height: 70px;
+            border: 1px solid #e0e0e0;
+            border-radius: 51%;
+        }
+
+    .time_hd .middle {
+        /* width: 56%; */
+        float: left;
+        padding-left: 3%;
+        padding-top: 2%;
+    }
+
+        .time_hd .middle p {
+            font-size: 15px;
+            line-height: 1.5em;
+            text-align: left;
+        }
+
+            .time_hd .middle p span {
+                font-size: 18px;
+                font-weight: bold;
+                padding-right: 5px;
+            }
+
+    .time_hd .right {
+        float: right;
+        /* width: 16%; */
+    }
+
+        .time_hd .right img {
+            width: 70px;
+        }
+
+.time_bd {
+    margin-top: 9px;
+    background: #fff;
+}
+
+    .time_bd .hd {
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+        .time_bd .hd .inner {
+            padding-left: 3%;
+            width: 97%;
+            font-size: 1em;
+            line-height: 2.78em;
+            color: #666;
+        }
+
+.week, .day {
+    width: 98%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+    .week div {
+        width: 14.285714%;
+        float: left;
+        text-align: center;
+        font-size: 0.9375em;
+        line-height: 1.54em;
+        color: #666;
+    }
+
+.daylist {
+    background: #f0efed;
+}
+
+.day div.wrap {
+    width: 14.285714%;
+    padding-left: 0.4%;
+    padding-right: 0.4%;
+    background: #f0efed;
+    box-sizing: border-box;
+    padding-top: 0.7%;
+    float: left;
+    text-align: center;
+}
+
+.day .inner {
+    background: #fff;
+    border-radius: 10%;
+    padding-top: 26%;
+    padding-bottom: 26%;
+    border: 1px solid #fff;
+    box-sizing: border-box;
+}
+
+.day .yue .inner {
+    border: 1px solid #1fb5ad;
+}
+
+.day div span {
+    display: block;
+    width: 100% font-size: 0.9375em;
+}
+
+.day .yue span {
+    color: #1fb5ad !important;
+    position: relative;
+    top: -6px;
+}
+
+.day .inner {
+    position: relative;
+}
+
+.day .yue i {
+    display: block;
+    width: 100%;
+    font-size: 0.75em;
+    font-style: normal;
+    position: absolute;
+    bottom: 4px;
+    left: 0px;
+    color: #1fb5ad;
+}
+
+.day .cur .inner {
+    color: #fff !important;
+    border: 1px solid #1fb5ad;
+    background: #1fb5ad !important;
+}
+
+.day .today .inner {
+    color: #1fb5ad !important;
+}
+
+.week div.cur {
+    color: #1fb5ad;
+}
+
+.day div {
+    color: #666;
+    font-size: 'Arail';
+}
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.h10 {
+    height: 10px;
+    font-size: 0px;
+    zoom: 1;
+}
+
+.whitebg {
+    background: #fff;
+    margin-top: 0.9%;
+}
+/*预约专家_确认*/
+.dateTime .hisOrder_bd {
+    padding-top: 10px;
+}
+
+    .dateTime .hisOrder_bd:last-child {
+        padding-top: 3px;
+    }
+
+    .dateTime .hisOrder_bd .inner {
+        padding-left: 3%;
+        width: 97%;
+        padding-top: 0px;
+    }
+
+        .dateTime .hisOrder_bd .inner .darkgray {
+            line-height: 1.6em;
+            border-bottom: 1px solid #d7d2d2;
+            padding-bottom: 11px;
+        }
+
+            .dateTime .hisOrder_bd .inner .darkgray:last-child {
+                border: none;
+            }
+
+.noborder {
+    border: none !important;
+}
+
+.nopadding {
+    padding: 0px !important;
+}
+/*预约专家_确认加号成功*/
+.jiahaoOk {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 2.5%;
+}
+
+    .jiahaoOk p {
+        text-align: center;
+        font-size: 1.25em;
+        color: #fa8945;
+        padding-top: 6%;
+    }
+
+        .jiahaoOk p img {
+            width: 14.6587%;
+        }
+
+.cl9 {
+    height: 9px;
+    background: #f0efed;
+    font-size: 0px;
+    zoom: 1;
+}
+/*预约专家_时间确诊*/
+.menzhen {
+    margin-top: 15px;
+    border-top: 1px solid #d7d2d2;
+    border-bottom: 1px solid #d7d2d2;
+}
+
+    .menzhen .dayNight {
+        width: 96%;
+        padding-left: 4%;
+        background: #fff;
+        overflow: hidden;
+    }
+
+.dayNight div {
+    font-size: 1.0625em;
+    line-height: 2.93em;
+    color: #333333;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.zuo {
+    width: 5.53%;
+    float: left;
+}
+
+    .zuo img {
+        width: 100%;
+        position: relative;
+        top: 5px;
+    }
+
+.you {
+    width: 91.85%;
+    float: right;
+    padding-right: 4%;
+    border-bottom: 1px solid #d7d2d2;
+    overflow: hidden;
+}
+
+.menzhen .dayNight:last-child .you {
+    border: none;
+}
+
+.you .left {
+    width: 50%;
+    float: left;
+}
+
+.you .right {
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+
+    .you .right img {
+        width: 9%;
+    }
+
+.dayNight .small {
+    font-size: 0.9375em;
+    position: relative;
+    top: 3px;
+    color: #999;
+}
+/*注册*/
+.zhuce, .login {
+    width: 94%;
+    margin: 0 auto;
+}
+
+.pwd, .phoneNum, .loginbox {
+    width: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    margin-top: 15px;
+}
+
+.sendBtn {
+    margin-top: 15px;
+}
+
+.yzm {
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+    .yzm .fl {
+        width: 52%;
+        padding-left: 12px;
+        padding-right: 12px;
+        box-sizing: border-box;
+        background: #fff;
+        border-radius: 5px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .yzm .fr {
+        width: 45%;
+        background: #1fb5ad;
+        border-radius: 30px;
+    }
+
+    .yzm input[type=button] {
+        background: #1fb5ad;
+        border-radius: 30px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .pwd input, .phoneNum input, .yzm input, .sendBtn input {
+        display: block;
+        width: 100%;
+        padding-left: 12px;
+        padding-right: 12px;
+        box-sizing: border-box;
+        border: none;
+        line-height: 1.3em;
+        padding-top: 0.75em;
+        padding-bottom: 0.75em;
+        outline: none;
+    }
+
+        .sendBtn input[type=button] {
+            background: #fa8945;
+            border-radius: 30px;
+            color: #fff;
+            text-align: center;
+        }
+
+.pwd input {
+    border-radius: 0px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+    .pwd input:last-child {
+        border: none;
+    }
+
+.loginbox div {
+    overflow: hidden;
+    background: #fff;
+}
+
+.loginbox div {
+    font-size: 1em;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+    .loginbox div:last-child {
+        border-bottom: none;
+    }
+
+.loginbox img {
+    width: 1.05em;
+    padding-right: 0.3em;
+    float: left;
+    position: relative;
+    top: 0.1em;
+}
+
+.loginbox input[type=text] {
+    width: 80%;
+    float: left;
+}
+
+.forget {
+    overflow: hidden;
+    padding-top: 13px;
+}
+
+    .forget a {
+        color: #1eb5ae;
+        font-size: 1em;
+        line-height: 1.3em;
+    }
+
+        .forget a:nth-child(1) {
+            display: block;
+            width: 40%;
+            float: left;
+            text-align: left;
+        }
+
+        .forget a:nth-child(2) {
+            display: block;
+            width: 40%;
+            float: right;
+            text-align: right;
+        }
+/*input,input:focus,input:hover{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+    outline:medium;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+}*/
+a:link, a:visited, a:hover, a:active {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: medium;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    outline: none;
+}
+
+a:focus {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: medium;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    outline: none;
+}
+/*问主任带医生*/
+.docList {
+    border-top: 1px solid #e0e0e0;
+}
+
+.mgt10 {
+    margin-top: 10px !important;
+}
+
+.docDesc {
+    width: 100%;
+    font-size: 1em;
+    line-height: 1em;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+    .docDesc .inner {
+        width: 93%;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+
+    .docDesc .fl {
+        width: 35%;
+        /* height: 80px; */
+        overflow: hidden;
+        /* border: 1px solid #e0e0e0; */
+    }
+
+        .docDesc .fl img {
+            width: 100%;
+            border: 1px solid #e0e0e0;
+        }
+
+    .docDesc .top {
+        overflow: hidden;
+        padding-top: 0.7em;
+    }
+
+    .docDesc .fr p {
+        font-size: 14px;
+        line-height: 1.3em;
+    }
+
+    .docDesc .fr {
+        width: 60%;
+        padding-left: 12px;
+        float: left;
+        overflow: hidden;
+    }
+
+        .docDesc .fr img {
+            width: 20px;
+            margin-left: 5px;
+            margin-right: 5px;
+            position: relative;
+            z-index: 1;
+            top: 3px;
+        }
+
+        .docDesc .fr p:nth-child(2) {
+            position: relative;
+            top: 1px;
+        }
+
+    .docDesc .lightgray .darkgray {
+        font-size: 16px;
+        font-weight: bold;
+        color: #1fb5ad;
+        margin-right: 5px;
+    }
+
+    .docDesc .listSpecialty {
+        font-size: 13px;
+        line-height: 1.3em;
+        clear: both;
+        padding-top: 0.4em;
+        padding-bottom: 0.5em;
+    }
+/*专家详情*/
+.docNav {
+    overflow: hidden;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+}
+
+    .docNav p {
+        font-size: 0.875em;
+        line-height: 1.2em;
+        text-align: center;
+    }
+
+    .docNav img {
+        width: 55%;
+    }
+
+    .docNav div {
+        width: 25%;
+        text-align: center;
+        float: left;
+    }
+
+.docDetail {
+    margin-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+.deTail {
+    width: 95%;
+    margin: 0 auto;
+    border-bottom: 1px solid #e0e0e0;
+    padding-top: 0.4em;
+    padding-bottom: 0.6em;
+}
+
+    .deTail img {
+        width: 1.3em;
+        padding-right: 0.3em;
+        position: relative;
+        top: 0.1em;
+    }
+
+.pingjia {
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.doc_hd {
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.8em;
+}
+
+.doc_bd {
+    font-size: 14px;
+    line-height: 1.5em;
+}
+
+.darkorange {
+    color: #ef572e;
+}
+
+.zhankai {
+    text-align: center;
+    font-size: 0.9373em;
+    padding-top: 0.5em;
+}
+
+.pingjia_bd {
+    overflow: hidden;
+}
+
+    .pingjia_bd span {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        font-size: 0.9375em;
+        padding-top: 0.3em;
+        padding-bottom: 0.2em;
+        height: 1.3em;
+        border: 1px solid #ff9933;
+        border-radius: 0.2em;
+        margin-right: 1em;
+        float: left;
+        margin-top: 0.7em;
+    }
+
+.pingjiaList {
+    width: 95%;
+    margin: 0 auto;
+    padding-top: 0.8em;
+    padding-bottom: 0.9em;
+}
+
+.pingjiaContents .middle {
+    /* width: 24%; */
+}
+
+.pingjiaContents .right {
+    /* width: 40%; */
+}
+
+    .pingjiaContents .right img {
+        width: 1em;
+        padding-right: 0.5em;
+        padding-top: 0.5em;
+    }
+
+.pingjiaMain {
+    font-size: 0.9375em;
+    line-height: 1.5em;
+    padding-bottom: 0.5em;
+    width: 96%;
+    margin: 0 auto;
+    /* border-bottom: 1px solid #e0e0e0; */
+}
+
+.pingjiaMain2 {
+    width: 96%;
+    margin: 0 auto;
+}
+
+    .pingjiaMain2 img {
+        width: 1.5em;
+        padding-right: 0.3em;
+        position: relative;
+        top: 0.4em;
+    }
+
+.pingjiaMain2 {
+    font-size: 0.9375em;
+    line-height: 3.2em;
+}
+
+.noborder_bottom {
+    border-bottom: none !important;
+}
+
+.middle {
+    text-align: center;
+    margin: 0 auto;
+    padding: 5px;
+}
+
+.button {
+    width: 75px;
+    height: 30px;
+}
+
+.margin5 {
+    margin: 5px;
+}
+
+/*名医推荐*/
+.dialogue {
+    width: 94%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.dia_time {
+    text-align: center;
+    margin-bottom: 1em;
+    margin-top: 0.2em;
+}
+
+    .dia_time span {
+        margin: 0 auto;
+        border-radius: 1em;
+        font-size: 0.9375em;
+        line-height: 1.2em;
+        background-color: #cecece;
+        color: #fff;
+        padding-top: 0.3em;
+        padding-bottom: 0.3em;
+        padding-left: 0.8em;
+        padding-right: 0.8em;
+    }
+
+.dia_patient, .dia_doctor {
+    overflow: hidden;
+    padding-bottom: 1em;
+}
+
+.profil {
+    width: 3.5em;
+    height: 3.5em;
+    border-radius: 2em;
+    overflow: hidden;
+    float: left;
+}
+
+    .profil img {
+        width: 100%;
+    }
+
+.dialog {
+    float: left;
+    max-width: 69%;
+    padding-left: 0.5em;
+    margin-top: 0.2em;
+    margin-left: 0.6em;
+    position: relative;
+}
+
+.dia_patient .dialog img {
+    position: absolute;
+    top: 1.5em;
+    left: -0.05em;
+}
+
+.dia_patient .dialog .jietu {
+    position: static;
+    border: 1px solid #e0e0e0;
+    float: left;
+    border-radius: 5px;
+    max-width: 197px;
+}
+
+.dialog p, .dialog span {
+    max-width: 94%;
+    display: inline-block;
+    padding: 0.5em;
+    font-size: 1em;
+    line-height: 1.3em;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    float: left;
+    color: #666;
+    background-color: #fff;
+}
+
+.dia_doctor .profil {
+    float: right;
+}
+
+.dia_doctor .dialog {
+    float: right;
+    margin-right: 1.2em;
+}
+
+    .dia_doctor .dialog p {
+        background: #1fb5ad;
+        border-color: #1fb5ad;
+        color: #fff;
+    }
+
+.dia_doctor span {
+    background-color: #1fb5ad;
+    color: #fff !important;
+}
+
+.dia_doctor .dialog .jietu {
+    position: static;
+    border: 5px solid #1fb5ad;
+    float: left;
+    border-radius: 5px;
+    max-width: 197px;
+}
+
+.dia_doctor .dialog img {
+    position: absolute;
+    top: 1.5em;
+    right: -0.4em;
+}
+
+.point {
+    width: 10px;
+}
+
+.cama {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    overflow: hidden;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    background-color: #f5f5f7;
+    border-top: 1px solid #d7d2d2;
+}
+
+    .cama .fl, .cama .fr {
+        width: 16%;
+        text-align: center;
+    }
+
+    .cama .Messmiddle {
+        width: 68%;
+        float: left;
+    }
+
+        .cama .Messmiddle input {
+            font-size: 1em;
+            line-height: 2.5em;
+            height: 2.5em;
+            width: 100%;
+            padding-left: 0.5em;
+            border: 1px solid #c1c1c1;
+            box-sizing: border-box;
+            border-radius: 0.5em;
+        }
+
+    .cama .fl img, .cama .fr img {
+        width: 1.7em;
+        height: 1.7em;
+        border-radius: 1em;
+        overflow: hidden;
+        margin-top: 0.35em;
+    }
+
+    .cama .fl img {
+        border: 1px solid #a8a8a8;
+    }
+
+    .cama .fr img {
+        border: 1px solid #fa8945;
+    }
+
+/*加号历史1*/
+.his_ft2 {
+    padding-top: 0px;
+}
+
+    .his_ft2 .his_order:first-child .inner {
+        border-top: none;
+    }
+/*加号历史2*/
+.jhHistory {
+    position: relative;
+}
+
+.his_select {
+    position: absolute;
+    top: 38px;
+    width: 100%;
+    left: 0px;
+    background-color: #f0f0f0;
+}
+
+    .his_select div {
+        font-size: 1em;
+        line-height: 2.7em;
+        color: #999;
+        padding-left: 3%;
+        width: 97%;
+    }
+
+        .his_select div.curr {
+            color: #1fb5ad;
+            background-color: #e9eaea;
+        }
+
+.hislist {
+}
+
+    .hislist .hisItem {
+        overflow: hidden;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 0.25em;
+        padding-top: 0.05em;
+    }
+
+.hisItem .inner {
+    width: 98%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.casePic {
+    padding-top: 0.5em;
+    float: left;
+    padding-right: 1%;
+}
+
+    .casePic img {
+        width: 100%;
+        width: 3em;
+        height: 3em;
+        border: 1px solid #e0e0e0;
+        overflow: hidden;
+        border-radius: 3em;
+    }
+
+.caseMain {
+    width: 83%;
+    float: left;
+}
+
+.mainup {
+    overflow: hidden;
+}
+
+    .mainup .fl {
+        font-size: 1.125em;
+        line-height: 1.5em;
+        padding-top: 0.4em;
+        color: #333;
+    }
+
+    .mainup .fr {
+        text-align: right;
+        font-size: 0.75em;
+        line-height: 1.5em;
+        color: #999;
+        padding-top: 1.1em;
+    }
+
+.maindown .fl {
+    width: 75%;
+    font-size: 1em;
+    line-height: 1.5em;
+    color: #999;
+}
+
+.maindown .fr {
+    width: 25%;
+    padding-top: 0.3em;
+}
+
+    .maindown .fr a {
+        border-radius: 1em;
+        font-size: 0.75em;
+        line-height: 1em;
+        height: 1em;
+        background-color: #fa8945;
+        float: right;
+        color: #fff;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+        padding-left: 0.4em;
+        padding-right: 0.4em;
+    }
+
+    .maindown .fr span {
+        font-size: 0.75em;
+        line-height: 1em;
+        height: 1em;
+        float: right;
+        color: #000;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+        padding-left: 0.4em;
+        padding-right: 0.4em;
+    }
+/*返回按钮*/
+.Home {
+    vertical-align: middle;
+    padding-top: 8px;
+    position: fixed;
+    z-index: 1000;
+    background-color: #f5f5f7;
+    width: 100%;
+    height: 22px;
+    border-bottom: 1px solid #d7d2d2;
+    top: 0;
+    left: 0;
+}
+
+    .Home a {
+        margin-top: 2px;
+        margin-left: 5px;
+        font-size: 14px;
+    }
+
+        .Home a:link {
+            color: #000;
+        }
+
+        .Home a:active {
+            color: #000;
+        }
+
+        .Home a:visited {
+            color: #000;
+        }
+
+        .Home a:hover {
+            color: #000;
+        }
+/***********图片列表以及oper页面选择图片提交样式***********/
+.imghead {
+    line-height: 28px;
+    vertical-align: middle;
+}
+
+.imgText {
+    color: #666;
+    vertical-align: middle;
+}
+
+.imgdel {
+    color: #fa8945;
+    float: right;
+    margin-top: 7px;
+    margin-right: 30px;
+}
+
+.imgFile {
+    display: none;
+}
+
+.BtnSelectImg {
+    width: 110px;
+    font-size: 1.0625em;
+    line-height: 2.5em;
+    background: #1fb5ad;
+    color: #fff;
+    text-align: center;
+    border-radius: 1.29em;
+    border: none;
+    outline-style: none;
+}
+
+.BtnSumbit {
+    width: 110px;
+    font-size: 1.0625em;
+    line-height: 2.5em;
+    color: #fff;
+    text-align: center;
+    border-radius: 100px;
+    background: #fa8945 !important;
+    border: none;
+    outline-style: none;
+}
+/*详情页面专用*/
+.orderPadd {
+    padding-top: 18px;
+}
+
+.headleft {
+    float: left;
+}
+
+.headright {
+    float: right;
+    margin-right: 15px;
+}
+/*合作医院*/
+.bottomBanner .fl {
+    position: relative;
+    box-sizing: border-box;
+}
+
+    .bottomBanner .fl .devideBotttom {
+        left: 100%;
+        top: 0.3em;
+    }
+
+.docHd {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+    .docHd span {
+        font-size: 1em;
+        color: #a5a5a5;
+        display: inline-block;
+        ;
+        margin-left: 0.51em;
+        margin-right: 0.51em;
+        line-height: 2.2em;
+        position: relative;
+    }
+
+        .docHd span .cur {
+            position: absolute;
+            width: 100%;
+            bottom: -1px;
+            background-color: #25c7b7;
+            left: 0px;
+            height: 2px;
+        }
+
+        .docHd span.last {
+            margin-left: 0px;
+            margin-right: 0px;
+            position: relative;
+            top: -0.25em;
+        }
+
+.ewmok p {
+    font-size: 1.0625em;
+    line-height: 1.8em;
+}
+
+.ewmok .green {
+    text-align: center;
+}
+
+.ewmok p img {
+    width: 1.2em;
+    position: relative;
+    top: 0.2em;
+}
+
+.ewmok .darkgray {
+    font-size: 1em;
+}
+
+.docName label {
+    font-size: 1.0625em;
+    line-height: 2.5em;
+}
+
+.docName input {
+    font-size: 1.0625em;
+    line-height: 2.5em;
+}
+
+.ewmok, .docName {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+.ewmok {
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    margin-top: 10px;
+}
+
+    .ewmok .inner, .docName .inner {
+        width: 97%;
+        margin: 0 auto;
+    }
+
+.docName input {
+    width: 56%;
+}
+
+.docName {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.aleft, .aright {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+    line-height: 2.5em;
+    height: 2.5em;
+    font-size: 1.0625em;
+    border-radius: 2em !important;
+    overflow: hidden;
+    margin-bottom: 0.3em;
+}
+
+.aleft {
+    background-color: #1fb5ad;
+}
+
+.aright {
+    background-color: #fa8945;
+}
+
+.hisOrder_bd {
+    margin-top: 10px;
+}
+
+.orderItem, .orderMain {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.orderStep {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+    .orderStep .darkgray {
+        font-size: 0.9375em;
+        line-height: 3em;
+        text-align: center;
+    }
+
+.stepItem {
+    width: 25%;
+    float: left;
+}
+
+    .stepItem .up {
+        width: 0.6em;
+        height: 0.6em;
+        border-radius: 0.6em;
+        margin: 0 auto;
+        background-color: #fff;
+        border: 1px solid #1fb5ac;
+    }
+
+    .stepItem.finish .up {
+        background-color: #1fb5ac;
+    }
+
+    .stepItem .down {
+        font-size: 0.8125em;
+        line-height: 2.5em;
+        text-align: center;
+        color: #999;
+    }
+
+.stepMain {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 999;
+}
+
+.lineItem {
+    width: 33.33333333333%;
+    float: left;
+}
+
+    .lineItem.finish {
+        background-color: #1fb5ac;
+        height: 1px;
+    }
+
+.stepLine {
+    width: 77%;
+    height: 1px;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: #e1e1e1;
+    position: relative;
+    top: 0.41em;
+}
+
+.orderDetail p {
+    font-size: 0.9375em;
+    line-height: 1.9em;
+}
+
+.docFocus {
+    margin-top: 10px;
+    background-color: #fff;
+}
+
+.docPic {
+    width: 5em;
+    height: 5em;
+    border-radius: 2.6em;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.picAndDesc {
+    border-bottom: 1px solid #e0e0e0;
+    padding-top: 0.9em;
+}
+
+.docPic img {
+    width: 100%;
+}
+
+.docDes {
+    font-size: 1em;
+    line-height: 2.5em;
+    color: #666;
+    text-align: center;
+}
+
+.docFocus {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.focusTip {
+    background-color: #f0efed;
+    padding-bottom: 0.5em;
+}
+
+    .focusTip .inner {
+        width: 97%;
+        margin: 0 auto;
+        color: #666;
+        font-size: 0.875em;
+        line-height: 1.5em;
+        padding-top: 3em;
+    }
+
+.focusLink {
+    padding-left: 4%;
+    padding-right: 4%;
+    width: 92%;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+    .focusLink a {
+        display: block;
+        border-radius: 3em !important;
+        font-size: 1em;
+        line-height: 2.5em;
+        background-color: #fa8945;
+        width: 100%;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        text-align: center;
+        color: #fff;
+    }
+
+.greenbg {
+    background-color: #1fb5ac !important;
+}
+
+.cover {
+    background: url(../images/cover.png);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+    .cover .inner {
+        background: #fff;
+        border-radius: 0.5em;
+        width: 98%;
+        max-width: 580px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        -moz-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        -o-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+
+.cover {
+    color: #000;
+}
+
+    .cover p {
+        font-size: 0.9375em;
+        line-height: 1.7em;
+        text-align: center;
+    }
+
+.coverBtn {
+    overflow: hidden;
+    border-top: 1px solid #c6c6c6;
+    margin-top: 0.8em;
+}
+
+    .coverBtn div {
+        width: 50%;
+        box-sizing: border-box;
+        font-size: 1.0625em;
+        text-align: center;
+        line-height: 2.8em;
+        color: #1d77c6;
+    }
+
+    .coverBtn .fl {
+        border-right: 1px solid #c6c6c6;
+    }
+
+.coverHd {
+    font-size: 1.0625em;
+    line-height: 3em;
+    text-align: center;
+}
+
+.singleP {
+    padding-top: 0.84em;
+    padding-bottom: 0.84em;
+}
+
+.kilo {
+    font-size: 0.75em;
+    line-height: 1.6em;
+    float: right;
+}
+
+.hosList, .docNav {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.black {
+    color: #333;
+}
+
+.inner.black {
+    width: 94%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+    .inner.black .more {
+        float: right;
+        font-size: 0.875em;
+        color: #333;
+        line-height: 3.5em;
+    }
+
+.bdb0 {
+    border-bottom: none !important;
+}
+
+.main_hd .inner.black img {
+    top: 1px;
+}
+
+.prize {
+    width: 98%;
+    margin: 0 auto;
+}
+
+    .prize img {
+        width: 100%;
+        padding-bottom: 3%;
+    }
+
+
+
+
+

@@ -1,0 +1,42 @@
+<?
+	var list = @pager.list,
+		target = @target || '_self'
+?>
+<div class="innerDiv myasktel">
+	<h2 class="user_title"><span>我的电话咨询</span></h2>
+	<table class="table">
+		<thead>
+			<tr><th>患者</th><th>所选专家</th><th>医院</th><th>科室</th><th>提问时间</th><th>状态</th><th>操作</th></tr>
+		</thead>
+		<tbody>
+			<?for(var i = 0,l = list.length; i<l; i++){?>
+				<?
+					var cls = list[i]['payStatus'] == '4' ? 'notpay' : 'haspay';
+				?>
+				<tr data-id="<?=(list[i]['id'] + '/' + list[i]['askStatus'])?>" class="<?=(list[i]['askStatus'] == '0' ? cls : 'haspay')?>">
+					<td><?=(list[i]['contactName'] || '')?></td>
+					<td><?=(list[i]['docName'] || '')?></td>
+					<td title="<?=(list[i]['hospital'] || '')?>"><?=(list[i]['hospital'] || '')?></td>
+					<td><?=(list[i]['depart'] || '')?></td>
+					<td><?=(list[i]['subTime'] || '')?></td>
+					<td>
+						<?if(list[i]['askStatus'] == '0'){?>							
+							<?if(list[i]['payStatus'] == '4'){?><span class="ing">待确认</span><?}?>
+							<?if(list[i]['payStatus'] != '4'){?><span class="ed">待确认</span><?}?>
+						<?}?>
+						<?if(list[i]['askStatus'] == '1'){?><span class="ed">医生同意</span><?}?>
+						<?if(list[i]['askStatus'] == '2'){?><span class="cancel">医生拒绝</span><?}?>
+						<?if(list[i]['askStatus'] == '3'){?><span class="closed">问诊结束</span><?}?>
+						<?if(list[i]['askStatus'] == '4'){?><span class="closed">异常关闭</span><?}?>
+					</td>
+					<td>
+						<?if(list[i]['askStatus'] == '0'){?><button type="button" class="colseTelOrder">关闭订单</button><?}?>
+					</td>
+				</tr>
+			<?}?>
+		</tbody>
+	</table>
+	<?if(@pageSize == list.length){?>
+		<div class="hasmore"><a class="moretable" data-no="<?=(parseInt(@pageNumber,10) + 1)?>" href="javascript:void(0)">加载更多</a></div>
+	<?}?>
+</div>

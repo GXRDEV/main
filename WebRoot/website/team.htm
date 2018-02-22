@@ -1,0 +1,59 @@
+<div class="remoteDiv teamDiv">    	
+	<div class="w1200 clearfix">
+		<div class="sectionleft fleft">	
+			<div class="blockdiv querywhere h">
+	    		<dl>
+	    			<dt>
+	    				<label class="query_label">已选条件:</label>
+	    				<span class="query_ops height queryselects">
+	    					<a data-city=""></a>
+	    					<a data-hos=""></a>
+	    					<a data-dep=""></a>
+	    					<a data-keyword=""></a>
+	    				</span>
+	    			</dt>
+	    			<dd>
+	    				<label class="query_label">所在城市</label>
+	    				<span class="query_ops height opencitys"><a href="javascript:void(0)"></a></span>
+	    				<a class="query_more">
+	    					更多<i class="iconfont">&#xe60b;</i>
+	    				</a>
+	    			</dd>
+	    			<dd>
+	    				<label class="query_label">选择医院</label>
+	    				<span class="query_ops height openhoss"><a href="javascript:void(0)"></a></span>
+	    				<a class="query_more">
+	    					更多<i class="iconfont">&#xe60b;</i>
+	    				</a>
+	    			</dd>
+	    			<dd class="last-ops">
+	    				<label class="query_label">选择科室</label>
+	    				<span class="query_ops height opendeps"><a href="javascript:void(0)"></a></span>
+	    				<a class="query_more">
+	    					更多<i class="iconfont">&#xe60b;</i>
+	    				</a>
+	    			</dd>
+	    		</dl>
+	    	</div>
+	    		    	
+	    	<div class="queryresults blockdiv">
+	    		<div class="header">
+	    			<h2 class="h">专家团队</h2>
+	    		</div>
+	    		<div class="clearfix queryresult h hasdoclists"></div>
+	    	</div>			    	
+    	</div>
+    	<div class="sectionright fright">
+			<div class="blockdiv h clearfix">
+				<a href="<?=base?>app/login.html" target="_blank" style="display:block;">
+					<img src="<?=base?>img/website/enter.png" alt="" style="width:100%;"/>
+				</a>
+			</div>
+		</div>
+   	</div>			
+</div>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.team();
+	});
+</script>

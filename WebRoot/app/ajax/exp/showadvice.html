@@ -1,0 +1,256 @@
+<style>
+    .full-table .delete{color:#c26565!important;margin-left:1em;}
+    .noMargin{ margin:  0;}
+	a{cursor: pointer}
+	.pay{ color: #F6AC00 !important; font-size: .9em; cursor: pointer}
+	.noPay{ color: red}
+	th{ opacity: 0.7 !important;}
+</style>
+<div class="full-table">
+	<div class="widget-body table-responsive no-padding">
+		<table id="dt_basic" class="table table-hover remotetable" width="100%">
+			<thead>			                
+				<tr class="bgfff">
+                    <th>来源医生</th>
+					<th data-class="expand">未读消息数</th>
+					<th data-hide="phone" class="w15p">患者信息</th>
+					<th data-hide="phone,tablet">联系方式</th>
+					<th data-hide="phone,tablet">支付状态</th>
+					<th data-hide="phone,tablet" class="receiveTime">接诊时间</th>
+					<th data-hide="phone,tablet">距离接诊时间</th>
+                    <th data-hide="phone,tablet">下单时间</th>
+					<th data-hide="phone,tablet">距离下单时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<!-- your contents here -->
+	<div class="jarviswidget-editbox">
+		<!-- This area used as dropdown edit box -->
+	</div>
+	<!-- end widget edit box -->
+</div>
+<!-- end row -->
+
+<script type="text/javascript">
+	var Page = {
+		askdoc: '',
+		oid: '',
+		docask: 'referral'
+
+	};
+	pageSetUp();
+
+	var oTable;
+	var pagefunction = function() {
+		/* BASIC ;*/
+			var responsiveHelper_dt_basic = undefined;
+			var responsiveHelper_datatable_fixed_column = undefined;
+			var responsiveHelper_datatable_col_reorder = undefined;
+			var responsiveHelper_datatable_tabletools = undefined;
+			var ostatus = undefined;
+			var breakpointDefinition = {
+				tablet : 1024,
+				phone : 480
+			};
+			oTable = $('#dt_basic').DataTable({
+				"sDom": "t" + "<'example_processing'r><'dt-toolbar-footer clearfix'<'col-sm-6 col-xs-12 hidden-xs'f><'col-xs-12 col-sm-6'p>>",
+				"oLanguage": {
+					"sSearchPlaceholder": '搜索',
+					"sSearch": '<div class="showChoice">'
+								+'<label class="checkbox">'
+									+'<span class="input" data-ostatus="2"><input type="radio" name="radio" value="2" checked><i></i></span>'
+									+'<span style="padding-left: 5px">待接诊</span>' 
+								+'</label>'
+								+'<label class="checkbox">'
+									+'<span class="input" data-ostatus="3"><input type="radio" name="radio" value="3"><i></i></span>'
+									+'<span style="padding-left: 5px">已接诊</span>' 
+								+'</label>'
+								+'<label class="checkbox">'
+									+'<span class="input" data-ostatus="4"><input type="radio" name="radio" value="4"><i></i></span>'
+									+'<span style="padding-left: 5px">已完成</span>' 
+								+'</label>'
+								+'<label class="checkbox">'
+									+'<span class="input" data-ostatus="5"><input type="radio" name="radio" value="5"><i></i></span>'
+									+'<span style="padding-left: 5px">已退诊</span>' 
+								+'</label>'
+								+'<label class="checkbox">'
+									+'<span class="input" data-ostatus="6"><input type="radio" name="radio" value="6"><i></i></span>'
+									+'<span style="padding-left: 5px">已取消</span>' 
+								+'</label>'
+								+'</div>',
+					"sProcessing": "正在获取数据，请稍后...",
+					"sZeroRecords": "没有您要搜索的内容",
+					"oPaginate": {
+						"sFirst": "第一页",
+						"sPrevious": "上一页",
+						"sNext": "下一页",
+						"sLast": "最后一页"
+					}
+				},
+				"bDestroy":true,"bRetrieve":true,"bStateSave":false,"bFilter": true,
+				"bProcessing": true,"iDisplayStart":0,"iDisplayLength":5,"scrollX": true,
+				"bServerSide": true,"fnServerData": retrieveData,
+                "sAjaxSource": "/expert/gainD2DTuwenDatas",				      
+                "columns": [
+                    { "data": "exDocName" },
+                    { "data": "unReadMsgCount" },
+                    { "data": "userName" },
+                    { "data": "telephone" },
+					{ "data": "payStatus" },
+                    { "data": 'receiveTime' },
+                    { "data": "disReceiveTime" },
+                    { "data": "createTime" },
+                    { "data": "disCreateTime" },
+                    { "data": null }
+                ],
+                "columnDefs":[
+					{
+						"targets": 0,
+						"render": function(data, type, row, meta){
+							return '<p class="noMargin">'+ row.localDocName +'</p><p style="margin: 5px 0">'+ row.localHosName +'&ensp;'+ row.localDepName +'</p>'
+						}
+					},
+					{
+						"targets": 1,
+						"createdCell": function (td, cellData, rowData, row, col) {
+							$('input[type="radio"]:checked').parent().attr('data-ostatus') == 3 ? $(td).show().html(''+rowData.unReadMsgCount+'条未读消息数') : $(td).hide()
+						}
+					},
+                    {
+                        "targets": 2,
+                        "render": function (data, type, row, meta){
+                            var str=''
+                            var sex=['','男', '女'];
+                            var caseDesc = row.caseDesc || '暂无详情'
+                            str+='<p class="noMargin"><span>'+row.userName+'</span>&ensp;<span>'+ sex[row.sex] +'</span>&ensp;<span>'+ row.age +'岁</span></p><p class="block whitespace txt-color-grayDark" style="width:180px; margin: 5px auto 0">'+ caseDesc +'</p>'
+                            return str
+                        }
+                    },
+					{
+						"targets": 4,
+						"createdCell": function (td, cellData, rowData, row, col) {
+							cellData == 4?
+								$(td).html('未支付').addClass('noPay'):
+								$(td).html('已支付')
+						}
+					},
+					{
+						"targets": 5,
+						"createdCell": function (td, cellData, rowData, row, col) {
+							$('input[type="radio"]:checked').parent().attr('data-ostatus') == 3 ? $(td).show() : $(td).hide()
+						}
+					},
+					{
+						"targets": 6,
+						"createdCell": function (td, cellData, rowData, row, col) {
+							$('input[type="radio"]:checked').parent().attr('data-ostatus') == 3 ? $(td).show().css('color', '#0186D1') : $(td).hide()
+						}
+					},
+					{
+						"targets": 7,
+						"render": function (data, type, row, meta){
+                            var str='<span class="txt-color-grayDark">'+ data +'</span>'
+                            return str
+                        }
+					},
+					{
+						"targets": 8,
+						"createdCell": function(td, cellData, rowData, row, col){
+							$('input[type="radio"]:checked').parent().attr('data-ostatus') == 2? $(td).show().css('color', '#0186D1'): $(td).hide()
+						}
+					},
+                    {
+                        "targets": -1,
+						"render": function (data, type, row, meta) {
+							var ostatus = $('input[type="radio"]:checked').parent().attr('data-ostatus');
+							var str = '<a href="#ajax/exp/advicedetail.html?oid='+ data.orderId +'" class="link">查看详情 <i class="fa fa-angle-right"></i></a>'
+							var del = '<a href="javascript:;" class="delete" data-id='+ data.orderId +' data-optype="5" data-sval="10"> <span>删除</span> <i class="fa fa-times"></i></a>'
+							var exportword = '<p style="margin: 3px 0"><a href="/exportsWord/'+ data.orderId +'/5">导出会诊申请单 <i class="fa fa-angle-right"></i></a></p><p><a href="/writereport/'+ data.orderId +'/5">导出报告填写单 <i class="fa fa-angle-right"></i></a></p>'
+							switch (ostatus) {
+								case '3': return str+exportword; break;
+								case '5':
+								case '6': return str+del ; break;
+								default: return str
+							}
+						}
+                    }
+                ],
+				"fnCreatedRow": function (nRow, aData, iDataIndex){
+					$('input[type="radio"]:checked').parent().siblings().css('color', '#0186D1')	
+					$('.dt-toolbar-footer .hidden-xs').removeClass('col-sm-6').addClass('col-sm-8').siblings().removeClass('col-sm-6').addClass('col-sm-4')				
+				},
+				"fnDrawCallback": function() { 
+					load()
+				}
+			});
+			$('.full-table').delegate('input[type="radio"]', 'change', function(){
+				load()
+				$(this).parent().siblings().css('color', '#0186D1').parent().siblings().children().css('color', '#000')
+				oTable.page('first').draw(false);
+			})
+			.delegate('td .delete','click',function(){
+				Page.oid = $(this).attr('data-id');
+				Page.opType = $(this).attr('data-optype')
+				Page.sval = $(this).attr('data-sval')
+				Page.oid && BASE.showModel({
+					remote: 'ajax/modal-content/modal-delete.html',
+					cls: 'modal-confirm'
+				});
+			})
+			.delegate('td .pay','click',function(){
+				Page.oid = $(this).attr('data-id');
+				Page.oid && BASE.showModel({
+					remote: 'ajax/modal-content/modal-showpay.html',
+					cls: 'modal-lg'
+				});
+			})
+			.delegate('#dt_basic tbody tr','dblclick',function(){
+				location.hash = $(this).find('a.link').attr('href').substring(1);
+			});
+			function retrieveData( sSource, aoData, fnCallback ) {  
+			    aoData.push( { "name": "searchContent", "value": $.trim($('input[type="search"]').val())} );
+			    aoData.push( { "name": "ostatus", "value": $('input[type="radio"]:checked').parent().attr('data-ostatus')} );
+				$.ajax( {  
+			        "type": "post",   
+			        "contentType": "application/json",  
+			        "url": sSource,   
+			        "dataType": "json",  
+			        "data": JSON.stringify(aoData),
+			        "success": function(resp) { 
+			        	fnCallback(resp);
+			        },
+					"error": function(){
+						$.smallBox({title: "加载数据失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000})
+					}
+			    });  
+			}
+			function load (){
+				var ostatus = $('input[type="radio"]:checked').parent().attr('data-ostatus');
+				ostatus == 3? $('th').eq(1).show().siblings('.receiveTime').show().next().show() : $('th').eq(1).hide().siblings('.receiveTime').hide().next().hide();
+				ostatus == 2? $('th').eq(8).show() : $('th').eq(8).hide();
+			}
+		/* END BASIC */
+	};
+	var pagedestroy = function(){
+		oTable.destroy();
+		$('.full-table').undelegate()
+		oTable = null;
+		if (debugState){
+			root.console.log("✔ oTable destroyed");
+		}
+	}
+	// end destroy
+	// run pagefunction
+	loadScript("js/plugin/datatables/jquery.dataTables.min.js", function(){
+		loadScript("js/plugin/datatables/dataTables.colVis.min.js", function(){
+			loadScript("js/plugin/datatables/dataTables.tableTools.min.js", function(){
+				loadScript("js/plugin/datatables/dataTables.bootstrap.min.js", function(){
+					loadScript("js/plugin/datatable-responsive/datatables.responsive.min.js", pagefunction)
+				});
+			});
+		});
+	});	
+</script>

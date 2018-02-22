@@ -1,0 +1,529 @@
+<div id="admin-detail" style="padding: 0 1em 3em">
+    <div style="float: right; padding: 1em 1em 0;" v-if="orderType == 4 || orderType == 5">
+        <button type="button" class="btn btn-content" style="background:red;border:0; color: #fff; margin-right: .5em" @click="delOrder">删除订单</button>	
+        <button type="button" class="btn btn-content" style="background: #0088cc;border:0;color: #fff" v-if="orderType == 5 && orderInfo.status != 40 && orderInfo.status != 30 && orderInfo.status != 50 " @click="overOrder">结束订单</button>
+        <button type="button" class="btn btn-content chooseexps" :data-id="orderId" style="background: #0088cc;border:0;color: #fff" v-if="orderType == 4 && (tabStatus == 1||tabStatus == 2 ||tabStatus == 3)">分配专家</button>
+    </div>		
+    <div class="container-fluid" style="clear: both">
+        <div class="row-fluid">
+            <div class="section">
+                <!--支付信息-->
+                <div class="pay" v-if="orderType != 8 && orderType != 11 && orderType != 10">
+                    <div class="header"> 
+                        <a data-toggle="collapse" href="#collapsePay" class="flex">
+                            <i class="iconfont icon-xialajiantou"></i>支付信息
+                        </a>
+                    </div>
+                    <div id="collapsePay" class="panel-collapse collapse in bodyer">
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label ">商品订单号：</label>
+                            <div class="controls f10">{{payInfo.outTradeNo}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">支付单号：</label>
+                            <div class="controls f10">{{payInfo.transactionId}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">支付金额：</label>
+                            <div class="controls f10">{{payInfo.money}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">支付状态：</label>
+                            <div class="controls f10" :class="{err: payInfo.payStatus != 1}">{{payInfo.payStatus==1? '已支付' : '未支付'}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label ohidden">订单来源：</label>
+                            <div class="controls f10">{{orderInfo.source == 1 ? 'IOS' : orderInfo.source == 2 ? 'Android' : orderInfo.source == 3 ? '微信公号' : '其它'}}</div>
+                        </div>
+                    </div>
+                </div>
+                <!--预约转诊订单信息-->
+                <div class="order" v-if="orderType == 10">
+                    <div class="header"> 
+                        <a data-toggle="collapse" href="#collapseOrder" class="flex">
+                            <i class="iconfont icon-xialajiantou"></i>订单信息
+                        </a>    
+                    </div>
+                    <div id="collapseOrder" class="panel-collapse collapse in bodyer">
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label ">转诊类型：</label>
+                            <div class="controls f10">{{orderInfo.referralType == '0' ? '转门诊' : '转住院'}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">订单来源：</label>
+                            <div class="controls f10">{{orderInfo.source == 1 ? 'IOS' : orderInfo.source == 2 ? 'Android' : orderInfo.source == 3 ? '微信公号' : '其它'}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">转诊日期：</label>
+                            <div class="controls f10">{{orderInfo.referralDate}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">订单状态：</label>
+                            <div class="controls f10">{{orderInfo.status == 10 ? '待接诊' : orderInfo.status == 20 ? '问诊中' : orderInfo.status == 30 ? '已退诊' : orderInfo.status == 40 ? '已完成' : orderInfo.status == 50 ? '已取消' : ''}}</div>
+                        </div>
+                    </div>
+                </div>
+                <!--预约专家(转诊医生)信息-->
+                <div class="expert" v-if="expertInfo.specialName">
+                    <div class="header">
+                        <a data-toggle="collapse" href="#collapseExp" class="flex">
+                            <i class="iconfont icon-xialajiantou"></i>{{ orderType == 10 ? '转诊医生信息' : '专家信息' }}
+                        </a>
+                    </div>
+                    <div id="collapseExp" class="panel-collapse collapse in bodyer">
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">姓名：</label>
+                            <div class="controls f10">{{expertInfo.specialName}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">医院：</label>
+                            <div class="controls f10">{{expertInfo.hosName}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">科室：</label>
+                            <div class="controls f10">{{expertInfo.depName}}</div>
+                        </div>
+                    </div>
+                </div>
+                <!--患者电话，电话问诊独有-->
+                <div class="answerTelephone" v-if="answerTelephone">
+                    <div class="header"> 
+                        <a data-toggle="collapse" href="#collapseTel" class="flex">
+                            <i class="iconfont icon-xialajiantou"></i>患者电话
+                        </a>
+                    </div>
+                    <div id="collapseTel" class="panel-collapse collapse in bodyer">
+                        <div class=" control-group form-horizontal flex">
+                            <label class="control-label">接听电话：</label>
+                            <div class="controls f10">{{answerTelephone}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">接听时间：</label>
+                            <div class="controls f10">{{answerTime}}</div>
+                        </div>
+                    </div>
+                </div>
+                <!--已退款状态独有-->
+                <div class="refund" v-if="payInfo.refundStatus">
+                    <div class="header clearfix"> 
+                        <a data-toggle="collapse" href="#collapseRefund" class="flex">
+                            <i class="iconfont icon-xialajiantou"></i>退款信息
+                        </a>
+                    </div>
+                    <div id="collapseRefund" class="panel-collapse collapse in bodyer">
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">退款状态：</label>
+                            <div class="controls f10" :class="{err: payInfo.refundStatus != 1}">{{payInfo.refundStatus == 1 ? '退款成功' : '退款失败'}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">退款时间：</label>
+                            <div class="controls f10">{{payInfo.refundTime}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">退款金额：</label>
+                            <div class="controls f10">{{payInfo.money || '' }}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex" v-if="payInfo.refundStatus==-1">
+                            <label class="control-label">失败原因：</label>
+                            <div class="controls f10">{{payInfo.refundResult}}</div>
+                        </div>
+                        
+                    </div>	
+                </div>
+                <!--医生-->
+                <div class="doctor" v-if="orderType != 5">
+                    <div class="header"> 
+                        <a data-toggle="collapse" href="#collapseDoctor" class="flex">
+                            <i class="iconfont icon-xialajiantou"></i>医生信息
+                        </a>
+                    </div>
+                    <div id="collapseDoctor" class="panel-collapse collapse in bodyer">
+                        <div class=" control-group form-horizontal flex">
+                            <label class="control-label">医生：</label>
+                            <div class="controls f10">{{doctorInfo.specialName}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">医院：</label>
+                            <div class="controls f10">{{doctorInfo.hosName}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">科室：</label>
+                            <div class="controls f10">{{doctorInfo.depName}}</div>
+                        </div>
+                        <div class="control-group form-horizontal clearfix flex">
+                            <label class="control-label">电话：</label>
+                            <div class="controls f10">{{doctorInfo.telphone}}</div>
+                        </div>
+                    </div>
+                </div>
+                <!--团队信息-->
+                <div class="team" v-if="orderType == 11 || orderType == 12">
+                    <div class="header"> 
+                        <a data-toggle="collapse" href="#collapseTeam" class="flex">
+                            <i class="iconfont icon-xialajiantou"></i>团队信息
+                        </a>
+                    </div>
+                    <div id="collapseTeam" class="panel-collapse collapse in bodyer">
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">团队名称：</label>
+                            <div class="controls f10">{{team.teamName}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">团队负责人：</label>
+                            <div class="controls f10">{{team.docName}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">负责人医院：</label>
+                            <div class="controls f10">{{team.hosName || '暂无'}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">负责人科室：</label>
+                            <div class="controls f10">{{team.depName}}</div>
+                        </div>
+                    </div>
+                </div>
+                <!--复核信息-->
+                <div class="review" v-if="orderType == 12">
+                    <div class="header"> 
+                        <a data-toggle="collapse" href="#collapseReview" class="flex">
+                            <i class="iconfont icon-xialajiantou"></i>复核信息
+                        </a>
+                    </div>
+                    <div id="collapseReview" class="panel-collapse collapse in bodyer">
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">复诊结果：</label>
+                            <div class="controls f10">{{orderInfo.consultationResult || '暂无'}}</div>
+                        </div>
+                    </div>
+                </div>
+                <!--个人信息-->
+                <div class="user">
+                    <div class="header"> 
+                        <a data-toggle="collapse" href="#collapseUser" class="flex">
+                            <i class="iconfont icon-xialajiantou"></i>基本信息
+                        </a>
+                    </div>
+                    <div id="collapseUser" class="panel-collapse collapse in bodyer">
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">姓名：</label>
+                            <div class="controls f10">{{caseInfo.contactName + ' / ' + sex +' / ' + caseInfo.age}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">电话：</label>
+                            <div class="controls f10">{{caseInfo.telephone || '暂无'}}</div>
+                        </div>
+                        <div class="control-group form-horizontal flex">
+                            <label class="control-label">身份证：</label>
+                            <div class="controls f10">{{caseInfo.idNumber || '暂无'}}</div>
+                        </div>
+                        <template v-if="!(orderType ==5 || orderType == 4 || orderType == 10)">
+                            <div class="control-group form-horizontal flex">
+                                <label class="control-label">疾病名称：</label>
+                                <div class="controls f10">{{caseInfo.caseName}}</div>
+                            </div>
+                            <div class="control-group form-horizontal flex">
+                                <label class="control-label">病情描述：</label>
+                                <div class="controls f10">{{caseInfo.presentIll}}</div>
+                            </div>
+                            <div class="control-group form-horizontal flex">
+                                <label class="control-label">咨询目的：</label>
+                                <div class="controls f10">{{caseInfo.askProblem}}</div>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div class="control-group form-horizontal flex">
+                                <label class="control-label">主诉：</label>
+                                <div class="controls f10">{{caseInfo.mainSuit}}</div>
+                            </div>
+                            <div class="control-group form-horizontal flex">
+                                <label class="control-label">现病史：</label>
+                                <div class="controls f10">{{caseInfo.presentIll}}</div>
+                            </div>
+                            <div class="control-group form-horizontal flex">
+                                <label class="control-label">既往史：</label>
+                                <div class="controls f10">{{caseInfo.historyIll}}</div>
+                            </div>
+                            <div class="control-group form-horizontal flex">
+                                <label class="control-label">体检：</label>
+                                <div class="controls f10">{{caseInfo.examined}}</div>
+                            </div>
+                            <div class="control-group form-horizontal flex">
+                                <label class="control-label">辅检：</label>
+                                <div class="controls f10">{{caseInfo.assistantResult}}</div>
+                            </div>
+                            <div class="control-group form-horizontal flex">
+                                <label class="control-label">诊断：</label>
+                                <div class="controls f10">{{caseInfo.initialDiagnosis}}</div>
+                            </div>
+                            <div class="control-group form-horizontal flex">
+                                <label class="control-label">咨询目的：</label>
+                                <div class="controls f10">{{caseInfo.askProblem}}</div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <!--病例信息-->
+                <div class="case">
+                    <div class="header"> 
+                        <a data-toggle="collapse" href="#collapseCase" class="flex">
+                            <i class="iconfont icon-xialajiantou"></i>病例信息
+                        </a>
+                    </div>
+                    <div id="collapseCase" class="panel-collapse collapse in bodyer">
+                        <div class="caseImages" style="border-bottom: 1px solid #dcdcdc">
+                            <div class="name">入院记录</div>
+                            <div class="hasimgview" v-if="caseImages.length" style="margin: 0 2em 1em">
+                                <div v-for="(caseList, caseInd) in caseImages" :key="caseInd" class="caseImg">
+                                    <div style="width: 80px; line-height: 80px; background: #dcdcdc; margin-bottom: 2px">
+                                        <img :src="caseList.fileUrl" style="width: 100%; height: 100%">
+                                    </div>
+                                    <p class="ohidden">{{caseList.fileName}}</p>
+                                </div>
+                            </div>
+                            <div v-else style="text-align: center; margin: 3em">
+                                <img src="/img/mobile/kbzs/icon_noresult@2x.png" style="display: inline-block; width: 35px" >
+                            </div>
+                        </div>
+                        <div class="caseImages">
+                            <div class="name">数字影像</div>
+                            <my-pacs :fdata="pacForm" ref="pacs" style="padding-bottom: 1em"></my-pacs>
+                        </div>
+                    </div>
+                </div>
+                <!--病例附件+聊天-->
+                <div class="bottom-content flex" style="overflow: hidden">
+                    <div class="attachments f10" style="margin-right: 1em;">
+                        <div class="header clearfix"> 
+                            <a data-toggle="collapse" href="#collapseAttach" class="flex">
+                                <i class="iconfont icon-xialajiantou"></i>病例附件
+                            </a>
+                        </div>
+                        <div id="collapseAttach" class="panel-collapse collapse in bodyer">
+                            <div class="control-group atta" v-for="(item, ind) in attachments" :key="ind">
+                                <p class="type">{{type[item.type]}}&ensp;<span class="timer">{{item.reportTimes}}</span></p>
+                                <p class="remark">描述：{{item.remark}}</p>
+                                <div class="viewThumb hasimgview" style="position: relative">
+                                    <img v-for="(imglist, ingind) in item.files" :src="imglist.fileUrl" alt="">
+                                    <span class="len">{{item.files.length}}</span>
+                                </div>
+                            </div>
+                            <div class="noresult" v-if="!attachments.length"><img src="/img/mobile/kbzs/icon_noresult@2x.png" style="width:30px" alt=""/></div>
+                        </div>
+                    </div>
+                    <div class="chat f10">
+                        <div class="header clearfix"> 
+                            <a data-toggle="collapse" href="#collapseChat" class="flex">
+                                <i class="iconfont icon-xialajiantou"></i>聊天消息
+                            </a>
+                        </div>
+                        <div id="collapseChat" class="panel-collapse collapse in bodyer">
+                            <div v-for="(msg, ind) in messages" :key="ind" style="padding: 1rem">
+                                <p style="text-align: center">{{msg.msgTime}}</p>
+                                <div class="flex" :class="{'main-left': msg.sendType!=3, 'main-right': msg.sendType==3 }">
+                                    <img src="https://develop.ebaiyihui.com:443/img/defdoc.jpg" alt="" class="msg-head" v-if="msg.sendType==3" style="float: left">
+                                    <div :class="{'msg-right': msg.sendType!=3, 'msg-body': msg.sendType==3 }">
+                                        <span class="arrow"></span>&ensp;
+                                        <span v-if="msg.msgType == 'RC:VcMsg'">
+                                            <button class="voiceInfo" @click="showMsg(msg.msgContent)">语音播放</button>
+                                        </span>
+                                        <span v-else-if="msg.msgType == 'RC:ImgMsg'" class="hasimgview">
+                                            <img :src="msg.fileUrl" style="width: 100px;"/>
+                                        </span>
+                                        <span v-else>{{msg.msgContent}}</span>
+                                    </div>
+                                    <img src="https://develop.ebaiyihui.com:443/img/defdoc.jpg" alt="" class="msg-head" v-if="msg.sendType!=3" style="float: right">
+                                </div>
+                            </div>
+                            <div class="noresult" v-if="!messages.length"><img src="/img/mobile/kbzs/icon_noresult@2x.png" style="width:30px" alt=""/></div>
+                        </div>
+                    </div>
+                </div>
+            </div>		
+        </div>
+    </div>
+    <div style="position: fixed;text-align:center;padding:1em 0;width:100%; bottom: 0" v-if="needRefund">
+        <button style="padding:8px 4em;" class="btn btn-danger js-addinfo refund-btn" @click="refund">退款</button>
+    </div>
+</div>
+<style>
+    #admin-detail .err{ color: red}
+    #admin-detail .section .header a{ color: #5f5f5f; text-decoration: none; line-height: 30px; background: #dcdcdc; padding-left: 1em; margin-top: 20px}
+    #admin-detail .section .header a i{ font-size: .8em; margin-right: .5em; line-height: 30px}
+    #admin-detail .section .bodyer{ border: 1px solid #dcdcdc; box-sizing: border-box; background: #fff; min-height: 0!important}
+    #admin-detail .form-horizontal{ padding-top: 5px; margin-left: 0 !important;}
+    #admin-detail .form-horizontal:last-child{ margin-bottom: 1em !important}
+    #admin-detail .form-horizontal .controls { padding-top: 5px; padding-right: 20px; margin-left: 10px}
+    #admin-detail .form-horizontal .control-label{ width: 140px !important;}
+    #admin-detail .atta{ background: #f4f4f4; padding: 15px; width: 150px; margin: 1em 0 1em 1em; display: inline-block}
+    #admin-detail .atta .type { color: #0186d1; font-size: 1.2em}
+    #admin-detail .atta .type .timer { color: #666; font-size: .8rem}
+    #admin-detail .atta .remark { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: .3em}
+    #admin-detail .atta img { height: 120px; width: 120px; display: none}
+    #admin-detail .atta img:first-child{ display: block}
+    #admin-detail .atta .len{position: absolute; background: rgba(0, 0, 0, 0.5); color: #fff; width: 100%; height: 30px; line-height: 30px;  bottom: 0; left: 0; text-align: center}
+    #admin-detail .msg-head{ border-radius: 50%; width: 30px; height: 30px}
+    #admin-detail .main-right{ justify-content: flex-start}
+    #admin-detail .main-left{ justify-content: flex-end}
+    #admin-detail .msg-body,.msg-right{ border: 1px solid #00CC99; border-radius: .5em; padding: .5em; margin: 0 1.5em; position: relative}
+    #admin-detail .msg-body:after{ content: ""; position: absolute; left: -11px; top: 8px; width: 0px; height: 0px; border-top: 4px solid transparent; border-right: 10px solid #00CC99; border-bottom: 4px solid transparent;}
+    #admin-detail .msg-body:before{ content: ""; position: absolute; left: -9px; top: 8px; width: 0px; height: 0px; z-index: 1; border-top: 4px solid transparent; border-right: 10px solid #fff; border-bottom: 4px solid transparent;}
+    #admin-detail .msg-right:after{ content: ""; position: absolute; right: -11px; top: 8px; width: 0px; height: 0px; border-top: 4px solid transparent; border-left: 10px solid #00CC99; border-bottom: 4px solid transparent;}
+    #admin-detail .msg-right:before{ content: ""; position: absolute; right: -9px; top: 8px; width: 0px; height: 0px; z-index: 1; border-top: 4px solid transparent; border-left: 10px solid #fff; border-bottom: 4px solid transparent;}
+    #admin-detail .caseImg{ width: 80px; height: 80px; display: inline-block; margin-right: 1.5em;}
+    #admin-detail .name{ margin: 1em 2em .5em; position: relative; padding-left: .8em}
+    #admin-detail .name:after{ content: ''; position: absolute; left: 0; top: 6px; width: 5px; height: 5px; border-radius: 50%; background: #00CC99}
+    #admin-detail .ohidden{ overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
+    .viewer-toolbar li{ line-height: 0}
+</style>
+<script src="/sea-modules/rong/Libamr-2.2.5.min.js"></script>
+<script src="/sea-modules/rong/RongIMVoice-2.2.5.js"></script>
+<script>
+    loadCss('/css/bootstrap.min.css')
+    loadCss('/css/view/chooseexps.css')
+    loadScript('/sea-modules/seajs/2.2.3/sea.js',function (){
+        loadScript('/sea-modules/seajs/seajs.config.js', function (){
+            seajs.use('view/admin/main1.js',function(controller){
+                controller.chooseEXPS();
+            });
+        })
+    })
+</script>
+<script>  
+    var Page={
+        tabStatus: getParam('tabStatus')
+    }
+    var vm = new Vue({
+        el: '#admin-detail',
+        data: {
+            doctorInfo: {},
+            payInfo: {},
+            caseInfo: {},
+            messages: [],
+            attachments: {},
+            caseImages: [],
+            expertInfo: {},
+            orderInfo: {},
+            team: {},
+            sex: '',
+            type: {
+                '1': 'CT',
+                '2': 'DX',
+                '3': 'MR',
+                '4': 'DCM',
+                '5': 'IMG'
+            },
+            orderId: '',
+            orderType: '',
+            orderStatus: '',
+            answerTelephone: '',
+            answerTime: '',
+            needRefund: '',
+            pacForm: {
+                form: {
+                    list: [],
+                    img_list: [],
+                    pacs_ids: []
+                },
+                old: {},
+                validate: false,
+                edit: false,
+                isload: false,
+                issave: false
+            },
+            tabStatus: Page.tabStatus,
+            RongIMVoice: ''
+        },
+        created: function (){
+            var self = this;
+            this.RongIMVoice = RongIMLib.RongIMVoice;
+			this.RongIMVoice.init();
+            this.orderId = Page.oid = this.getUrl('orderId');
+            this.orderType = this.getUrl('orderType');
+            this.orderStatus = this.getUrl('status') || '';
+            // 详情
+            $.get('/system/order/info',{orderId: this.orderId, orderType: this.orderType})
+            .done( function (data){
+                self.answerTelephone = data.answerTelephone || ''
+                self.answerTime = data.answerTime || ''
+                self.doctorInfo = data.doctorInfo || {}
+                self.payInfo = data.payInfo || {}
+                self.caseInfo = data.caseInfo || {}
+                self.orderInfo = data.orderInfo || {}
+                self.messages = data.messages || []
+                self.attachments = data.caseInfo.attachments || {}
+                self.expertInfo = data.expertInfo || {}
+                self.caseImages = data.caseInfo.caseImages || []
+                self.team = data.team || {}
+                self.sex = self.caseInfo.sex == 1 ? '男':'女' 
+                self.initViewer()
+                self.needRefund = data.needRefund || ''
+            });
+            // dcm文件
+            var asktype = this.orderType == 5 ? true : 'referral'
+            var obj = this.orderType == 4 ? { oid: this.orderId } : { oid: this.orderId, asktype: asktype }
+            if(this.orderType == 4 || this.orderType == 5 || this.orderType == 10){
+                $.get('/doctor/gainPacsData', obj)
+                .done( function (data){
+                    if(BASE.isLost(data)) return $.smallBox({title: "影像资料数据加载失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+                    self.pacForm.form.list = data['pac_records']
+                })
+            }
+        },
+        methods: {
+            showMsg: function (msgContent){
+                var that = this
+                if(msgContent){
+					var duration = msgContent.length/1024;    // 音频持续大概时间(秒)
+					if(!!window.ActiveXObject || "ActiveXObject" in window){
+						//如果是 IE 浏览器
+						that.RongIMVoice.preLoaded(msgContent);
+						that.RongIMVoice.play(msgContent,duration);
+					}else{
+						that.RongIMVoice.preLoaded(msgContent, function(){
+							that.RongIMVoice.play(msgContent,duration);
+						});
+					}
+				}else{
+					console.error('请传入 amr 格式的 base64 音频文件');
+				}
+            },
+            initViewer: function () {
+                var that = this
+                loadCss('js/plugin/imgviewer/viewer.css', function () {
+                    loadScript('js/plugin/imgviewer/viewer.min.js', function () {
+                        $('.hasimgview').viewer();
+                    });
+                });
+            },
+            getUrl: function (name){
+                var reg = new RegExp(name + "=([^&]*)(&|$)", "i");   
+                var r = window.location.hash.substr(1).match(reg);
+                if (r != null) return r[1]; return null;	
+            },
+            delOrder: function (){
+                // 0删除
+                Page.sval = 0; 
+                // 图文视频判断
+                Page.type = this.orderType == 4 ? '4' : '5'
+                BASE.showModel({
+					remote: 'ajax/modal-content/modal-delete.html',
+					cls: 'modal-delete'
+				})
+            },
+            overOrder: function (){
+                // 1结束
+                Page.sval = 1;
+                BASE.showModel({
+					remote: 'ajax/modal-content/modal-delete.html',
+					cls: 'modal-delete'
+				})
+            },
+            refund: function (){
+                $.post('/system/refund', { oid: this.orderId, otype: this.orderType})
+                .done( function (){
+                    location.reload()
+                })
+            }
+        }
+    })
+</script>

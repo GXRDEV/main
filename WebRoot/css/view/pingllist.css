@@ -1,0 +1,18 @@
+
+#signslist{padding-bottom:10px;}
+.signlists{color:#E98D5E;}
+.signlists .signlist{display:inline-block;margin:0 1em 5px 0;border:1px solid #E98D5E;border-radius:3px;padding:1px 4px;font-size:12px;}
+#signslist,#pingllist{display:block;}
+#pingllist .pingllist .headTop label{color:#00CC99;}
+#pingllist .pingllist .signlists .signlist{font-size:10px;}
+#pingllist .pingllist{border-top:1px solid #ddd;padding:10px 4px;}
+#pingllist .pingllist .stars i{color:#F46640;float:left;margin-left:4px;}		
+#pingllist .pingllist .stars1 i:nth-child(1) ~ i:before{content:"\e62d";color:#aaa;}
+#pingllist .pingllist .stars2 i:nth-child(2) ~ i:before{content:"\e62d";color:#aaa;}
+#pingllist .pingllist .stars3 i:nth-child(3) ~ i:before{content:"\e62d";color:#aaa;}
+#pingllist .pingllist .stars4 i:nth-child(4) ~ i:before{content:"\e62d";color:#aaa;}
+#pingllist .pingllist .stars5 i:nth-child(5) ~ i:before{content:"\e62d";color:#aaa;}
+#pingllist .pingllist dd{padding:5px 0;color:#9A9A9A;}
+#pingllist .pingllist .signlists{color:#E98D5E;}
+#pingllist .pingllist dd:last-child{color:#666;}
+#pingllist .pingllist dd:last-child .cols0{color:#00CC99;}

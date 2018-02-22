@@ -1,0 +1,3 @@
+自定义封装公共组件统一以Kx开头，比如KxHeader.vue
+全局公共组件放在components/share
+子项目组件放在各自目录下，比如drugsadmin/share放卖药后台管理的公共组件

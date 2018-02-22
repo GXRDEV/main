@@ -1,0 +1,57 @@
+<div class="loginDiv loginregistDiv">    	
+	<div class="w1200 clearfix blockdiv">
+		<div class="sectionleft fleft">
+			<h2 class="tabs">
+				<a href="javascript:void(0)" class="logintab curr"><span>用户登录</span></a>
+				<a href="javascript:void(0)" class="registtab" data-action="regist"><span>用户注册</span></a>
+			</h2>
+			<div class="forms">
+				<label class="form-group">
+					<span class="form-label">手机号</span>
+					<span class="form-input">
+						<input type="text" name="tel" autocomplete="off"/>
+					</span>
+				</label>
+				<label class="form-group">
+					<span class="form-label">密&emsp;码</span>
+					<span class="form-input">
+						<input type="password" name="password" autocomplete="off"/>
+					</span>
+				</label>
+				<div class="form-group clearfix">
+					<div class="fleft">
+						<label class="checkbox">
+							<input type="checkbox" name="remberme"/>
+							<span>一周内自动登录</span>
+						</label>						
+					</div>
+					<div class="fright">
+						<a href="javascript:void(0)" data-action="lostpsd">忘记密码?</a>
+					</div>
+				</div>
+				<div class="form-actions">
+					<button type="button" class="loginbtn js-formlogin">登录</button>
+				</div>
+			</div>
+		</div>
+		<div class="sectionright fleft">
+			<div class="registdiv">
+				<p style="color:#00cc99">还没有帐户，马上注册</p>
+				<a class="registbtn" href="javascript:void(0)" data-action="regist">注册</a>
+				<div class="download clearfix">
+					<div class="fleft">
+						<img src="<?=base?>img/website/app1.png"/>
+					</div>
+					<div class="fright">
+						<img src="<?=base?>img/website/wx1.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.logonREG();
+	});
+</script>

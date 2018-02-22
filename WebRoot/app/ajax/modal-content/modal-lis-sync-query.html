@@ -1,0 +1,175 @@
+<style>
+	#modal-lis-sync-query .smart-form > div{position:relative; margin-bottom: 10px;padding:0;}
+	#modal-lis-sync-query .smart-form .label{position: absolute;left: 0;z-index: 2;top: 3px; opacity: .7;}
+	#modal-lis-sync-query .smart-form .input input{text-indent: 4em;width:95%;}
+	#modal-lis-sync-query .table{margin-top:10px;border: 0;}
+	#modal-lis-sync-query .table th,
+	#modal-lis-sync-query .table td{text-align: center;border:0;}
+</style>
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">病历列表</h4>
+</div>
+<div class="modal-body " id="modal-lis-sync-query">
+	<div class="beanquerywhere row smart-form">
+		<div class="col col-2"><label class="label">姓名：</label>
+			<div class="input"><input type="text" v-model="form.searchName" style="text-indent: 3em;"/></div>
+		</div>
+		<div class="col col-2"><label class="label">病人ID：</label>
+			<div class="input"><input type="text" v-model="form.searchPatientId" /></div>
+		</div>
+		<div class="col col-2"><label class="label">住院号：</label>
+			<div class="input"><input type="text" v-model="form.adminsionNum" /></div>
+		</div>
+		<div class="col col-2"><label class="label">门诊号：</label>
+			<div class="input"><input type="text" v-model="form.outpatientNum" /></div>
+		</div>
+		<div class="col col-2"><label class="label">科室名：</label>
+			<div class="input"><input type="text" v-model="form.department"/></div>
+		</div>
+		<div class="col col-2">
+			<button type="button" @click="queryLisList" :disabled="isload || validate()" class="btn btn-primary"><i class="fa fa-search"></i> 检索</button>			
+		</div>
+	</div>
+	<div class="queryResult">
+		<template v-if="list.length > 0">
+			<div class="dt-toolbar clearfix">
+				<div class="pull-right">
+					<button type="button" :disabled="!checked.length" @click="synchLis" class="btn btn-danger"><i class="fa fa-random"></i> 同步</button>
+				</div>
+			</div>
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>病人ID</th><th>姓名</th><th>性别</th><th>年龄</th><th>科室</th><th>门诊日期</th><th style="width:6.5em;">选择</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="tr in list" @click="setChecked($event)">
+						<td>{{ tr.kvs['病人ID'] }}</td>
+						<td>{{ tr.kvs['姓名'] }}</td>
+						<td>{{ tr.kvs['性别'] }}</td>
+						<td>{{ tr.kvs['年龄'] }}</td>
+						<td>{{ tr.kvs['病人科室'] }}</td>
+						<td>{{ tr.kvs['门诊日期'] }}</td>
+						<td><input type="checkbox" v-bind:value="tr.kvs['病人ID']"/></td>
+					</tr>					
+				</tbody>
+			</table>
+		</template>
+		<template v-else >
+			<section v-if="!isload" class="noresult">
+				<img src="../img/noresult.png" style="width:24px;" alt="">
+			</section>
+		</template>
+		<section v-if="isload" class="loading">
+			<img src="../img/loading/31.gif" style="width:32px;" alt="">
+		</section>
+	</div>
+</div>
+<script>
+	(function(){
+		var lisSyncQuery = new Vue({
+			el: '#modal-lis-sync-query',
+			data: {
+				form:{
+					orderid: Page.mainForms.caseid,
+					searchName:'',
+					searchPatientId:'',
+					adminsionNum:'',
+					outpatientNum:'',
+					department:''
+				},
+				list:[],
+				checked: [],
+				isload: false
+			},
+			methods: {
+				validate: function(){
+					return (!this.form.searchName && 
+							!this.form.searchPatientId && 
+							!this.form.adminsionNum && 
+							!this.form.outpatientNum && 
+							!this.form.department)
+				},
+				setChecked: function(e){
+					var input;
+					if(e.target.tagName != 'INPUT'){
+						input = $(e.currentTarget).find('input').get(0);
+						input.checked = !input.checked;
+					}
+					this.checked = (function(){
+						var a = [];
+						$('#modal-lis-sync-query tbody :checked').each(function(){
+							a.push(this.value);
+						});
+						return a;
+					})();
+				},
+				queryLisList: function(){
+					this.isload = true;
+					window.setTimeout(function(){
+						lisSyncQuery.isload = false;
+						lisSyncQuery.list = (function(){
+							var list = [];
+							for(var i=0;i<8;i++){
+								list.push({
+									kvs : {
+										"病人ID" : "张三_" + i,
+										"姓名" : "1_" + i ,
+										"性别" : "2_" + i,
+										"年龄" : "3_" + i,
+										"病人科室" : "2015-11-22_" + i,
+										"门诊日期" : "节圧_" + i
+									}
+								});
+							}
+							return list;
+						})();
+					},3000);					
+					return false;
+					$.post('/doctor/gainUserPatients',this.form)
+					.done(function(data){
+						lisSyncQuery.list = data.beans || [];
+					})
+					.fail(function(){})
+					.always(function(){
+						lisSyncQuery.isload = false;
+					});
+
+				},
+				synchLis: function(sign){
+					$.smallBox({
+						title : "数据维护中",
+						content : "",
+						color : $.color.success,
+						iconSmall : "fa fa-times",
+						timeout : 3000
+					});
+					return false;
+					$.post('/doctor/syncLisInfoByCase',{
+						id:''
+					})
+					.done(function(data){
+						lisSyncQuery.list = data.lisbeans || [];
+					})
+					.fail(function(){})
+					.always(function(){
+						lisSyncQuery.isload = false;
+					});
+
+					$.post('/doctor/syncPacInfoByCase',{
+						id:''
+					})
+					.done(function(data){
+						lisSyncQuery.list = data.lisbeans || [];
+					})
+					.fail(function(){})
+					.always(function(){
+						lisSyncQuery.isload = false;
+					});
+				}
+			}
+		})
+	})();
+</script>

@@ -1,0 +1,44 @@
+<?
+	var list = @messages;
+?>
+<div class="innerDiv">
+	<h2 class="user_title"><span>图文问诊详情</span></h2>
+	<div class="dialog prelative">
+		<div class="bodyer">
+			<?if(list.length == 0){?>
+				<div class="timer">----- 暂无消息 -----</div>
+			<?}?>
+			<?for(var i = 0,l = list.length; i<l; i++){?>
+				<?
+					var dati = new Date(list[i]['sendTime']);
+					var datstri = (dati.getFullYear() + '-' + (dati.getMonth() + 1) +'-' + dati.getDate() + ' ' + dati.getHours() + ':' + dati.getMinutes() + ':' + dati.getSeconds())
+				?>
+				<div class="timer">----- <?=datstri ?> -----</div>
+				<div class="hhlist clearfix<?if(list[i].sendType != '2'){?> me<?}?><?if(list[i].sendType == '2'){?> doc<?}?>">								
+					<span class="cols0"><span class="thumb"><img src="https://develop.ebaiyihui.com:443/img/defdoc.jpg"></span></span>
+					<span class="cols1"><span class="text">
+						<?if(list[i].msgType == 'audio/amr'){?>
+							<audio src="<?=list[i].path?>" controls="controls">当前浏览器不支持.</audio>
+						<?}else if(list[i].msgType == 'image/jpg'){?>
+							<a href="<?=list[i].fileUrl?>" target="_blank" style="display:inline-block;width:150px;"><img src="<?=list[i].fileUrl?>" style="width:100%;"/></a>
+						<?}else{?>
+							<?=list[i].msgContent?>
+						<?}?>						
+					</span></span>
+				</div>
+			<?}?>		
+		</div>
+	</div>
+	<?if(@sta == '4'){?>
+		<div class="askaigan">
+			<div class="tophead clearfix"><button class="askagainbtn fleft">向TA追问</button><button class="closeaskbtn fright">结束</button></div>
+			<div class="askform prelative" style="display:none;">
+				<label>
+					<span>填写咨询内容</span>
+					<textarea name="msgContent" placeholder="如要问诊，请在对话框中提交患者的①年龄、性别②治疗经过及病情描述 ③检查报告单及医嘱单 ④您要问的问题。"></textarea>
+				</label>
+				<button class="saveaskagainbtn h">提交给医生</button>
+			</div>
+		</div>
+	<?}?>
+</div>

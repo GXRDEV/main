@@ -1,0 +1,182 @@
+<style>
+	#modal-pac-sync-query .smart-form > div{position:relative; margin-bottom: 10px;padding:0;}
+	#modal-pac-sync-query .smart-form .label{position: absolute;left: 0;z-index: 2;top: 3px; opacity: .7;}
+	#modal-pac-sync-query .smart-form .input input{text-indent: 5em;width:95%;}
+	#modal-pac-sync-query .table{margin-top:10px;border: 0;}
+	#modal-pac-sync-query .table th,
+	#modal-pac-sync-query .table td{text-align: center;border:0;}
+</style>
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">影像列表</h4>
+</div>
+<div class="modal-body " id="modal-pac-sync-query">
+	<div class="beanquerywhere row smart-form">
+		<div class="col col-3"><label class="label">患者姓名：</label>
+			<div class="input"><input type="text" v-model="form.patientName" /></div>
+		</div>
+		<div class="col col-3"><label class="label">检查编号：</label>
+			<div class="input"><input type="text" v-model="form.checkNo" /></div>
+		</div>
+		<div class="col col-3"><label class="label">影像类型：</label>
+			<div class="input"><input type="text" v-model="form.checkType" /></div>
+		</div>
+		<div class="col col-3"><label class="label">缴费单号：</label>
+			<div class="input"><input type="text" v-model="form.mzNumber" /></div>
+		</div>
+		<div class="col col-3"><label class="label">住院号：</label>
+			<div class="input"><input type="text" v-model="form.patientId" style="text-indent: 4em;"/></div>
+		</div>
+		<div class="col col-3"><label class="label">日期：</label>
+			<div class="input"><input type="text" v-model="form.regtime" class="datepicker" data-dateformat='yyyy-mm-dd' style="text-indent: 3em;"/></div>
+		</div>
+		<div class="col col-6">
+			<button type="button" @click="queryPacList" :disabled="isload || validate()" class="btn btn-primary"><i class="fa fa-search"></i> 检索</button>			
+		</div>
+	</div>
+	<div class="queryResult">
+		<template v-if="list.length > 0">
+			<div class="dt-toolbar clearfix">
+				<div class="pull-right">
+					<button type="button" :disabled="!checked.length" @click="synchPac('add')" class="btn btn-danger" title="追加到已同步数据之后（去重）"><i class="fa fa-plus"></i> 追加同步</button>
+					<button type="button" :disabled="!checked.length" @click="synchPac('all')" class="btn btn-danger" title="覆盖之前已同步的数据"><i class="fa fa-random"></i> 覆盖同步</button>
+				</div>
+			</div>
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>病人ID</th>
+						<th>交费单号</th>
+						<th>检查编号</th>
+						<th>日期</th>
+						<th style="width:20%">检查项</th>
+						<th>影像类型</th>
+						<th>选择</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="tr in list" @click="setChecked($event)">
+						<td>{{ tr.kvs['Patient_Name'] }}</td>
+						<td>{{ tr.kvs['Patient_ID'] }}</td>
+						<td>{{ tr.kvs['MZ_Number'] }}</td>
+						<td>{{ tr.kvs['Check_No'] }}</td>
+						<td v-bind:title="tr.kvs['REGISTER_DATE']">{{ tr.kvs['REGISTER_DATE'] }}</td>
+						<td v-bind:title="tr.kvs['Check_Item_E']">{{ tr.kvs['Check_Item_E'] }}</td>
+						<td>{{ tr.kvs['Modality'] }}</td>
+						<td><input type="checkbox" class="tablechk" v-bind:value="'@' + tr.kvs['Modality'] +':'+ tr.kvs['Image_Directory']"/></td>
+					</tr>					
+				</tbody>
+			</table>
+		</template>
+		<template v-else >
+			<section v-if="!isload" class="noresult">
+				<img src="../img/noresult.png" style="width:24px;" alt="">
+			</section>
+		</template>
+		<section v-if="isload" class="loading">
+			<img src="../img/loading/31.gif" style="width:32px;" alt="">
+		</section>
+	</div>
+</div>
+<script>
+	(function(){
+		var pacSyncQuery = new Vue({
+			el: '#modal-pac-sync-query',
+			data: {
+				form:{
+					orderid: Page.mainForms.caseid,
+					patientName:'',
+					checkNo:'',
+					checkType:'',
+					mzNumber:'',
+					patientId:'',
+					regtime:''
+				},
+				list:[],
+				checked: [],
+				isload: false
+			},
+			methods: {
+				validate: function(){
+					return (!this.form.patientName && 
+							!this.form.checkNo && 
+							!this.form.checkType && 
+							!this.form.mzNumber && 
+							!this.form.patientId && 
+							!this.form.regtime)
+				},
+				setChecked: function(e){
+					var input;
+					if(e.target.tagName != 'INPUT'){
+						input = $(e.currentTarget).find('input').get(0);
+						input.checked = !input.checked;
+					}
+					this.checked = (function(){
+						var a = [];
+						$('#modal-pac-sync-query tbody :checked').each(function(){
+							a.push(this.value);
+						});
+						return a;
+					})();
+				},
+				queryPacList: function(){
+					this.isload = true;
+					window.setTimeout(function(){
+						pacSyncQuery.isload = false;
+						pacSyncQuery.list = (function(){
+							var list = [];
+							for(var i=0;i<8;i++){
+								list.push({
+									kvs : {
+										"Patient_Name" : "张三_" + i,
+										"Patient_ID" : "1_" + i ,
+										"MZ_Number" : "2_" + i,
+										"Check_No" : "3_" + i,
+										"REGISTER_DATE" : "2015-11-22_" + i,
+										"Check_Item_E" : "节圧_" + i,
+										"Modality" : "节能_" + i,
+										"Image_Directory" : "Model/file/jpg.jpg_" + i
+									}
+								});
+							}
+							return list;
+						})();
+					},3000);					
+					return false;
+					$.post('/doctor/pacsadvance',this.form)
+					.done(function(data){
+						pacSyncQuery.list = data.pacbeans || [];
+					})
+					.fail(function(){})
+					.always(function(){
+						pacSyncQuery.isload = false;
+					});
+
+				},
+				synchPac: function(sign){
+					$.smallBox({
+						title : "数据维护中",
+						content : "",
+						color : $.color.success,
+						iconSmall : "fa fa-times",
+						timeout : 3000
+					});
+					return false;
+					$.post('/doctor/syncpacsadvance',{
+						oid:'',
+						imagedirs:'',
+						syncType:''		
+					})
+					.done(function(data){
+						pacSyncQuery.list = data.pacbeans || [];
+					})
+					.fail(function(){})
+					.always(function(){
+						pacSyncQuery.isload = false;
+					});
+				}
+			}
+		})
+	})();
+</script>

@@ -1,0 +1,175 @@
+<?
+	var location = @location;
+?>
+<?if(@type=='1'){?>
+	<div id="twdiv">
+		<div style="height:65px;">&ensp;</div>
+		<div id="twdocinfo" class="g_fixed topdocdetail hhlist box">
+			<div class="cols0"><span class="thumb"><img src="<?=@data.special.listSpecialPicture || 'https://develop.ebaiyihui.com:443/img/defdoc.jpg'?>"></span></div>
+			<div class="cols1">
+				<p class="whitespace"><b><?=@data.special.specialName ?></b>&emsp;<span><?=@data.special.depName ?>&emsp;<?=@data.special.duty ?></span></p>
+				<p class="whitespace"><span><?=@data.special.hosName ?></span></p>
+			</div>
+			<?if(@data.twinfo.status == '20'){?> 
+				<div class="cols0"><button type="button" id="endorder">结束问诊</button></div>
+			<?}?>
+		</div>
+		<div id="message" class="dialog">
+			<div class="bodyer">
+				<div class="timer"><?=@data.caseinfo.timeStr ?></div>
+				<div class="hhlist clearfix me border2">								
+					<span class="cols0"><span class="thumb"><img src="https://develop.ebaiyihui.com:443/img/defdoc.jpg"></span></span>
+					<span class="cols1">
+						<span class="text hasimgview">
+							<a href="<?=(location.origin + location.pathname + location.search)?>#casedetail" class="casedetaila">
+								<span>性&emsp;&emsp; 别：<?=@data.caseinfo.sex == '1' ? '男' : '女' ?></span>
+								<span>病情描述：<?=(@data.caseinfo.presentIll || '').substr(0,22) ?></span>
+								<label>查看详情》</label>
+							</a>
+						</span>
+					</span>
+				</div>
+				<?for(var i = 0,msg = @data.messages,l = msg.length;i<l;i++){?>
+					<div class="timer"><?=msg[i].msgTime ?></div>
+					<?
+						var cls,imgsrc = 'https://develop.ebaiyihui.com:443/img/defdoc.jpg';
+						msg[i].sendType != '1' ? (cls = ' doc',imgsrc = @data.special.listSpecialPicture || imgsrc) : (cls = ' me');
+					?>
+					<div class="hhlist clearfix<?=cls?>">								
+						<span class="cols0"><span class="thumb"><img src="<?=imgsrc?>"></span></span>
+						<span class="cols1">
+							<span class="text hasimgview">
+								<?if(msg[i].msgType == 'audio/amr'){?> 
+									<audio src="<?=msg[i].fileUrl ?>" controls="controls">当前浏览器不支持.</audio>
+								<?}else if(msg[i].msgType == 'image/jpg'){?> 
+									<a href="javascript:;"  style="display:inline-block;width:80px;"><img src="<?=msg[i].fileUrl || '' ?>" style="width:100%;"/></a>
+								<?}else{?>
+									<?=msg[i].msgContent ?>&emsp;
+								<?}?>
+							</span>
+						</span>
+					</div>
+				<?}?>
+			</div>
+		</div>
+		<?if(@data.twinfo.status == '20'){?> 
+			<div id="sendmsg" class="dialog g_fixed">
+				<div class="footer box">
+					<?if(@data.twinfo.payStatus == '4'){?>
+						<button type="button" class="cols1 bottombtn" id="tocontinuepay"><i class="iconfont">&#xe62b;</i>去支付</button>
+					<?}else{?>
+						<div class="cols1">
+							<div class="inputandimg box">
+								<div class="selectimg">
+									<i class="iconfont">&#xe626;</i>
+									<div id="selectfile"></div>
+								</div>
+								<div class="selectinput cols1">
+									<input type="text" name="sendtext"  id="sendtext" placeholder="请在此输入内容" />											
+								</div>
+							</div>
+						</div>
+						<div class="cols0">
+							<button type="button" id="btnsendmsg" class="btnsent">发送</button>
+						</div>
+					<?}?>
+				</div>
+			</div>
+			<div style="height:40px;">&ensp;</div>
+		<?}?>
+	</div>
+<?}else if(@type=='2'){?>
+	<?
+		var tel = @data.telinfo,cae = @data.caseinfo || {};
+	?>
+	<div id="teldiv">
+		<div class="mycaseinfos">    	
+		 	<div class="blockdiv">
+		 		<header><span>患者信息</span></header>
+		 		<section>
+		 			<p>患者姓名：<?=cae.contactName || ''?></p>
+		 			<p>患者电话：<?=cae.telephone || ''?></p>
+		 			<p>患者性别：<?=cae.sex=='1' ? '男' : '女'?></p>
+		 			<p>患者年龄：<?=cae.age || ''?></p>
+		 			<p>咨询目的：<?=cae.askProblem || ''?></p>
+		 		</section>
+				<a href="<?=(location.origin + location.pathname + location.search)?>#casedetail" class="casedetaildt box">
+					<span class="cols1">查看病历</span>
+					<span class="cols0"><i class="iconfont">&#xe60a;</i></span>
+				</a>
+		 	</div>
+		 	<div class="blockdiv footer">
+		 		<section>
+		 			<p>订单编号：<?=tel.id || ''?></p>
+		 			<p>订单提交时间：<?=tel.timeStr || ''?></p>
+		 			<p>订单金额：<?=@data.money?>元</p>
+		 			<p>订单状态：<?=tel.desc?></p>
+		 		</section>
+		 	</div>
+		</div>
+	</div>
+	<?if(@data.telinfo.payStatus == '4'){?> 
+		<div id="sendmsg" class="dialog g_fixed">
+			<div class="footer box">
+				<button type="button" class="cols1 bottombtn" id="tocontinuepay"><i class="iconfont">&#xe62b;</i>去支付</button>
+			</div>
+		</div>
+		<div style="height:40px;">&ensp;</div>
+	<?}?>
+<?}else if(@type=='4'){?>
+	<?
+		var rem = @data.reminfo || {},ca = @data.caseinfo || {};
+	?>
+	<div id="remdiv">
+		<div class="mycaseinfos">    	
+		 	<div class="blockdiv">
+		 		<header><span>患者信息</span></header>
+		 		<section>
+		 			<p>患者姓名：<?=rem.patientName || ''?></p>
+		 			<p>就诊医院：<?=rem.localHosName || ''?></p>
+		 			<p>本地科室：<?=rem.localDepName || ''?></p>
+		 			<p>服务专家：<?=rem.expertName || ''?></p>
+		 			<p>咨询目的: <?=ca.askProblem || ''?></p>
+		 			<p>客服电话：<a href="tel:400-631-9377" style="color:#FF9C61">400-631-9377</a></p>
+		 		</section>
+		 	</div>
+		 	<div class="blockdiv footer">
+		 		<section>
+		 			<p>订单编号：<?=rem.id || ''?></p>
+		 			<p>订单提交时间：<?=rem.timeStr || ''?></p>
+		 			<p>预约时间：<?=rem.conDate || ''?></p>
+		 			<p>订单金额：<?=@data.money?>元</p>
+		 			<p>订单状态：<?=rem.desc?></p>
+		 		</section>
+		 	</div>
+		</div>
+	</div>
+	<?if(@data.reminfo.payStatus == '4'){?> 
+		<div id="sendmsg" class="dialog g_fixed">
+			<div class="footer box">
+				<button type="button" class="cols1 bottombtn" id="tocontinuepay"><i class="iconfont">&#xe62b;</i>去支付</button>
+			</div>
+		</div>
+		<div style="height:40px;">&ensp;</div>
+	<?}?>
+<?}?>
+<?if(@config.iseval == 'no' && @config.flag == 'complete'){?> 
+	<div id="sendpingj" class="dialog g_fixed">
+		<div class="footer box">
+			<a href="<?=@base?>wzjh/toestimate?oid=<?=@config.oid?>&openid=<?=@config.openid?>&ltype=<?=@config.type?>" class="cols1 bottombtn"><i class="iconfont">&#xe62c;</i>去评价</a>
+		</div>
+	</div>
+	<div style="height:40px;">&ensp;</div>
+<?}else if(@config.iseval == 'yes' && @config.flag == 'complete'){?> 
+	<div id="sendpingj" class="dialog g_fixed">
+		<div class="footer box">
+			<a href="<?=@base?>propagate/doctordetail/<?=@data.special.specialId?>?openid=<?=@config.openid?>" class="cols1 bottombtn"><i class="iconfont">&#xe62c;</i>查看评价</a>
+		</div>
+	</div>
+	<div style="height:40px;">&ensp;</div>
+<?}?>
+<script>
+	seajs.use('view/wx/twtelupload',function(aa){
+		aa.myorder_detail_order();
+	});
+</script>

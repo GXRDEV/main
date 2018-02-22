@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 专家端除下单外短信发送配置  1为打开，0为关闭-->
+<openorclose>0</openorclose>

@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>专家管理</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,maximum-scale=1.0" />
+	<link rel="stylesheet" href="../css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../fonticon/base/iconfont.css" type="text/css"></link>
+    <link href="../css/view/hosin.css" rel="stylesheet" />
+</head>
+<body class="hosinhtml">
+	<div class="tips">填写入驻医院信息（带<b>*</b>为必填项，为了便于审核，如实填写）</div>
+	<form class="row-fluid form-horizontal"  method="post" id="myform">
+		<div class="userinfo">
+			<div class="header clearfix processtap">
+				<span class="step step1 passed"><span>1.填写资料</span><span class="arr"></span></span>
+				<span class="step step2"><span>2.上传授权文件</span><span class="arr"></span></span>
+				<span class="step step3"><span>3.提交成功，待审核</span></span>
+			</div>
+			<div class="bodyer">
+				<div class="section1">
+					<div class="bodyer clearfix">
+						 <div class="control-group">
+						    <label class="control-label"><b>*</b>医院名称：</label>
+						    <div class="controls">
+						    	<input type="text" name="displayName" class="input" />
+			    			</div>
+			 			 </div>
+			 			 <div class="control-group">
+						    <label class="control-label"><b>*</b>医院等级：</label>
+						    <div class="controls">
+						    	<select name="hospitalLevel" data-pid="3" class="input js-ajax"></select>
+			    			</div>
+			 			 </div>
+						 <div class="control-group w60p">
+						    <label class="control-label"><b>*</b>医院类型：</label>
+						    <div class="controls">
+						    	<select name="hosType" data-pid="20" class="input js-ajax"></select>
+			    			</div>
+			 			 </div>
+			 			 <div class="control-group w40p">
+						    <label class="control-label" style="width:100px">医院性质：</label>
+						    <div class="controls" style="margin-left:100px">
+						    	<select name="hosProperty" data-pid="19" class="input js-ajax"></select>
+			    			</div>
+			 			 </div>
+			 			 <div class="control-group">
+						    <label class="control-label"><b>*</b>所属地域：</label>
+						    <div class="controls twoinput">
+						    	<input type="hidden" name="distCode" value=""/>
+						    	<select name="pro" class="bindchange input" data-type="city" style="width:45%;">
+						    		<option value="">---请选择---</option>
+						    	</select>
+						    	<select name="city" class="bindchange input" data-type="hosid" style="width:54%;">
+						    		<option value="">---请选择---</option>
+						    	</select>
+			    			</div>
+			 			 </div>
+			 			 <div class="control-group w60p">
+						    <label class="control-label"><b>*</b>联系人姓名：</label>
+						    <div class="controls">
+						    	<input type="text" name="contactorName" class="input" />
+			    			</div>
+			 			 </div>
+			 			 <div class="control-group w40p">
+						    <label class="control-label" style="width:100px">联系人职务：</label>
+						    <div class="controls" style="margin-left:100px">
+						    	<input type="text" name="contactorDuty" class="input" />
+			    			</div>
+			 			 </div>
+			 			 <div class="control-group w60p">
+						    <label class="control-label"><b>*</b>联系人电话：</label>
+						    <div class="controls">
+						    	<input type="text" name="contactorTelphone" class="input" />
+			    			</div>
+			 			 </div>
+			 			 <div class="control-group w40p">
+						    <label class="control-label" style="width:100px">联系邮箱：</label>
+						    <div class="controls" style="margin-left:100px">
+						    	<input type="text" name="contactorEmail" class="input" />
+			    			</div>
+			 			 </div>	
+			 			 <div class="control-group">
+						    <label class="control-label">医院简介：</label>
+						    <div class="controls ">
+						    	<textarea name="hosProfile" class="input"></textarea>
+			    			</div>
+			 			 </div>
+			 			 <div class="control-group">
+						    <label class="control-label">特色门诊：</label>
+						    <div class="controls ">
+						    	<input type="text" name="characteristicClinic" class="input" />
+			    			</div>
+			 			 </div>	
+						 <div class="control-group">
+						    <label class="control-label">医院官网：</label>
+						    <div class="controls">
+						    	<input type="text" name="hosWebSite" class="input" />
+			    			</div>
+			 			 </div>
+						 <div class="control-group w60p">
+						    <label class="control-label">日门诊量：</label>
+						    <div class="controls">
+						    	<input type="number" name="dailyOutpatientNumber" class="input" />
+			    			</div>
+			 			 </div>
+						 <div class="control-group w40p">
+						    <label class="control-label" style="width:100px">床位数量：</label>
+						    <div class="controls" style="margin-left:100px">
+						    	<input type="number" name="dailyAppointNumber" class="input" />
+			    			</div>
+			 			 </div>
+						 <div class="control-group">
+						    <label class="control-label">上级转诊医院：</label>
+						    <div class="controls">
+						    	<input type="text" name="externalAppointmentApproach" class="input" />
+			    			</div>
+			 			 </div>
+			 			 <div class="form-action">
+						    <input type="hidden" name="coohos" value="1"/>
+						    <input type="hidden" name="dockingMode" value="1"/>
+			 			 	<button type="button" class="btn btn-primary" data-step="2" name="nextstep">下一步</button>
+			 			 </div>
+					</div>					
+				</div>
+				<div class="section2">				
+		 			 <div class="control-group">
+					    <label class="control-label">授权文件：</label>
+					    <div class="controls">
+					    	<div id="picsauthorizeFile" class="diyUpload">
+								<div class="parentFileBox">
+									<ul class="fileBoxUl clearfix">
+										<li class="actionAdd">
+											<div id="addauthorizeFile"><i class="iconfont"></i><label>点击上传</label></div>
+										</li>
+									</ul>
+								</div>
+								<input type="hidden" id="authorizeFile" class="input" name="authorizeFile" value=""/>			
+							</div>
+		    			</div>
+		 			 </div>		
+		 			 <div class="form-action">
+		 			 	<button type="button" class="btn btn-primary submitform" name="nextstep" data-step="3">提交</button>
+		 			 	<button type="button" class="btn" name="nextstep" data-step="1"><i class="iconfont">&#xe61f;</i>返回上一步</button>
+		 			 </div>		
+				</div>
+				<div class="section3" style="padding:30px 0 50px;">
+					 <div class="retultdiv">
+					 	<h2>恭喜您！您的申请已提交。</h2>
+					 	<p><span>我们将在2个工作日内给您回复，请您耐心等待。<br>如有问题，请拨打客服电话：400-631-9377</span></p>
+					 </div>
+		 			 <div class="form-action">
+		 			 	<button type="button" class="btn" name="nextstep" data-step="0"><i class="iconfont">&#xe61f;</i>返回主页</button>
+		 			 </div>		
+				</div>
+			</div>
+		</div>
+	</form>
+	<script src="../js/jquery.min.js"></script> 
+	<script src="../js/bootstrap.min.js"></script> 
+	<script src="../sea-modules/seajs/2.2.3/sea.js" id="seajsnode"></script>
+	<script src="../sea-modules/seajs/seajs.config.js"></script>
+	<script type="text/javascript">
+		var _burl = window.location.origin + '/',_h = _burl,_id = '';
+		seajs.use('view/hosin/main',function(controller){
+			controller.hosinform();
+		});
+	</script>
+</body>
+</html>
+

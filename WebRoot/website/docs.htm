@@ -1,0 +1,24 @@
+<div class="remoteDiv docvideoDiv">    	
+	<div class="w1200 clearfix">
+		<div class="sectionleft fleft">		    	
+	    	<div class="queryresults blockdiv">
+	    		<div class="header">
+	    			<h2 class="h">相关视频</h2>
+	    		</div>
+	    		<div class="clearfix queryresult h hasvideolists"></div>
+	    	</div>			    	
+    	</div>
+    	<div class="sectionright fright">
+			<div class="blockdiv h clearfix">
+				<a href="<?=base?>app/login.html" target="_blank" style="display:block;">
+					<img src="<?=base?>img/website/enter.png" alt="" style="width:100%;"/>
+				</a>
+			</div>
+		</div>
+   	</div>			
+</div>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.docs();
+	});
+</script>

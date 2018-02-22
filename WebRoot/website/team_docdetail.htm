@@ -1,0 +1,50 @@
+<?
+	var picurl = @data['detailsProfilePicture'] || @data['listSpecialPicture'];
+?>
+<div class="docdetailDiv">    	
+ 	<div class="w1200">
+ 		<div class="blockdiv docdetail">
+ 			<div class="thumbviews">
+ 				<div class="thumb">
+	 				<?if(picurl){?>
+						<?if(picurl.indexOf('://') != -1){?>
+							<img src="<?=picurl.replace('http://','https://')?>?x-oss-process=image/resize,m_fill,h_100,w_100"/>
+						<?}else{?>
+							<img src="http://wx.15120.cn/SysApi2/Files/<?=picurl?>"/>
+						<?}?>			
+					<?}else{?>
+						<img src="<?=@base?>img/defdoc.jpg"/>
+					<?}?>
+ 				</div>
+ 			</div>
+ 			<div class="docinfos" data-id="<?=@data['specialId']?>" data-name="<?=@data['specialName']?>" data-hos="<?=@data['hosName']?>" data-dep="<?=@data['depName']?>">
+ 				<p>
+ 					<span style="font-size:20px;color:#333;"><?=@data['specialName']?></span>&emsp;
+ 					<span style="line-height:1.8em;color:#828282">
+ 						<?=@data['duty']?>
+ 						<?if((@data['profession']||'') == '教授'){?>
+ 							/<?=@data['profession']?>
+ 						<?}?>
+ 					</span> 					
+ 				</p>
+ 				<p style="color:#07C595"><?=@data['hosName']?>&emsp;<?=@data['depName']?></p>
+ 				<!-- <p class="layout2"><label>从医</label><span>20年</span></p> -->
+ 				<p class="layout1"><label>擅长：</label><span><?=(@data['specialty'] || '')?></span></p>
+ 				<p class="layout1"><label>简介：</label><span><?=(@data['profile'] || '')?></span></p>
+ 			</div>
+ 		</div>
+   	</div>			
+</div>
+<form method="post" action="<?=base?>kangxin/confirmorderandpay#confirmpay" target="_blank" id="confirmpay">
+	<input type="hidden" name="expertId" value="<?=@data['specialId']?>" />
+	<input type="hidden" name="localHosId" value="" />
+	<input type="hidden" name="localDepartId" value="" />
+	<input type="hidden" name="stimeid" value="" />
+	<input type="hidden" name="uid" value="" />
+	<input type="hidden" name="pmoney" value="<?=(@data['vedioAmount'] || '200')?>" />
+</form>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.team_docdetail();
+	});
+</script>

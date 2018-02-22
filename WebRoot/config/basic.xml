@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<openremote>new</openremote>
+<openorclose>0</openorclose>
+<getui>online</getui><!-- offline测试，online线上 -->
+<orderPrefix_remote>o_r_</orderPrefix_remote><!-- 远程门诊 -->
+<orderPrefix_zaixian>o_w_</orderPrefix_zaixian><!-- 在线问诊 -->
+<twbody>图文问诊</twbody>
+<telbody>电话问诊</telbody>
+<remotebody>远程门诊</remotebody>
+<remotesubbody>远程会诊</remotesubbody><!-- 远程门诊子项目 -->
+<imchatmode>2</imchatmode><!-- 融云 环境配置，测试环境 1，生产环境 2 -->
+<fen_zhen_ren_tel>13681473419</fen_zhen_ren_tel><!-- 分诊人电话 -->
+<yun_wei_ze_ren_tel>13681473419</yun_wei_ze_ren_tel><!-- 运维团队负责人 -->
+<bindtel></bindtel><!-- 绑定微信公号发送短信电话  -->
+<resource>test</resource><!-- 动态配置线上线下 读取resource资源文件 -->
+<bountyStatus>true</bountyStatus><!-- 动态配置是否发放奖励金 -->
+<bountyMoney>10</bountyMoney><!-- 动态配置发放奖励金金额 -->
+<teambountyStatus>true</teambountyStatus><!-- 动态配置是否给团队负责人发送奖励金 -->
+<teambountyMoney>50</teambountyMoney><!-- 动态配置团队负责人发放奖励金金额 -->
+<service>false</service><!-- 动态控制是否开启默认服务开通 -->
+</root>

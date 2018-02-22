@@ -1,0 +1,209 @@
+<!-- Bread crumb is created dynamically -->
+
+<!-- row -->
+<div class="gloal-title">
+
+</div>
+<div class="full-table margin-l-r-20-0 margin-t--50">
+	<!-- widget content -->
+	<div class="widget-body table-responsive no-padding">
+		<table id="dt_basic" class="table table-hover remotetable" width="100%">
+			<thead>			                
+				<tr>
+					<th data-hide="phone" class="w10p">专家信息</th>
+					<th data-class="expand">状态</th>
+					<th data-hide="phone" class="w20p">患者信息</th>
+					<th>联系方式</th>
+					<th data-hide="phone,tablet">开始时间</th>
+					<th data-hide="phone,tablet">下单时间</th>
+					<th data-hide="phone,tablet">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<span class="block img-txt">
+							<span class="thumb">
+								<img src="img/avatars/1.png" class="img-rounded">
+							</span>
+							<span class="text block">
+								<b class="block whitespace">朱步东</b>
+								<span class="block whitespace txt-color-grayDark">北京医学院中医治疗部</span>
+							</span>
+						</span>
+					</td>
+					<td>准备就绪</td>
+					<td>
+						<span class="block whitespace font-md">张国华&ensp;男&ensp;53岁</span>
+						<span class="inblock whitespace txt-color-grayDark w90p">我是一段很长的文字到底有多长，我来告诉你一下，他就是很长长的呀</span>
+					</td>
+					<td>18312345678</td>
+					<td>09-10 08:50</td>
+					<td>09-08 05:45</td>
+					<td>
+						<a href="#ajax/advice.html">查看详情</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="block img-txt">
+							<span class="thumb">
+								<img src="img/avatars/1.png" class="img-rounded">
+							</span>
+							<span class="text block">
+								<b class="block whitespace">朱步东</b>
+								<span class="block whitespace txt-color-grayDark">北京医学院中医治疗部</span>
+							</span>
+						</span>
+					</td>
+					<td>准备就绪</td>
+					<td>
+						<span class="block whitespace font-md">张国华&ensp;男&ensp;53岁</span>
+						<span class="inblock whitespace txt-color-grayDark w90p">我是一段很长的文字到底有多长，我来告诉你一下，他就是很长长的呀</span>
+					</td>
+					<td>18312345678</td>
+					<td>09-10 08:50</td>
+					<td>09-08 05:45</td>
+					<td>
+						<a href="#ajax/advice.html">查看详情</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- your contents here -->
+	<div class="jarviswidget-editbox">
+		<!-- This area used as dropdown edit box -->
+	</div>
+	<!-- end widget edit box -->
+</div>
+
+<!-- end row -->
+
+
+
+<script type="text/javascript">
+	
+
+	pageSetUp();
+	
+	/*
+	 * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+	 * eg alert("my home function");
+	 * 
+	 * var pagefunction = function() {
+	 *   ...
+	 * }
+	 * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+	 * 
+	 * TO LOAD A SCRIPT:
+	 * var pagefunction = function (){ 
+	 *  loadScript(".../plugin.js", run_after_loaded);	
+	 * }
+	 * 
+	 * OR you can load chain scripts by doing
+	 * 
+	 * loadScript(".../plugin.js", function(){
+	 * 	 loadScript("../plugin.js", function(){
+	 * 	   ...
+	 *   })
+	 * });
+	 */
+	
+	// pagefunction
+	
+	var pagefunction = function() {
+		// clears the variable if left blank
+		/* // DOM Position key index //
+		
+			l - Length changing (dropdown)
+			f - Filtering input (search)
+			t - The Table! (datatable)
+			i - Information (records)
+			p - Pagination (paging)
+			r - pRocessing 
+			< and > - div elements
+			<"#id" and > - div with an id
+			<"class" and > - div with a class
+			<"#id.class" and > - div with an id and class
+			
+			Also see: http://legacy.datatables.net/usage/features
+		*/
+		/* BASIC ;*/
+			var responsiveHelper_dt_basic = undefined;
+			var responsiveHelper_datatable_fixed_column = undefined;
+			var responsiveHelper_datatable_col_reorder = undefined;
+			var responsiveHelper_datatable_tabletools = undefined;
+			
+			var breakpointDefinition = {
+				tablet : 1024,
+				phone : 480
+			};
+
+			$('#dt_basic').dataTable({
+				"sDom": "t" + "<'dt-toolbar-footer clearfix'<'col-sm-6 col-xs-12 hidden-xs'f><'col-xs-12 col-sm-6'p>>",
+				"oLanguage": {
+					"sSearchPlaceholder": '搜索',
+					"sSearch": '<div class="tabfliters"><a class="selected" href="#">进行中</a><a href="#">历史订单</a></div><i class="fa fa-angle-right"></i>',
+					"sProcessing": "正在获取数据，请稍后...",
+					"sZeroRecords": "没有您要搜索的内容",
+					"oPaginate": {
+						"sFirst": "第一页",
+						"sPrevious": "上一页",
+						"sNext": "下一页",
+						"sLast": "最后一页"
+					}
+				},
+				"preDrawCallback" : function() {
+					// Initialize the responsive datatables helper once.
+					if (!responsiveHelper_dt_basic) {
+						responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+					}
+				},
+				"rowCallback" : function(nRow) {
+					responsiveHelper_dt_basic.createExpandIcon(nRow);
+				},
+				"drawCallback" : function(oSettings) {
+					responsiveHelper_dt_basic.respond();
+				}
+			});
+
+		/* END BASIC */
+
+	};
+	
+	// end pagefunction
+
+	// destroy generated instances 
+	// pagedestroy is called automatically before loading a new page
+	// only usable in AJAX version!
+
+	var pagedestroy = function(){
+		
+		/*
+		Example below:
+
+		$("#calednar").fullCalendar( 'destroy' );
+		if (debugState){
+			root.console.log("✔ Calendar destroyed");
+		} 
+
+		For common instances, such as Jarviswidgets, Google maps, and Datatables, are automatically destroyed through the app.js loadURL mechanic
+
+		*/
+	}
+
+	// end destroy
+	
+	// run pagefunction
+	loadScript("js/plugin/datatables/jquery.dataTables.min.js", function(){
+		loadScript("js/plugin/datatables/dataTables.colVis.min.js", function(){
+			loadScript("js/plugin/datatables/dataTables.tableTools.min.js", function(){
+				loadScript("js/plugin/datatables/dataTables.bootstrap.min.js", function(){
+					loadScript("js/plugin/datatable-responsive/datatables.responsive.min.js", pagefunction)
+				});
+			});
+		});
+	});
+	
+</script>

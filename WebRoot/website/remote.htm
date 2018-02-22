@@ -1,0 +1,55 @@
+<div class="remoteDiv">    	
+	<div class="w1200 clearfix">
+		<div class="sectionleft fleft">
+	    	<div class="blockdiv querywhere h">
+	    		<dl>
+	    			<dd>
+	    				<label class="query_label">开通省份</label>
+	    				<span class="query_ops height opencitys">
+	    					<a class="changecity">
+		    					切换<i class="iconfont">&#xe60b;</i>
+		    				</a>
+	    				</span>
+	    				<a class="query_more">
+	    					更多<i class="iconfont">&#xe60b;</i>
+	    				</a>
+	    			</dd>
+	    			<dd>
+	    				<label class="query_label">当地合作医院</label>
+	    				<span class="query_ops height openhos"><a href="javascript:void(0)"></a></span>
+	    				<a class="query_more">
+	    					更多<i class="iconfont">&#xe60b;</i>
+	    				</a>
+	    			</dd>
+	    			<dd class="last-ops">
+	    				<label class="query_label">选择科室</label>
+	    				<span class="query_ops height opendeps"><a href="javascript:void(0)"></a></span>
+	    				<a class="query_more">
+	    					更多<i class="iconfont">&#xe60b;</i>
+	    				</a>
+	    			</dd>
+	    		</dl>
+	    	</div>
+			    	
+	    	<div class="queryresults blockdiv">
+	    		<div class="header">
+	    			<h2 class="h">相关专家</h2>
+	    			<span>根据您的筛选，我们为您匹配来自全国各三甲医院顶级专家</span>
+	    		</div>
+	    		<div class="clearfix queryresult h hasdoclists"></div>
+	    	</div>			    	
+    	</div>
+    	<div class="sectionright fright">
+			<div class="blockdiv h clearfix">
+				<a href="<?=base?>app/login.html" target="_blank" style="display:block;">
+					<img src="<?=base?>img/website/enter.png" alt="" style="width:100%;"/>
+				</a>
+			</div>
+		</div>
+   	</div>			
+</div>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.remote();
+	});
+</script>

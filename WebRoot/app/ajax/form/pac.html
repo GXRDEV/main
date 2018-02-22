@@ -1,0 +1,47 @@
+<div id="pac-list" class="pac-templet">
+    <div class="row header">
+		<div class="pull-left"><slot name="title"></slot></div>
+        <div class="pull-right">
+            <template v-if="fdata.edit" style="display: inline-block">
+                <button type="button" @click="synchPacWithUpload" class="btn btn-primary upload-img"><i class="iconfont icon-upload"></i> 上传数字影像</button>
+                <!--<button type="button" @click="synchImgPacWithUpload" class="btn btn-primary"><i class="iconfont icon-upload"></i> 上传图片影像</button>-->
+                <button type="button" v-if="edit && isDeepModal()" @click="synchPacWithQuery" class="btn btn-default"><i class="iconfont icon-upload"></i> 高级同步</button>
+            </template>
+            <slot name="actions"></slot>
+        </div>
+    </div>
+    <section class="pac-list" v-if="fdata.form.list.length > 0">
+        <div v-for="pac in fdata.form.list" v-if="pac.beans.length > 0" class="blocklist pacsSignlist flex vue" :class="pac.key">
+            <div class="pacsSign"><span class="sing" v-text="pac.key"></span></div>
+            <div class="pac-outer f1">					
+                <a href="javascript:;" v-for="b in pac.beans" class="paclist" >
+                    <div class="thumb" @click="showPacDetail(b.key, b.kvs.patient_id, b.studyId)">
+                        <img :src="'../dcmimage?study='+ b.studyId +'&series='+ b.seriesId +'&object='+ b.instanceId" :alt="b.remark + '('+ b.kvs.Check_Item_E +')'">
+                    </div>
+                    <div class="diyFileName">
+                        <span v-if="!fdata.edit" v-html="b.remark + '(<i>'+ b.kvs.Check_Item_E +'</i>)'"></span>
+                        <textarea v-else class="editFileName" v-on:change="saveFileName(pac.key, b.key, b.kvs.Check_Item_E)" v-model="b.kvs.Check_Item_E"></textarea>
+                    </div>
+                    <div class="icon-del" @click="removeItem(pac.key, b.key)" v-if="fdata.edit"><span>×</span></div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <template v-else >
+        <section v-if="fdata.form.img_list.length < 1 && !fdata.isload" class="noresult">
+            <img src="../img/noresult.png" style="width:24px;" alt="">
+        </section>
+    </template>
+    <section v-if="fdata.isload" class="loading">
+        <img src="../img/loading/31.gif" style="width:32px;" alt="">
+    </section>
+    <section class="pac-list" v-show="fdata.form.img_list.length > 0">
+        <div class="blocklist pacsSignlist flex vue IMG">
+            <div class="pacsSign"><span class="sing">IMG</span></div>
+            <div class="pac-outer f1" style="margin-left: -10px;">
+                <my-webupload :id="'pacfiles'" :list="fdata.form.img_list" @success="pacfileok" :btn="false" :edit="fdata.edit" :editname="true" ref="pacfiles"></my-webupload>
+            </div>
+        </div>
+    </section>
+</div>
+<!--src="img/avatars/64.png"  :data-->

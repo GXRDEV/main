@@ -1,0 +1,1 @@
+webpackJsonp([96],{72:function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var o=t(1),a=t(47),u=function(e){t.e(0).then(function(){e(t(51))}.bind(null,t)).catch(t.oe)};o.a.use(a.a),n.default=new a.a({routes:[{path:"/",name:"Hello",component:u}]})}},[72]);

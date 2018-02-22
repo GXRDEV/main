@@ -1,0 +1,46 @@
+.widget-box{margin-top:0;}
+.addarea{text-align:right; padding:25px 0 10px;}
+.addarea .btn{width:8em;}
+.btn-content {color: #FFF;background: #08c url();border: 1px solid #64BAC7;border-radius: 3px;text-shadow: 0px 1px 1px #666;}
+.linebtn{display: inline-block;
+    background-color: transparent;
+    border-radius: 1px;
+    padding: 0 10px;
+    color: #FA8945;
+    line-height:1.8em;
+    border: 1px solid #FA8945;
+}
+.linebtn + .linebtn{margin-left:10px;}
+.table td .hasiconfont{margin-left:0;}
+#FormModels form label span{display:block;}
+#FormModels form label input,
+#FormModels form label textarea,
+#FormModels form label select{width:100%;box-sizing:border-box;padding:4px;height:36px;}
+#FormModels form label textarea{height:60px;}
+.loadings,.noresult{text-align:center;opacity:.5;}
+.loadings img,.noresultimg{width:30px!important;}
+.beanquerywhere{text-align:right;}
+.beanquerywhere .selectthis{border:0;background:#009900 url();color:#fff;min-width:5em; padding:5px 0.5em;border-radius:3px;outline: 0;margin-bottom:10px;}
+.beanquerywhere .selectthis{background-color: #f74d4d;}
+.beanquerywhere .selectthis.disabled{cursor:not-allowed;opacity:.4;background-color:#717171;}
+#SelectDocModel td,#SelectDocModel th{text-align:center;}
+
+#SetStandsModel .standslist{display:inline-block;width:33%;padding:0;min-height:22px;}
+
+
+#formeditor{background: none repeat scroll 0 0 #fefefe;
+    margin-left: 0px;
+    margin-right: 0;
+    padding-bottom: 10px;
+    position: relative;
+    min-height: 100%;
+    width: auto;}
+#formeditor h2{line-height:2.5em;padding:0 15px;}
+#formeditor form{margin:15px;}
+#formeditor .form-action{margin:15px;padding:15px 0;border-top:1px dashed #fff;}
+#formeditor .form-action button{width:160px;height:40px;margin-right:10px;border-radius:4px;}
+#formeditor form > label{display:inline-block;padding:10px 0;}
+#formeditor form > label span{display:inline-block;}
+#formeditor form > label input,
+#formeditor form > label select{margin:0 20px 0 0;}
+#formeditor #edui1_iframeholder{min-height:300px;}

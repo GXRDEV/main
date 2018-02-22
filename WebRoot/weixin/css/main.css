@@ -1,0 +1,236 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-size: .875em;
+	font-family: "Microsoft Yahei";
+	background-color: #ebebeb
+}
+
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,blockquote,p
+	{
+	padding: 0;
+	margin: 0
+}
+
+table,td,tr,th {
+	font-size: 12px
+}
+
+li {
+	list-style-type: none
+}
+
+ol,ul {
+	list-style: none
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-size: 12px;
+	font-weight: normal
+}
+
+address,cite,code,em,th {
+	font-weight: normal;
+	font-style: normal
+}
+
+img {
+	border: none
+}
+
+a {
+	text-decoration: none
+}
+
+.serial {
+	float: left;
+	width: 25px;
+	text-align: center;
+	height: 100%;
+	overflow: hidden
+}
+
+.suspend {
+	float: left;
+	overflow: hidden
+}
+
+.grey {
+	background-color: #f9f9f9
+}
+
+.clear {
+	clear: both;
+	height: 0;
+	overflow: hidden
+}
+
+.center {
+	margin: 0 auto;
+	overflow: hidden
+}
+
+.left {
+	float: left;
+	overflow: hidden
+}
+
+.right {
+	float: right;
+	overflow: hidden
+}
+
+.border {
+	background-color: #fff;
+	margin: 10px;
+	padding: 5px;
+	border-radius: 5px;
+	overflow: hidden;
+	box-shadow: 1px 1px 5px #888
+}
+
+.title {
+	font-size: 20px;
+	line-height: 50px;
+	height: 50px;
+	color: #fff;
+	background-color: #78cac6;
+	padding-left: 5px;
+	text-align: center
+}
+
+.star {
+	height: 37px;
+	margin-top: 10px
+}
+
+.star .word {
+	float: left;
+	width: 100px;
+	height: 100%;
+	font-size: 18px;
+	color: #686868;
+	line-height: 37px
+}
+
+.star .core {
+	float: right;
+	height: 100%;
+	overflow: hidden
+}
+
+.star .core li {
+	float: left;
+	width: 28px;
+	height: 27px;
+	margin-top: 0;
+	background: url(images/evaluate/star.png) 0 -27px no-repeat
+}
+
+.star .core .active {
+	background: url(images/evaluate/star.png) 0 0 no-repeat
+}
+
+.upward {
+	height: 48px;
+	width: 48px;
+	position: fixed;
+	right: 5px;
+	bottom: 5px;
+	z-index: 999
+}
+
+.upward img {
+	float: left;
+	width: 100%;
+	height: 100%
+}
+
+.retract {
+	text-indent: 2em
+}
+
+.use {
+	width: 100%;
+	background-color: #4c4c4c
+}
+
+.use .sub_title {
+	overflow: hidden;
+	color: #fff;
+	font-size: 18px;
+	width: 100%;
+	background-color: #4c4c4c
+}
+
+.use .inner {
+	width: 90%
+}
+
+.popupBg {
+	position: fixed;
+	width: 100%;
+	background-color: #000;
+	opacity: .6;
+	top: 0;
+	left: 0;
+	z-index: 99
+}
+
+.popup {
+	position: fixed;
+	width: 80%;
+	z-index: 999;
+	background-color: #fff;
+	display: none
+}
+
+.popup .top {
+	padding: 5px;
+	font-size: 22px;
+	color: #3bb8e6;
+	text-align: center;
+	line-height: 120%;
+	border-bottom: 4px solid #33b5e5
+}
+
+.popup .con {
+	padding: 5px;
+	font-size: 18px;
+	color: #000;
+	line-height: 120%;
+	border-bottom: 1px solid #dcdcdc;
+	margin-top: 5px
+}
+
+.popup .btn {
+	height: 40px;
+	font-size: 20px;
+	color: #000;
+	text-align: center;
+	line-height: 40px
+}
+
+.popup .active {
+	color: #fff;
+	background-color: #33b5e5
+}
+
+.bold {
+	font-weight: bold
+}
+
+.wait {
+	width: 35px;
+	margin: 0 auto;
+	padding-bottom: 5px
+}
+
+.wait .img {
+	height: 35px;
+	width: 35px;
+	background-image:
+		url("http://wx.15120.cn/webapp/Assets/Css/images/evaluate/Waiting.gif")
+		;
+	background-size: 100% 100%
+}

@@ -1,0 +1,12 @@
+.menuicon .menuiconinner .inputsearch input{line-height:44px;}
+.hasdoclists .doclist .thumb{position:relative; width:80%;height:80px;margin:10px auto;overflow:hidden;text-align:center;}
+.hasdoclists .doclist .thumb img{position:static; width:100%;}
+
+
+.mainblocks .hoslists .thumb{padding:0;height:6em;}
+.mainblocks .blockdiv .header h2{display:inline;}
+
+.toptip .toptipinner a{margin-top:6px;line-height:16px;}
+.toptip .toptipinner .usercenter a{margin-top:6px;}
+
+.scrollImgDiv .hoslists .hoslist .inner{bottom:0;}

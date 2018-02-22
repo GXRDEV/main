@@ -1,0 +1,107 @@
+<div class="selectexp flex">
+    <div class="f0 querywhere flex column hidden-xs">
+        <div class="filter f0">
+            <div class="search flex acenter">
+                <i class="fa fa-search f0"></i>
+                <input type="text" class="f1" v-model="keywords" @keyup="loadDoc(1)" placeholder="请输入医院名称、科室、疾病或专家姓名">
+                <i class="fa fa-angle-right f0"></i>
+            </div>
+        </div>
+        <div class="tabs f0 flex acenter">
+            <label class="f1" @click="tab='area'" :class="{'selected':tab=='area'}"><span>按区域</span></label>
+            <label class="f1" @click="tab='hos'" :class="{'selected':tab=='hos'}"><span>按医院</span></label>
+            <label class="f1" @click="tab='dep'" :class="{'selected':tab=='dep'}"><span>按科室</span></label>
+        </div>
+        <div class="f1 termlist" style="position: relative">
+            <dl v-show="tab=='area'">
+                <dd :class="{'selecteds': cityid == ''}">
+                    <span class="whitespace block" @click="tapdd('cityid', '', '全部区域')">全部区域</span>
+                </dd>
+                <dd v-for="(itemOne, indOne) in area" 
+                    :class="{'open': cityid == itemOne.distCode.slice(0, 2), 'selecteds': selected == 1 && discodes == itemOne.distCode.slice(0, 2) }">
+                    <span class="whitespace block" @click="tapdd('cityid', itemOne.distCode.slice(0, 2), itemOne.distName)">{{itemOne.distName}}</span>
+                    <dl v-if="itemOne.citys">
+                        <dd v-for="(itemTwo, indTwo) in itemOne.citys" 
+                            :class="{'opens': areaid == itemTwo.distCode.slice(0, 4), 'selecteds': selected == 2 && discodes == itemTwo.distCode.slice(0, 4) }">
+                            <span class="whitespace block" @click="tapdd('areaid', itemTwo.distCode.slice(0, 4), itemTwo.distName)">{{itemTwo.distName}}</span>
+                            <dl v-if="itemTwo.citys">
+                                <dd v-for="(itemThree, indThree) in itemTwo.citys" 
+                                    :class="{'selecteds': selected == 3 && discodes == itemThree.distCode}">
+                                    <span class="whitespace block" style="padding-left: 20px" @click="tapdd('list_areaid', itemThree.distCode, itemThree.distName)">{{itemThree.distName}}</span>
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+                </dd>
+            </dl>
+            <dl v-show="tab=='hos'">
+                <dd :class="{'selecteds': hosid == -1}">
+                    <span class="whitespace block" @click="tapdd('hosid', -1, '全部医院')">全部医院</span>
+                </dd>
+                <dd v-for="(item, ind) in hos" :class="{'selecteds': hosid == item.id}">
+                    <span class="whitespace block" @click="tapdd('hosid', item.id, item.displayName)">{{item.displayName}}</span>
+                </dd>
+            </dl>
+            <dl v-show="tab=='dep'">
+                <dd :class="{'selecteds': depid == -1}">
+                    <span class="whitespace block" @click="tapdd('depid', -1, '全部科室')">全部科室</span>
+                </dd>
+                <dd v-for="(item, ind) in dep" :class="{'selecteds': depid == item.id}">
+                    <span class="whitespace block" @click="tapdd('depid', item.id, item.displayName)">{{item.displayName}}</span>
+                </dd>
+            </dl>
+            <dd v-if="loader" class="loading flex acenter jcenter" style="position: absolute;top:0;left:0;width: 100%;height: 100%;background: rgba(0,0,0,.05)">
+                <img src="../img/loading/31.gif" style="width:32px;" alt="">
+            </dd>
+        </div>
+    </div>
+    <div class="f1 result">
+        <div class="filterquery" v-if=" filter.areaid ||filter.hosid || filter.depid || filter.dutyid || keywords" style="display: inline-block;height: 46px;line-height: 30px;text-indent: 14px;color: #0186D1;">
+            <span style="color:#999">搜索条件：</span>
+            <span v-if="filter.areaid" v-text="filter.areaid+'，'"></span>
+            <span v-if="filter.hosid" v-text="filter.hosid+'，'"></span>
+            <span v-if="filter.depid" v-text="filter.depid+'，'"></span>
+            <span v-if="filter.dutyid" v-text="filter.dutyid+'，'"></span>
+            <span v-if="keywords" v-text="keywords+'，'"></span>
+        </div>
+        <dl class="clearfix">
+            <template v-if="pager.list.length">
+                <dd class="doclist" v-for="n in pager.list">
+                    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+                        <div class="thumbnail" @click="select(n)" :class="{'selected':expid==n.specialId}">
+                            <img :src="imgSrc(n.listSpecialPicture)" class="img-circle" alt="">
+                            <div class="caption ">
+                                <p class="whitespace text-align-center h3">{{ n.specialName }}&emsp;{{ n.duty }}</p>
+                                <p class="whitespace text-align-center h4">{{ n.depName }}</p>
+                                <p class="whitespace text-align-center h4">{{ n.hosName }}</p>
+                                <p class="whitespace p">
+                                    擅长：{{ n.specialty }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </dd>
+            </template>
+            <dd v-else class="noresult">
+                <img src="../img/noresult.png" style="width:24px;" alt="">
+            </dd>
+            <dd v-if="isload" class="loading flex acenter jcenter" style="position: absolute;top:0;left:0;width: 100%;height: 100%;background: rgba(0,0,0,.05)">
+                <img src="../img/loading/31.gif" style="width:32px;" alt="">
+            </dd>
+        </dl>
+        <footer v-if="pager.list && pager.list.length">
+            <ul class="pagination pagination-alt pagination-lg">
+                <li></li>
+                <li v-if="pager.pageNumber!=1">
+                    <a href="javascript:void(0);" @click="loadDoc(pager.pageNumber-1)"><i class="fa fa-angle-left"></i></a>
+                </li>
+                <li v-for="i in pager.pageCount" :class="{'active': i==pager.pageNumber}">
+                    <a href="javascript:void(0);" @click="loadDoc(i)">{{ i }}</a>
+                </li>
+                <li v-if="pager.pageNumber < pager.pageCount">
+                    <a href="javascript:void(0);" @click="loadDoc(pager.pageNumber+1)"><i class="fa fa-angle-right"></i></a>
+                </li>
+            </ul>
+        </footer>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<button type="button" class="close fixed-close" data-dismiss="modal" aria-hidden="true">×</button>
+<div id="uploader">
+    <div class="queueList">
+        <div id="dndArea" class="placeholder">
+            <div id="filePicker"></div>
+            <p>按住Ctrl可多选照片，单次最多可选1000张</p>
+        </div>
+    </div>
+    <div class="statusBar" style="display:none;">
+        <div class="progress">
+            <span class="text">0%</span>
+            <span class="percentage"></span>
+        </div><div class="info"></div>
+        <div class="btns">
+            <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
+        </div>
+    </div>
+</div>
+<script>
+    (function(){
+        loadCss('js/plugin/webuploader/uploadDCIM.css');
+        loadScript("js/plugin/webuploader/webuploader.min.js", function(){
+            loadScript("js/view/doc/uploadDCIM.js", function(){
+                Page.dcmUploader && Page.dcmUploader.destroy();
+                Page.dcmUploader = initDCIMUpload({
+                    server: BASE.href + 'doctor/updcmfile',
+                    threads:1,
+                    formData: { oid: Page.oid, otype : Page.otype, caseUuid: Page.ouid },
+                    success:function(){
+                        BASE.hideModel();
+                        $.smallBox({
+                            title : "提示",
+                            content : "您所选的DCM文件已经上传成功。",
+                            color : $.color.success,
+                            iconSmall : "fa fa-times",
+                            timeout : 3000
+                        });
+                    }
+                });
+            });
+        });
+    })();
+</script>

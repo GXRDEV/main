@@ -1,0 +1,27 @@
+<div class="scancode flex" style="max-width: 700px; margin: 0 auto;padding-bottom: 3em;">
+    <div class="leftcode" style="border: 10px solid #B1B1B3;flex:0 1 400px; margin: 0 auto;height: 360px;">
+        <div class="header" style="background: #0085D1;line-height: 40px;color: #fff;padding:0 1em;font-size: 16px;">
+            <span>支付 {{(money+'').indexOf('.')!=-1 ? money : (money + '.00') }} 元</span>
+        </div>
+        <div class="bodyer text-align-center" style="margin:0 30px 4em; padding-bottom:2em; border-bottom: 1px solid #D1D1D1;">
+            <p style="font-size: 20px;line-height: 2.4em;margin:15px 0 0;">微信扫码支付</p>
+            <img v-if="pay.code_url" :src="'/kangxin/showqr?code_url=' + pay.code_url" style="width:150px;height: 150px;" class="img-thumbnail" alt="二维码">
+            <section v-else class="loading flex acenter jcenter img-thumbnail" style="width:150px;height: 150px;margin: 0 auto;">
+                <img src="../img/loading/31.gif" style="width:32px;" alt="" />
+            </section>
+            <span v-if="timer" class="block" style="line-height: 2.4em;"><b style="color:#FF5D4E">{{timer}}秒</b>后此二维码将过期</span>
+            <span v-else class="block" style="line-height: 2.4em;">正在更新二维码</span>
+        </div>
+        <div class="footer text-align-center">
+            <div class="checkbox" style="margin-bottom:-3em;">
+                <label>
+                    <input type="checkbox" checked class="checkbox style-0" >
+                    <span style="color:#577A97;font-weight: normal;"> 同意平台支付协议</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="rightimg f1 hidden-xs" style="flex:0 1 300px; text-align: right">
+        <img src="img/public/scan.png" style="width: 80%;" alt="">
+    </div>
+</div>

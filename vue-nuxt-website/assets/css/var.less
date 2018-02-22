@@ -1,0 +1,9 @@
+@main-color: #0086D1;
+@main-font-color: #333;
+.setMultEllipsis(@a: 2) {
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow:ellipsis;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp: @a;
+}

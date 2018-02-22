@@ -1,0 +1,155 @@
+<style>
+	.color{ color: #0186D1}
+	.noColor { opacity: .7}
+	.cursor{ cursor: pointer}
+	.red{ color: red; margin-left: 2em}
+	.fontWeight{ font-weight: 700;}
+	input{ width: 60%; text-align: center }
+	.nopadding{ padding: 0 !important}
+	tr th{ opacity: .7}
+</style>
+<div class="full-table">
+	<div class="fliters nobg">
+		<a href="javascript:;;" class="selected" data-dtype="2">协作服务</a>
+	</div>
+	<div class="widget-body table-responsive no-padding">
+		<table id="dt_basic" class="table table-hover remotetable" width="100%">
+			<thead>			                
+				<tr>
+					<th style="width:15%">服务名称</th>
+					<th style="width:15%">状态</th>
+					<th style="width:15%">服务金额</th>
+					<th style="width:35%">服务说明</th>
+					<th style="width:25%">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="(item, ind) in list" :key="ind">
+					<td>
+						{{item.serviceName}}
+					</td>
+					<td>
+						<div v-if="!item.edit" class="checkbox">
+							<label class="nopadding">
+								<span style="font-weight: normal;" :class=" item.isOpen != 1 ? 'noColor': 'color'">{{ item.isOpen=='1' ? '已' : '未' }}开启服务</span>
+							</label>
+						</div>
+						<div v-else class="checkbox">
+							<label>
+								<input type="checkbox" v-model="item.isOpen" :checked="item.isOpen=='1'" class="checkbox style-0" >
+								<span style="font-weight: normal;" class="color">开启服务</span>
+							</label>
+						</div>
+					</td>
+					<td>
+						<template v-if="!item.edit">
+							<span v-if="item.money != 0">￥{{ item.money }}</span>
+							<span v-else class="noColor">免费</span>
+						</template>
+						<input v-else type="number" v-model="item.money">					
+					</td>
+					<td>
+						<span class="inblock noColor whitespace" style="max-width: 80%; vertical-align: top" v-if="item.serviceNote">
+							{{ item.serviceNote.substring(0,28) }}
+						</span>
+						<span class="inblock noColor whitespace" style="max-width: 80%; vertical-align: top" v-else>
+							暂无详情
+						</span>
+						<span class="color cursor" @click="showServer(item)">
+							查看详情
+						</span>
+					</td>
+					<td>
+						<span v-if="!item.edit" class="color cursor" @click="setDetail(item)">设置详情 <i class="fa fa-angle-right"></i></span>
+						<template v-else>
+							<span class="color cursor" @click="saveDetail(item)"><i class="fa fa-save"></i> 保存设置 &emsp;</span>
+							<span class="color cursor"><i class="fa fa-close" @click="cancel(item)"> 取消 </i></span>
+						</template>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	var Page={
+		docid: getParam("docid")||''
+	};
+	var pagefunction = function() {
+		new Vue({
+			el: '#dt_basic',
+			data: {
+				list: [],
+				docid: Page.docid
+			},
+			created: function(){
+				var that = this
+				$.post('/doctor/gainserverdatas_new', {'dtype': '2','docid': that.docid})
+				.done(function(d){
+					that.list = (function(a){
+						var arr = [];
+						$.each(a,function(i, n){
+							arr.push($.extend({edit:false,old:{}},n));
+						});
+						return arr;
+					})(d.servers);
+				})
+			},
+			methods: {
+				setDetail: function (item){
+					item.edit = true;
+					item.old = $.extend({},item)
+				},
+				cancel: function (item){
+					item.edit = false;
+					item.money = item.old.money;
+					item.isOpen = item.old.isOpen;
+				},
+				saveDetail: function (item){
+					var data={
+						smoney: item.money,
+						sval: item.isOpen ? 1 : 0,
+						ssid: item.id,
+						dsid: item.doctorServiceId,
+						docid:getParam("docid")||''
+					}
+					if(item.money < 0){
+						$.smallBox({
+                            title: "请输入正确服务金额",
+                            color: $.color.error,
+                            timeout: 3000
+                        });
+						item.money = item.old.money;
+						return
+					}
+					$.post('/doctor/changeServerStatus', data )
+					.done(function(){
+						item.edit = false
+						$.smallBox({
+                            title: item.serviceName + "修改成功",
+                            color: $.color.success,
+                            timeout: 3000
+                        });
+					})
+					.fail(function(){
+						item.edit = false
+						$.smallBox({
+                            title: item.serviceName + "修改失败",
+                            color: $.color.error,
+                            timeout: 3000
+                        });
+					})
+				},
+				showServer: function (item) {
+					Page.title = item.serviceName
+					Page.content = item.serviceNote
+					BASE.showModel({
+						remote: 'ajax/modal-content/modal-sever.html',
+						cls: 'modal-confirm'
+					});
+				}
+			}
+		})
+	}
+	pagefunction()
+</script>

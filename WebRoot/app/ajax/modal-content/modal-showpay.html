@@ -1,0 +1,95 @@
+<div class="modal-body" id="vue-modal-pay">
+    <form class="smart-form vuemodalpay" style="margin:0 60px;">
+        <div class="row">
+            <my-pay :oid="oid" :money="other.money" :pay="other.pay" :haslisten="false" @payok="payok" ref="pay"></my-pay>
+        </div>
+        <div class="step-notice"><i class="icon iconfont icon-zhifeijikuai" style="margin-right:5px;color:#0186D1;"></i><span>通知患者来支付本次订单金额</span><button type="button" @click.prevent="isNotice" class="notice-btn">通知</button></div>
+        <div class="modal-footer text-align-center">
+            <button type="button" class="btn btn-lg btn-default" data-dismiss="modal">取消</button>
+            <button type="button" @click.prevent="ispayok" class="btn btn-lg btn-primary">支付成功</button>
+        </div>
+    </form>
+</div>
+<script>
+    var vmPay;
+    (function () {
+        vmPay = new Vue({
+            el: '#vue-modal-pay',
+            data: {
+                oid: Page.oid,
+                otype:Page.otype,
+                other: {
+                    money: 0,
+                    pay: {
+                        code_url: '',
+                        out_trade_no: ''
+                    }
+                }
+            },
+            methods: {
+                payok: function(){
+                    BASE.hideModel(),
+                    oTable && oTable.draw(false);
+                },
+                ispayok: function(){
+                    this.$refs.pay.paystate(this.payok,function(){
+                        $.smallBox({title: "您还未支付呢",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000});
+                    });
+                },
+                isNotice:function(){
+                    $.post('/docadmin/notifyPatientToPay',{oid:this.oid,otype:this.otype})
+                            .done(function(d){
+                               if(d.status =='success'){
+                                   BASE.hideModel();
+                                   $.smallBox({
+                                       title:'通知提示',
+                                       content:'通知发送成功',
+                                       color: $.color.success,
+                                       timeout: 5000})
+                               }
+                            })
+                            .fail(function(){
+                                $.smallBox({
+                                    title:'通知提示',
+                                    content:'通知发送失败，请重新发送',
+                                    color: $.color.error,
+                                    iconSmall: "fa fa-times",
+                                    timeout: 5000})
+                            })
+                }
+            },
+            created: function() {
+                var that = this;
+                $.post('/docadmin/gainerweima',{oid: this.oid, askdoc: Page.askdoc})
+                .done(function(d){
+                    if(d.pay == 'false') 
+                        return that.payok(),$.smallBox({title: "信息提示",content:"当前医生暂未开通此项服务",color: $.color.error,iconSmall: "fa fa-times",timeout: 10000}),0;
+                    if(!d.code_url){
+                        return $.smallBox({title: "错误提示", content: '生成二维码失败，请重试，或者联系客服',color: $.color.error,iconSmall: "fa fa-times",timeout: 10000}),0;
+                    }
+                    that.other.money = d.money;
+                    that.other.pay = {
+                        code_url: d.code_url,
+                        out_trade_no: d.out_trade_no
+                    }
+                });
+            }
+        });
+    })();
+</script>
+<style>
+    .modal-footer .btn{min-width: 8em;}
+    .step-notice{
+        padding:30px 0;
+        text-align: center;
+    }
+    .step-notice .notice-btn {
+        border:none;
+        background-color: #0186D1;
+        color:#fff;
+        font-size:13px;
+        margin-left:10px;
+        padding:2px 15px;
+        border-radius:3px;
+    }
+</style>

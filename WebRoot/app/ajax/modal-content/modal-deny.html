@@ -1,0 +1,54 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title" id="myModalLabel">请选择或填写退诊理由</h4>
+</div>
+<div class="modal-body" id="vue-modal-deny">
+    <form class="smart-form vuemodalpay" style="margin:0 30px;">
+        <div class="row" v-if="otype==10">
+            <label v-for="i in selectarr" class="checkbox"><input type="checkbox" v-model="select" :value="i"><i></i>{{i}}</label>
+        </div>
+        <div class="row">
+            <label class="label" v-if="otype==10">其他理由</label>
+            <label class="label" v-else>退诊理由</label>
+            <label class="textarea">
+                <textarea rows="6" v-model="other"></textarea>
+            </label>
+        </div>
+        <div class="modal-footer text-align-center" style="border: 0;">
+            <button type="button" class="btn btn-lg btn-default" data-dismiss="modal">取消</button>
+            <button type="button" @click.prevent="denyOrder" class="btn btn-lg btn-primary">确认退诊</button>
+        </div>
+    </form>
+</div>
+<script>
+    var vmPay;
+    (function () {
+        vmPay = new Vue({
+            el: '#vue-modal-deny',
+            data: {
+                otype: Page.otype,
+                other: '',
+                select: [],
+                selectarr: ['本院床位不足', '本院医生暂无空闲时间', '不属于本院治疗范围']
+            },
+            methods: {
+                denyOrder: function(){
+                    var that = this;
+                    $.post('/order/processOrderStatus', {
+                        orderId: Page.oid,
+                        orderType: Page.otype,
+                        sval: 30,
+                        refusalReason: that.select.concat(that.other || []).join(';')
+                    }).done(function(){
+                         Page.mainForms.protag = 30;
+                         BASE.hideModel();
+                    });
+                }
+            }
+        });
+    })();
+</script>
+<style>
+    .modal-footer .btn{min-width: 8em;}
+    #vue-modal-deny .checkbox{display: inline-block; margin-right: 1.5em;}
+</style>

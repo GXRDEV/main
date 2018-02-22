@@ -1,0 +1,26 @@
+{
+  "status": "success",
+  "code": 200,
+  "data": [
+    {
+      "path": "/admin",
+      "icon": "el-icon-location",
+      "name": "企业首页"
+    },
+    {
+      "path": "#",
+      "icon": "el-icon-menu",
+      "name": "分组一",
+      "children": [
+        {
+          "path": "/404",
+          "name": "404"
+        },
+        {
+          "path": "/500",
+          "name": "500"
+        }
+      ]
+    }
+  ]
+}

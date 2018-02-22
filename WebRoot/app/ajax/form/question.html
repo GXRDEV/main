@@ -1,0 +1,24 @@
+<div class="profile-templet prelative">
+	<div class="row header">
+		<div class="pull-left">
+			<slot name="title"></slot>
+		</div>
+		<div class="pull-right">
+			<slot name="actions"></slot>
+		</div>
+	</div>
+	<section>		
+		<fieldset class="askform">
+			<label class="label">咨询目的</label>
+			<label class="textarea">
+				<span v-if="!edit" class="text textarea" v-text="fdata.form.askProblem"></span>
+				<template v-else>
+					<textarea v-model="fdata.form.askProblem" placeholder="填写您想要咨询的内容" class="form-control"></textarea>
+				</template>
+			</label>
+		</fieldset>
+	</section>
+	<section v-if="fdata.isload" class="loading center">
+		<img src="../img/loading/31.gif" style="width:32px;" alt="" />
+	</section>
+</div>

@@ -1,0 +1,28 @@
+<div v-if="room" class="side-column hassidebar" :class="{'hasfooter' : footer}">
+    <section class="side-column-fixed" style="top:0;" :class="{'animated bounceInRight' : room, 'animated bounceOutRight' : !room}">
+        <div class="videoouter flex column">
+            <section class="messagelist f1">
+                <dl>
+                    <template v-for="dd in userMsg">
+                        <dt v-if="!dd.sendType" class="msgsystem">
+                            <span><i class="fa fa-volume-down"></i> {{ dd.msgContent }}</span>
+                        </dt>
+                        <dd v-else :class="dd.sendType == utype ? 'me' : 'you'">
+                            <img :src="dd.sendType == utype ? 'img/avatars/male.png' : 'img/avatars/female.png'" class="img-circle" alt="">
+                            <span v-if="dd.msgType=='RC:TxtMsg' || dd.msgType=='text'" class="f1" v-html="toemjc(dd.msgContent)"></span>
+                            <span v-if="dd.msgType=='RC:ImgMsg'" class="f1">
+                                <img :src="dd.msgContent || dd.fileUrl" @click="showPic(idx)" style="width: 100px;" alt="">
+                            </span>
+                            <span v-if="dd.msgType=='RC:VcMsg'" class="f1">
+                                <button type="button" @click="playMedia(idx)">
+                                    <label v-if="playId==dd.msgContent"><i class="iconfont icon-stop"></i>停止</label>
+                                    <label v-else><i class="iconfont icon-bofang"></i>播放</label>
+                                </button>
+                            </span>
+                        </dd>
+                    </template>
+                </dl>
+            </section>
+        </div>
+    </section>    
+</div>

@@ -1,0 +1,203 @@
+.doctor {
+    width: 100%;
+    margin-top:13px;
+}
+
+    .doctor .inner {
+        margin: 5px;
+    }
+
+    .doctor .head {
+        width: 100%;
+        height: 100px;
+        position: relative; 
+        top: 22px;
+        left: 0px;
+    }
+
+        .doctor .head .img {
+            float: left;
+            width: 100px;
+            height: 100%;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 1px 1px 5px #888888;
+        }
+
+            .doctor .head .img img {
+                float: left;
+                width: 100%;
+                height: 100%;
+            }
+
+        .doctor .head .con {
+            float: left;
+            margin-left: 5px;
+            height: 100%;
+            text-align: center;
+            color: #6d6d6d;
+        }
+
+        .doctor .head .name {
+            font-size: 18px;
+            margin-top: 27px;
+            text-align: left;
+            padding-left: 2px;
+        }
+
+        .doctor .head .job {
+            font-size: 14px;
+            text-align: left;
+            padding-left: 2px;
+        }
+
+        .doctor  .btn {
+            float: right;
+            /* margin-top: 32px; */
+            width: 70px;
+            height: 36px;
+            /* overflow: hidden; */
+        
+            margin-right: 5px;
+}
+
+            .doctor .btn a {
+                float: left;
+                width: 100%;
+                height: 100%;
+                line-height: 36px;
+                text-align: center;
+                color: #ffffff;
+                background-color: #78cac6;
+                font-size: 14px;
+                border-radius: 5px;
+            }
+
+                .doctor .btn a:active {
+                    background-color: #509b97;
+                }
+
+    .doctor .record {
+        font-size: 14px;
+        padding-top: 30px;
+        padding-bottom: 20px;
+        padding-left: 8px;
+        padding-right: 8px;
+        overflow: hidden;
+        color: #6d6d6d;
+        background-color: #ffffff;
+        /*border: #CFCFCF solid 1px;*/
+        border-radius: 5px;        
+        overflow: hidden;
+        box-shadow: 1px 1px 5px #888888;
+    }
+      .doctor .record .btns {
+            height: 40px;
+        }
+        .doctor .record .item {
+            margin-top: 5px;
+        }
+
+    .doctor .note {
+        font-size: 18px;
+        color: #6d6d6d;
+        line-height: 120%;
+        margin-top: 5px;
+    }
+
+    .doctor .element {
+  /* background-color: #ffffff; */
+    margin: 5px;
+    border: #CFCFCF solid 1px;
+    border-radius: 5px;
+}
+
+
+    .doctor .client {
+        overflow: hidden;
+        width: 100%;
+        height: 70px;
+    }
+
+        .doctor .client .icon {
+            float: left;
+            width: 60px;
+            height: 60px;
+            margin-top: 10px;
+            margin-left: 5px;
+            border-radius: 30px;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+            .doctor .client .icon img {
+                float: left;
+                width: 100%;
+                height: 100%;
+                opacity: 0.5;
+                border-radius: 30px;
+            }
+            
+        .doctor .client .star {
+            height: 20px;
+            margin-top: 10px;
+        }
+
+            .doctor .client .star .word {
+                float: left;
+                margin-left: 10px;
+                height: 100%;
+                /* width: 70px; */
+                font-size: 14px;
+                color: #686868;
+                line-height: 20px;
+            }
+
+            .doctor .client .star .core {
+                float: right;
+                height: 100%;
+                overflow: hidden;
+            }
+
+                .doctor .client .star .core li {
+                    float: left;
+                    width: 21px;
+                    height: 20px;
+                    background: url(images/evaluate/l-star.png) 0px -20px no-repeat;
+                }
+
+                .doctor .client .star .core .active {
+                    background: url(images/evaluate/l-star.png) 0px 0px no-repeat;
+                }
+
+        .doctor .client .date {
+            font-size: 14px;
+            color: #6c6c6c;
+            margin-top: 8px;
+        
+            margin-left: 70px;
+}
+
+    .doctor .talk {
+        font-size: 16px;
+        color: #6c6c6c;
+        line-height: 120%;
+        padding-left: 5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .doctor .label {
+        background-color: #f2f2f2;
+        overflow: hidden;
+    }
+
+        .doctor .label .core {
+            width: 278px;
+            height: 49px;
+            line-height: 49px;
+            font-size: 15px;
+            color: #6c6c6c;
+            padding-left: 38px;
+            background: url(images/history/label.png) 5px 10px no-repeat;
+        }

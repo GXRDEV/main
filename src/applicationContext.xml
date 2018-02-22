@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+						http://www.springframework.org/schema/mvc 
+						http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd 
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd ">
+	<bean id="config_1"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:dbconfig/db_test.properties</value>
+				<value>classpath:dbconfig/pacs_db_test.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 定义数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${db.driverClass}" />
+		<property name="jdbcUrl" value="${db.jdbcUrl}" />
+		<property name="user" value="${db.user}" />
+		<property name="password" value="${db.password}" />
+		<property name="initialPoolSize" value="${db.initialPoolSize}" />
+		<property name="maxPoolSize" value="${db.maxPoolSize}" />
+		<property name="minPoolSize" value="${db.minPoolSize}" />
+		<property name="testConnectionOnCheckin" value="${db.testConnectionOnCheckin}" />
+		<property name="automaticTestTable" value="${db.automaticTestTable}" />
+		<property name="idleConnectionTestPeriod" value="${db.idleConnectionTestPeriod}" />
+		<property name="maxIdleTime" value="${db.maxIdleTime}" />
+		<property name="testConnectionOnCheckout" value="${db.testConnectionOnCheckout}" />
+		<property name="acquireIncrement" value="10" />
+	</bean>
+	<!-- 定义sessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<!-- sessionFactory数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.tspeiz.modules.**.entity" />
+		<!-- hibernate的配置 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.hbm2ddl">update</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 配置hibernateTemplate -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 注入hibernateTemplate -->
+	<bean id="baseDao" class="com.ddf.modules.common.dao.base.impl.BaseDaoImpl"
+		abstract="true">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+
+	<!-- 事务管理器 -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!-- 配置事物的传播特性 (事物通知) -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="find*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:advisor pointcut="execution(* com.tspeiz.modules.*.service.impl.*.*(..))"
+			advice-ref="txAdvice" />
+	</aop:config>
+
+	<bean id="weiAccessTokenDao"
+		class="com.tspeiz.modules.common.dao.impl.weixin.WeiAccessTokenDaoImpl"
+		parent="baseDao" />
+	<bean id="usersDao" class="com.tspeiz.modules.common.dao.impl.UsersDaoImpl"
+		parent="baseDao" />
+	<bean id="userExternalsDao"
+		class="com.tspeiz.modules.common.dao.impl.weixin.UserExternalsDaoImpl"
+		parent="baseDao" />
+	<bean id="remoteConsultationDao"
+		class="com.tspeiz.modules.common.dao.impl.RemoteConsultationDaoImpl" parent="baseDao"></bean>
+	<bean id="userAccountInfoDao"
+		class="com.tspeiz.modules.common.dao.impl.newrelease.UserAccountInfoDaoImpl" parent="baseDao"></bean>
+	<bean id="userDetailInfoDao"
+		class="com.tspeiz.modules.common.dao.impl.newrelease.UserDetailInfoDaoImpl" parent="baseDao"></bean>
+	<bean id="userWeixinRelativeDao"
+		class="com.tspeiz.modules.common.dao.impl.newrelease.UserWeixinRelativeDaoImpl" parent="baseDao"></bean>
+	<bean id="weixinService"
+		class="com.tspeiz.modules.common.service.impl.WeixinServiceImpl">
+		<property name="weiAccessTokenDao" ref="weiAccessTokenDao"></property>
+		<property name="usersDao" ref="usersDao"></property>
+		<property name="userExternalsDao" ref="userExternalsDao"></property>
+		<property name="remoteConsultationDao" ref="remoteConsultationDao"></property>
+		<property name="userAccountInfoDao" ref="userAccountInfoDao"></property>
+		<property name="userDetailInfoDao" ref="userDetailInfoDao"></property>
+		<property name="userWeixinRelativeDao" ref="userWeixinRelativeDao"></property>
+	</bean>
+
+	<!-- 图文问诊定时任务需要，超时关闭 -->
+	<bean id="businessWenZhenInfoDao"
+		class="com.tspeiz.modules.common.dao.impl.newrelease.BusinessWenZhenInfoDaoImpl"
+		parent="baseDao" />
+	<bean id="userBillRecordDao"
+		class="com.tspeiz.modules.common.dao.impl.newrelease.UserBillRecordDaoImpl"
+		parent="baseDao" />
+	<bean id="wenzhenService"
+		class="com.tspeiz.modules.common.service.impl.WenzhenServiceImpl">
+		<property name="businessWenZhenInfoDao" ref="businessWenZhenInfoDao"></property>
+		<property name="userBillRecordDao" ref="userBillRecordDao"></property>
+	</bean>
+
+
+	<bean id="multipartResolver" class="com.tspeiz.modules.util.MyMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="maxUploadSize" value="524288000" />
+	</bean>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean
+				class="com.tspeiz.modules.common.interceptor.LoginValidateInterceptor">
+				<property name="uncheckUrls">
+					<list>
+						<value>/doctor/login</value>
+						<value>/doctor/gainVeryCode</value>
+						<value>/doctor/indexsaoma</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+		<!-- <bean class="com.tspeiz.modules.common.securecrt.AuthCheckInteceptor"/> -->
+	</mvc:interceptors>
+</beans>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+    <title>iFlytek Web Api</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="clear"></div>
+    <h2 id='iat_result' style="display:none;">语音听写</h2>
+	<div style="position:relative">
+		<div id='a'>点击开始录音</div>
+		<div id="b">点击语音按钮，开始语音录入</div>
+        <div id="canvas_wrapper" style="display:none;text-align:center;">
+            <canvas id="volume" height="4"></canvas>
+        </div>
+	</div>
+    <script>
+        onerror=function(a,b,c){
+            alert(a+b+c);
+        }
+    </script>
+	<script type="text/javascript" src='js/fingerprint2.min.js'></script>
+	<script type="text/javascript" src="js/iat.all.js"></script>
+	<script type="text/javascript" src="js/demo.js"></script>
+</body>
+</html>
+

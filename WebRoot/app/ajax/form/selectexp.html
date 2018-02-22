@@ -1,0 +1,97 @@
+<div class="selectexp flex">
+    <div class="f0 querywhere flex column hidden-xs">
+        <div class="filter f0">
+            <div class="search flex acenter">
+                <i class="fa fa-search f0"></i>
+                <input type="text" class="f1" v-model="keywords" @keyup="loadExp(1)" placeholder="请输入医院名称、科室、疾病或专家姓名">
+                <i class="fa fa-angle-right f0"></i>
+            </div>
+        </div>
+        <div class="tabs f0 flex acenter">
+            <label class="f1" @click="tab='hos'" :class="{'selected':tab=='hos'}"><span>按医院</span></label>
+            <label class="f1" @click="tab='dep'" :class="{'selected':tab=='dep'}"><span>按科室</span></label>
+            <label class="f1" @click="tab='duty'" :class="{'selected':tab=='duty'}"><span>按职称</span></label>
+        </div>
+        <div class="f1 termlist">
+            <dl v-show="tab=='hos'">
+                <dd @click="tapdd('hosid', '-1', '所有医院')" :class="{'selected':hosid=='-1'}">
+                    <span class="whitespace block">所有医院</span>
+                </dd>
+                <dd v-for="(value, key) in hos" :class="{'selected':cityid==key}">
+                    <span class="whitespace block" @click="tapdd('cityid',key, value.name)" v-text="value.name"></span>
+                    <dl v-if="value.child">
+                        <dd v-for="dd in value.child" @click="tapdd('hosid', dd.id, dd.name)" :class="{'selected':hosid==dd.id}">
+                            <span class="whitespace block" v-text="dd.name"></span>
+                        </dd>
+                    </dl>
+                </dd>
+            </dl>
+            <dl v-show="tab=='dep'">
+                <dd @click="tapdd('depid', '-1', '所有科室')" :class="{'selected':depid=='-1'}">
+                    <span class="whitespace block">所有科室</span>
+                </dd>
+                <dd v-for="d in dep" :class="{'selected':bigdepid==(d.id || d['stands'][0]['bigDepId'])}">
+                    <span class="whitespace block" @click="tapdd('bigdepid', d.id || d['stands'][0]['bigDepId'] , d.name)" v-text="d.name"></span>
+                    <dl v-if="d.stands">
+                        <dd v-for="dd in d.stands" @click="tapdd('depid', dd.id, dd.displayName)" :class="{'selected':depid==dd.id}">
+                            <span class="whitespace block" v-text="dd.displayName"></span>
+                        </dd>
+                    </dl>
+                </dd>
+            </dl>
+            <dl v-show="tab=='duty'">
+                <dd v-for="d in duty" @click="tapdd('dutyid',d[0], d[1])" :class="{'selected':dutyid==d[0]}">
+                    <span class="whitespace block" v-text="d[1]"></span>
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="f1 result">
+        <div class="filterquery" v-if="filter.hosid || filter.depid || filter.dutyid || keywords" style="display: inline-block;height: 46px;line-height: 30px;text-indent: 14px;color: #0186D1;">
+            <span style="color:#999">搜索条件：</span>
+            <span v-if="filter.hosid" v-text="filter.hosid + '，'"></span>
+            <span v-if="filter.depid" v-text="filter.depid + '，'"></span>
+            <span v-if="filter.dutyid" v-text="filter.dutyid + '，'"></span>
+            <span v-if="keywords" v-text="keywords"></span>
+        </div>
+        <dl class="clearfix">
+            <template v-if="pager.list.length">
+                <dd class="doclist" v-for="n in pager.list">
+                    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+                        <div class="thumbnail" @click="select(n)" :class="{'selected':expid==n.specialId}">
+                            <img :src="imgSrc(n.listSpecialPicture)" class="img-circle" alt="">
+                            <div class="caption ">
+                                <p class="whitespace text-align-center h3">{{ n.specialName }}&emsp;{{ n.duty }}</p>
+                                <p class="whitespace text-align-center h4">{{ n.depName }}</p>
+                                <p class="whitespace text-align-center h4">{{ n.hosName }}</p>
+                                <p class="whitespace p">
+                                    擅长：{{ n.specialty }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </dd>
+            </template>
+            <dd v-else class="noresult">
+                <img src="../img/noresult.png" style="width:24px;" alt="">
+            </dd>
+            <dd v-if="isload" class="loading flex acenter jcenter" style="position: absolute;top:0;left:0;width: 100%;height: 100%;background: rgba(0,0,0,.05)">
+                <img src="../img/loading/31.gif" style="width:32px;" alt="">
+            </dd>
+        </dl>
+        <footer v-if="pager.list && pager.list.length">
+            <ul class="pagination pagination-alt pagination-lg">
+                <li></li>
+                <li v-if="pager.pageNumber!=1">
+                    <a href="javascript:void(0);" @click="loadExp(pager.pageNumber-1)"><i class="fa fa-angle-left"></i></a>
+                </li>
+                <li v-for="i in pager.pageCount" :class="{'active': i==pager.pageNumber}">
+                    <a href="javascript:void(0);" @click="loadExp(i)">{{ i }}</a>
+                </li>
+                <li v-if="pager.pageNumber!=pager.pageCount">
+                    <a href="javascript:void(0);" @click="loadExp(pager.pageNumber+1)"><i class="fa fa-angle-right"></i></a>
+                </li>
+            </ul>
+        </footer>
+    </div>
+</div>

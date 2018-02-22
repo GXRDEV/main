@@ -1,0 +1,11 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ project files
+.idea/
+.settings/
+bin/
+*.iml
+# Compiled class file
+*.class
+WebRoot/WEB-INF/classes/

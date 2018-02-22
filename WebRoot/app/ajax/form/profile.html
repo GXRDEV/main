@@ -1,0 +1,97 @@
+<div class="profile-templet prelative">
+	<div class="row header">
+		<div class="pull-left">
+			<slot name="title"></slot>
+		</div>
+		<div class="pull-right">
+			<slot name="actions"></slot>
+		</div>
+	</div>
+	<section>
+		<fieldset>
+			<div>
+				<label class="label">主诉</label>
+				<label class="textarea">
+				<span v-if="!edit" class="text textarea" v-text="fdata.form.mainSuit"></span>
+				<template v-else>
+					<textarea v-model="fdata.form.mainSuit" class="form-control"></textarea>
+				</template>
+			</label>
+		</fieldset>
+		<fieldset v-if="!!fdata.form.presentIll || edit">
+			<label class="label">现病史</label>
+			<label class="textarea">
+				<span v-if="!edit" class="text textarea" v-text="fdata.form.presentIll"></span>
+				<template v-else>
+					<textarea v-model="fdata.form.presentIll" class="form-control"></textarea>
+				</template>
+			</label>
+		</fieldset>
+		<fieldset v-if="!!fdata.form.historyIll || edit">
+			<label class="label">既往史</label>
+			<label class="textarea">
+				<span v-if="!edit" class="text textarea" v-text="fdata.form.historyIll"></span>
+				<template v-else>
+					<textarea v-model="fdata.form.historyIll" class="form-control"></textarea>
+				</template>
+			</label>
+		</fieldset>
+		<!-- <fieldset v-if="!!fdata.form.familyHistory || edit">
+			<label class="label">家族史</label>
+			<label class="textarea">
+				<span v-if="!edit" class="text textarea" v-text="fdata.form.familyHistory"></span>
+				<template v-else>
+					<textarea v-model="fdata.form.familyHistory" class="form-control"></textarea>
+				</template>
+			</label>
+		</fieldset> -->
+		<fieldset v-if="!!fdata.form.examined || edit">
+			<label class="label">体检</label>
+			<label class="textarea">
+				<span v-if="!edit" class="text textarea" v-text="fdata.form.examined"></span>
+				<template v-else>
+					<textarea v-model="fdata.form.examined" class="form-control"></textarea>
+				</template>
+			</label>
+		</fieldset>
+		<fieldset v-if="!!fdata.form.assistantResult || edit">
+			<label class="label">辅检</label>
+			<label class="textarea">
+				<span v-if="!edit" class="text textarea" v-text="fdata.form.assistantResult"></span>
+				<template v-else>
+					<textarea v-model="fdata.form.assistantResult" class="form-control"></textarea>
+				</template>
+			</label>
+		</fieldset>
+		<fieldset v-if="!!fdata.form.initialDiagnosis || edit">
+			<label class="label">诊断</label>
+			<label class="textarea">
+				<span v-if="!edit" class="text textarea" v-text="fdata.form.initialDiagnosis"></span>
+				<template v-else>
+					<textarea v-model="fdata.form.initialDiagnosis" class="form-control"></textarea>
+				</template>
+			</label>
+		</fieldset>
+		<!-- <fieldset v-if="!!fdata.form.askProblem || edit">
+			<label class="label">咨询目的</label>
+			<label class="textarea">
+				<span v-if="!edit" class="text textarea" v-text="fdata.form.askProblem"></span>
+				<template v-else>
+					<textarea v-model="fdata.form.askProblem" class="form-control"></textarea>
+				</template>
+			</label>
+		</fieldset> -->
+		<fieldset v-if="!!fdata.form.treatAdvice || edit">
+			<label class="label">治疗建议</label>
+			<label class="textarea">
+				<span v-if="!edit" class="text textarea" v-text="fdata.form.treatAdvice"></span>
+				<template v-else>
+					<textarea v-model="fdata.form.treatAdvice" class="form-control"></textarea>
+				</template>
+			</label>
+		</fieldset>
+	</section>
+	<section v-if="fdata.isload" class="loading center">
+		<img src="../img/loading/31.gif" style="width:32px;" alt="" />
+	</section>
+</div>

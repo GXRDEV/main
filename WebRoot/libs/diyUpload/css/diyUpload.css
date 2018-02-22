@@ -1,0 +1,204 @@
+@charset "utf-8";
+/* CSS Document*/
+.parentFileBox {
+	width:auto;
+	height:auto;
+	overflow:hidden;
+	position:relative;
+	padding:2px 20px;
+	border:1px solid #D0D0D0;
+	margin-bottom:10px;
+}
+.parentFileBox .scroll{ position:absolute; top:0; width:20px; font-size:1px;
+                        height:167px; line-height:167px; font-weight:bolder;cursor:pointer;}
+.parentFileBox .scroll a{ color:transparent;display:block;width:22px;line-height:167px;}
+.parentFileBox .toLeft{ left:0;}
+.parentFileBox .toLeft a{ background:url(../images/dirleft.png) no-repeat center center;}
+.parentFileBox .toLeft a:hover{ background:url(../images/dirleft-hover.png) no-repeat center center;}
+.parentFileBox .toRight{ right:0;}
+.parentFileBox .toRight a{ background:url(../images/dirright.png) no-repeat center center;}
+.parentFileBox .toRight a:hover{ background:url(../images/dirright-hover.png) no-repeat center center;}
+
+.parentFileBox>.fileBoxUl {
+	position:relative;
+	width:100%;
+	height:172px;
+	overflow:hidden;
+	padding-bottom:5px;
+}
+.parentFileBox>.fileBoxUl>li {
+	float:left;
+	border:1px solid #09F;
+	border-radius:5px;
+	width:170px;
+	height:168px;
+	margin-top:5px;
+	margin-left:5px;
+	overflow:hidden;
+	position:relative;
+	background-color:#099;
+}
+.parentFileBox>.fileBoxUl>li>.viewThumb {
+	position:absolute;
+	top:0;
+	left:0;
+	width:170px;
+	height:170px;
+	overflow:hidden;
+}
+.parentFileBox>.fileBoxUl>li>.viewThumb>img {
+	display:block;
+	width:100%;
+	height:100%;
+	line-height:170px;
+	text-align:center;color:#fff;
+}
+.parentFileBox>.fileBoxUl>li>.diyCancel,
+.parentFileBox>.fileBoxUl>li>.diySuccess {
+	position:absolute;
+	width:32px;
+	height:32px;
+	top:2px;
+	cursor:pointer;
+	display:none;
+}
+.parentFileBox>.fileBoxUl>li>.diyCancel{ right:2px;}
+.parentFileBox>.fileBoxUl>li>.diySuccess{left:2px;}
+.parentFileBox>.fileBoxUl>li>.diyCancel{ background:url(../images/x_alt.png) no-repeat;z-index:22;}
+.parentFileBox>.fileBoxUl>li>.diySuccess {background:url(../images/check_alt.png) no-repeat;cursor:default;}
+.parentFileBox>.fileBoxUl>.diyUploadExt>.diyCancel,
+.parentFileBox>.fileBoxUl>.diyUploadExt>.diySuccess {
+	display:block;
+}
+.parentFileBox>.fileBoxUl>li>.diyFileName {
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	width:100%;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	color:#fff;
+	font-size:12px;
+	display:none;
+	background:url(../images/bgblack.png);
+	z-index:6;
+}
+.parentFileBox>.fileBoxUl>li>.imglocation{
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	width:100%;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	color:#bbb;
+	font-size:12px;
+	background:url(../images/bgblack.png);
+	z-index:4;
+}
+.parentFileBox>.fileBoxUl>li>.diyBar {
+	top:0;
+	left:0;
+	position: absolute;
+	width: 170px;
+	height: 170px;
+	line-height:170px;
+	background:url(../images/bgblack.png);
+	display:none;
+	z-index:20;
+}
+.parentFileBox>.fileBoxUl>li>.diyBar>.diyProgressText {
+	font-size:14px;
+	text-align:center;
+	color:#FFF;
+	position:relative;
+	z-index:99;
+}
+.parentFileBox>.fileBoxUl>li>.diyBar>.diyProgress {
+	position:absolute;
+	left:0;
+	top:42%;
+	height:24px;
+	width:100%;
+	background-color:#09F;
+	filter:alpha(opacity=70);
+	-moz-opacity:0.7;
+	opacity:0.7;
+	z-index:97;
+}
+.diyUpload .diyButton 
+{
+    position:absolute;
+    right:6px; top:0;
+}
+.diyUpload .webuploader-pick{ margin-left:6px;}
+.diyUpload .diyButton>a 
+{
+    display:inline-block;
+	padding:10px 15px;
+	background-color:#09C;
+	color:#FFF;
+	font-size:12px;
+	text-decoration:none;
+	border-radius:3px;
+}
+.diyUpload .diyButton>a:hover {
+	background-color:#0CC;
+	color:#F30;
+}
+.parentFileBox>.fileBoxUl>li:hover {
+	-moz-box-shadow: 3px 3px 4px #FF0;
+	-webkit-box-shadow: 3px 3px 4px #FF0;
+	box-shadow: 3px 3px 4px #FF0;
+}
+.parentFileBox>.fileBoxUl>.diyUploadHover:hover .diyCancel {
+	display:block;
+}
+.parentFileBox>.fileBoxUl>li:hover .diyFileName {
+	display:block;
+}
+.avi_diy_bg,.txt_diy_bg,.doc_diy_bg,.zip_diy_bg,.csv_diy_bg,.xls_diy_bg,.mp3_diy_bg,.pdf_diy_bg,.rar_diy_bg {
+	background-position:center;
+	background-repeat:no-repeat;
+}
+.avi_diy_bg {
+	background-image:url(../images/filebg/avi.png);
+}
+.txt_diy_bg {
+	background-image:url(../images/filebg/txt.png);
+}
+.doc_diy_bg {
+	background-image:url(../images/filebg/doc.png);
+}
+.zip_diy_bg {
+	background-image:url(../images/filebg/zip.png);
+}
+.csv_diy_bg {
+	background-image:url(../images/filebg/csv.png);
+}
+.xls_diy_bg {
+	background-image:url(../images/filebg/xls.png);
+}
+.mp3_diy_bg {
+	background-image:url(../images/filebg/mp3.png);
+}
+.pdf_diy_bg {
+	background-image:url(../images/filebg/pdf.png);
+}
+.rar_diy_bg {
+	background-image:url(../images/filebg/rar.png);
+}
+.diyUpload{ min-height:90px; /*background-color:#cf9;*/ min-width:200px;}
+.diyUpload ul{padding:0; margin:0;}
+.diyUpload .btnUpload{width:120px!important;height:40px!important;}
+
+.parentFileBox>.fileBoxUl>.btn-addfile{border-color:transparent;background:transparent url(../images/addbtn.png) no-repeat center center;display:inline-block!important;}
+.parentFileBox>.fileBoxUl>.btn-addfile:hover{-moz-box-shadow: 3px 3px 4px transparent;-webkit-box-shadow: 3px 3px 4px transparent;box-shadow: 3px 3px 4px transparent;}
+
+.btn-addfile .webuploader-pick{
+	background-color:transparent;color:transparent;
+}
+.diyUpload .btn-addfile .btnUpload{width:170px!important;height:170px!important;}
+
+

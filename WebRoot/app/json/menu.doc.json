@@ -1,0 +1,29 @@
+{
+    "menu":[
+        {
+            "href" : "#",
+            "icon" : "fa fa-fw fa-align-left",
+            "text" : "我的订单",
+            "children" : [
+                {
+                    "href" : "ajax/doc/remote.html",
+                    "text" : "远程门诊"
+                },
+                {
+                    "href" : "ajax/doc/advice.html",
+                    "text" : "专家咨询"
+                }
+            ]
+        },
+        {
+            "href" : "ajax/helporder.html",
+            "icon" : "fa fa-fw fa-pencil-square-o",
+            "text" : "辅助下单"
+        },
+        {
+            "href" : "ajax/adviceorder.html",
+            "icon" : "fa fa-fw fa-comment-o",
+            "text" : "查看回复"
+        }
+    ]
+}

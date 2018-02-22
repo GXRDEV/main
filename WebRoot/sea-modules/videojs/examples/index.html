@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <head>
+    <title>Video.js | HTML5 Video Player</title>
+    <link href="../video-js.min.css" rel="stylesheet">
+    <style>
+    	*{margin:0;padding:0;}
+    	html,body,#example_video_1{height:100%;width:100%;overflow:hidden;}
+    	.video-js .vjs-big-play-button{
+    		top:50%;left:50%;transform:translate(-50%,-50%);-webkit-transform:translate(-50%,-50%);
+    	}
+    </style>
+    <script src="../ie8/videojs-ie8.min.js"></script>
+    <script src="../video.min.js"></script>
+	<script type="text/javascript">
+		function getParameter(queryString, parameterName) {
+            var parameterName = parameterName + "=";
+            if(queryString.length > 0) {
+                var begin = queryString.indexOf(parameterName);
+                if(begin != -1) {
+                    begin += parameterName.length;
+                    var end = queryString.indexOf("&", begin);
+                    if(end == -1) {
+                        end = queryString.length;
+                    }
+                    return unescape(queryString.substring(begin, end));
+                }
+                return '';
+            }
+        }
+        function getExt(url){
+        	return url.split('.').pop().toLowerCase();
+        }
+	</script>
+  </head>
+
+</head>
+
+<body>
+
+  <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" data-setup="{}">
+    <script>
+    	var queryString = document.location.search.substring(1);
+        var src = getParameter(queryString, "src"),ext = getExt(src);
+        ext = ext ? ('type="video/' + ext + '"') : '' 
+        document.write('<source src="'+ src +'" '+ ext +'>');
+    </script>
+    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+  </video>
+</body>
+
+</html>

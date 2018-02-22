@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  <bean id="overtimecloseSchedule" class="com.tspeiz.modules.common.quartz.OvertimecloseSchedule" />
+  <bean id="closetw"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="overtimecloseSchedule" />
+    <property name="targetMethod" value="close" />
+    <property name="concurrent" value="false" />
+  </bean>
+  <bean id="overCloseTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="closetw" />
+    <property name="cronExpression">
+      <value>1/20 * * * * ?</value>
+    </property>
+  </bean>
+  <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="triggers">
+      <list>
+        <ref local="overCloseTrigger" />
+      </list>
+    </property>
+  </bean>
+</beans>

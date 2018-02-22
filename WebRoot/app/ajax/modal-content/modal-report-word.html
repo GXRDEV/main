@@ -1,0 +1,95 @@
+<div class="modal-body" id="vue-modal-report-word">
+    <form class="smart-form vuemodalreport prelative" style="margin:0 20px;">   
+        <div class="row">
+            <h2 style="text-align:center;">远程会诊专家意见函</h2>
+            <p style="text-align:right;padding:0 0 1em;font-size:0.9em">咨询单号：{{ form.orderuuid }}</p>
+            <div class="tr flex">
+                <span class="td f1">姓名：{{ form.patientname }}</span>
+                <span class="td f1">性别：{{ form.patientsex }}</span>
+                <span class="td f1">年龄：{{ form.patientage }}</span>
+            </div>
+            
+            <h3>病例信息及咨询目的</h3>
+            <div class="tr flex column">
+                <span class="td f1">病情描述：{{ form.diseasedesc }}</span>
+                <span class="td f1">主要诊断：{{ form.initialDiagnosis }}</span>
+                <span class="td f1">咨询目的：{{ form.askproblem }}</span>
+            </div>
+            <div class="tr flex">
+                <span class="td f1">申请医师：{{ form.appdoc }}</span>
+                <span class="td f1">科室：{{ form.appdep }}</span>
+                <span class="td f1">所在医院：{{ form.apphos }}</span>
+            </div>
+            <div class="tr flex">
+                <span class="td f1">申请时间：{{ form.apptime }}</span>
+            </div>
+            
+            <h3>意见及建议</h3>
+            <div class="tr flex column">
+                <span class="td f1">诊断意见：{{ form.conresult }}</span>
+                <span class="td f1">治疗建议：{{ form.treatplan }}</span>
+                <span class="td f1">注意事项：{{ form.attentions }}</span>
+            </div>
+            <div class="tr flex">
+                <span class="td f1">回复专家：{{ form.redocname }}</span>
+                <span class="td f1">所属科室：{{ form.redocdep }}</span>
+                <span class="td f1">所属医院：{{ form.redochos }}</span>
+            </div>
+            <div class="tr flex">
+                <span class="td f1">回复时间：{{ form.retime }}</span>
+            </div>
+            <dl>
+            	<dd>1、本意见函系医学专家基于下级医院上传的患者相关病历材料及多年临床经验独立出具，仅对本次咨询有效；</dd>
+            	<dd>2、本意见函仅供临床参考，不能替代就诊医院医生的最终诊断意见；</dd>
+            	<dd>3、北京佰医汇信息技术有限公司作为“互联会诊平台”提供方，仅对平台运行的稳定性负责。</dd>
+            </dl>
+        </div>
+        <div class="modal-footer text-align-center prelative clearfix" style="padding: 20px 0;">
+            <button type="button" class="btn btn-lg btn-default" data-dismiss="modal">关闭</button>
+            <a :href="'/exportword/' + oid" class="btn btn-lg btn-primary">导出</a>
+        </div>
+        <section v-if="isload" class="loading center">
+            <img src="../img/loading/31.gif" style="width:32px;" alt="" />
+        </section>
+    </form>
+</div>
+<script>
+    (function () {
+        var dialog = new Vue({
+            el: '#vue-modal-report-word',
+            data: {
+            	oid: Page.oid,
+                form:{},
+                isload: false
+            },
+            methods: {
+                
+            },
+            created: function() {
+                var that = this;
+                this.isload = true;
+                $.post('/export/gainreportdatas', { oid: Page.oid })
+                .done(function (d) {
+                    if(BASE.isLost(d)) return $.smallBox({title: "订单信息加载失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+                    that.form = d || {};
+                })
+                .always(function(){
+                	that.isload = false;
+                });
+            }
+        });
+        Page.dialog = dialog;
+    })();
+</script>
+<style>
+    .modal-footer .btn{min-width: 8em;border-radius: 2em;box-shadow:none;}
+    .smart-form{ color:#000;}
+    .smart-form .tr{border:1px solid #000;}
+    .smart-form .td{ padding: 0.8em; box-sizing:border-box; width:33.33%; }
+    .smart-form .td + .td{border-left:1px solid #000;}
+    .smart-form .column .td{border:0;width:100%;}
+    .smart-form .tr + .tr{margin-top:-1px;}
+    .smart-form dl{padding: 1.5em 0;}
+    .smart-form dd{ line-height:1.7em; }
+    
+</style>

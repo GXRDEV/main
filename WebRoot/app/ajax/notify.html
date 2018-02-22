@@ -1,0 +1,150 @@
+<div id="vue-notify" class="notifyPage">
+	<i class="signarr"></i>
+	<dl>
+		<dd v-for="(dd, idx) in notifys" class="flex" :class="{ 'read' : dd.isRead }">
+			<span class="f0 fhead" v-text="dd.timeStr"></span>
+			<span class="f1 fbody">
+				<label v-text="s('t',idx)" class="a whitespace block"></label>
+				<span v-text="dd.content" class="whitespace block"></span>
+			</span>
+			<span class="f0 ffoot">
+				<a href="javascript:;" class="a" @click="jumpto(idx)" v-text="s('v',idx)"></a>
+			</span>
+		</dd>
+		<dd v-if="notifys.length < 1" class="noresult">
+			<img src="../img/noresult.png" style="width:24px;" alt="" />
+		</dd>	
+		<dd v-if="isload" class="loading center">
+			<img src="../img/loading/31.gif" style="width:32px;" alt="" />
+		</dd>
+	</dl>
+</div>
+<script type="text/javascript">	
+	pageSetUp();	
+	var pagefunction = function(utype) {
+		new Vue({
+			el: '#vue-notify',
+			data: {
+				notifys: [],
+				isload: false
+			},
+			methods:{
+				jumpto: function(idx){
+					var that = this;
+					var item = this.notifys[idx];
+					this.isload = true;
+					$.get('/doctor/jumptodetail',{businessKey: item.businessKey, pushKey: item.pushKey })
+					.done(function(d){
+						var tp = d.otype, id = d.oid, f = utype == 2 ? 'exp' : 'doc', href = '';
+						if(BASE.isLost(d)) return $.smallBox({title: "错误提示",content: '请求发生内部错误，请重试',color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+						if(item.pushCode == 211){
+							href = '/account.html'
+						} else {
+							switch(tp){
+								case 4:
+									href = '/detail.html?oid=' + id;break;
+								case 5:
+								case 10:
+									href = '/advicedetail.html?otype='+ tp +'&oid=' + id;break;
+								case 1:
+									href = '/ask.html?rdt=/expert/twdetail/' + id;break;
+								case 2:
+									href = '/tel.html?rdt=/expert/teldetail/' + id;break;
+								default:
+									break;
+							}
+						}	
+            			BASE.refreshNotify();
+						href ? (location.hash = '#ajax/' + f + href) : that.initData();
+					})
+					.fail(function(){
+						$.smallBox({
+							title: "错误提示",content: '网络出错',
+                            color: $.color.error,
+                            iconSmall: "fa fa-times",
+                            timeout: 2000
+                        })
+					})
+					.always(function(){
+						that.isload = false;
+					});
+				},
+				s: function(sign, idx){
+					var t, v;
+					var item = this.notifys[idx];
+					var code = item.pushCode
+					t = '#' + item.desc;
+
+					if (code == 210 || (code >= 301 && code <= 319)) {
+						v = '标记为已读'
+					} else if(code == 211 || [1, 2, 4, 5, 10].indexOf(item.businessType) != -1){
+						v = '查看详情'
+					} else {
+						v = '标记为已读'
+					}
+
+					if(sign == 't'){
+						return t;
+					}else if(sign == 'v'){
+						return v;
+					}
+				},
+				initData: function() {
+					var that = this;
+					this.isload = true;
+					$.get('/doctor/loadsysmsgs')
+					.done(function(d){
+						that.notifys = d.msgs || [];
+					})
+					.always(function(){
+						that.isload = false;
+					});
+				}
+			},
+			created: function(){
+				//获取数据
+				this.initData()
+			}
+		})
+	};
+
+	var pagedestroy = function(){};
+	pagefunction(SStorage.get('_token_utype'));	
+</script>
+<style>
+	.notifyPage{position: relative; padding:1.2em 3em 1em 1em;color: #2A313B;font-size:1.1em; }
+	.notifyPage .signarr{
+		width: 0;height: 0;
+		position: absolute;z-index: 902;
+		right: 236px;top: -19px;
+		border: 10px solid transparent;	
+		border-bottom-color: #C7C8CB;
+
+	}
+	.notifyPage .signarr:after{
+		content: "";
+		width: 0;height: 0;
+		position: absolute;z-index: 902;
+		right: -10px;top: -9px;
+		border: 10px solid transparent;
+		border-bottom-color: #EEEFF3;
+	}
+	.notifyPage dd{ margin-bottom: 1em; }
+	.notifyPage .fbody,
+	.notifyPage .ffoot{background: #fff;border: 1px solid #E5E5E5;}
+	.notifyPage .fhead,
+	.notifyPage .ffoot{flex: 0 0 5em;display: flex;align-items: center;}
+	.notifyPage .ffoot{
+		flex: 0 0 8em;
+		justify-content: flex-end;
+		padding-right: 2em;
+		border-left:0;
+		box-sizing: border-box;
+	}
+	.notifyPage .fbody{padding:1em;border-right: 0;width: 30vw;}
+	.notifyPage .a{ color: #0085D0;}
+	.notifyPage .fbody .a{ font-size: 0.9em; text-align: left;}
+	.notifyPage .read .fbody .a{ color: #989898;}
+	.notifyPage .read .fbody span{ color: #ccc;}
+	.notifyPage .loading{ min-height: 100px;}
+</style>

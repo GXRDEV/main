@@ -1,0 +1,156 @@
+<div id="lis-list" class="lis-groups lis-templet">
+	<div class="row header">
+		<div class="pull-left"><slot name="title"></slot></div>
+		<div class="pull-left" v-if="fdata.edit">
+			<template v-if="isDeepModal()">
+				<button type="button" @click="synchLis" class="btn btn-primary"><i class="iconfont icon-upload"></i> 同步</button>
+				<button type="button" @click="synchLisWithQuery" class="btn btn-default"><i class="iconfont icon-upload"></i> 高级同步</button>
+			</template>
+            <button type="button" @click="synchLisWithUpload" class="btn btn-primary"><i class="iconfont icon-upload"></i> 上传图片报告</button>
+		</div>
+		<div class="pull-right">
+			<slot name="actions"></slot>
+		</div>
+	</div>
+	<section class="lis-list" v-if="fdata.form.list.length > 0">
+		<section v-for="lis in fdata.form.list" v-if="lis.beans.length > 0" class="blocklist beantimelist clearfix" v-bind:id="'key' + lis.key.replace(/[\/]/g,'')">
+			<div class="beantime">
+				<span class="time" v-text="lis.key"></span>
+			</div>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<div v-for="table in lis.beans" class="reportlist thumb">
+						<div class="report" @click="showReportDetail($event)">
+							<h4>六安市立医院{{table.kvs.record_name}}</h4>
+							<div class="reportbaseinfo clearfix">
+								<span class="baseitem">
+										<label>姓名：</label><span v-text="table.beans[0]['kvs']['姓名']"></span>
+								</span>
+								<span class="baseitem">
+										<label>性别：</label><span v-text="table.beans[0]['kvs']['性别']"></span>
+								</span>
+								<span class="baseitem">
+										<label>年龄：</label><span v-text="table.beans[0]['kvs']['年龄']"></span>
+								</span>
+								<span class="baseitem">
+										<label>标识号：</label><span v-text="table.beans[0]['kvs']['标识号']"></span>
+								</span>
+								<span class="baseitem">
+										<label>床号：</label><span v-text="table.beans[0]['kvs']['当前床号']"></span>
+								</span>
+								<span class="baseitem">
+										<label>送检医生：</label><span v-text="table.beans[0]['kvs']['送检医生']"></span>
+								</span>
+								<span class="baseitem">
+										<label>科室：</label><span v-text="table.beans[0]['kvs']['送检科室']"></span>
+								</span>
+								<span class="baseitem">
+										<label>标本类型：</label><span v-text="table.beans[0]['kvs']['标本类型']"></span>
+								</span>
+								<span class="baseitem">
+										<label>标本号：</label><span v-text="table.beans[0]['kvs']['标本序号']"></span>
+								</span>
+								<span class="baseitem">
+										<label>检验项目：</label><span v-text="table.beans[0]['kvs']['检验项目']"></span>
+								</span>
+							</div>
+							<div class="reporttable flex clearfix">
+								<div class="col-md-6">
+									<table class="table">
+										<thead>
+											<tr>
+												<th></th>
+												<th>检验项目名称</th>
+												<th>结果</th>
+												<th>标志</th>
+												<th>参考区间</th>
+												<th>单位</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="tr in halfData(table.beans, true)">
+												<td v-text="tr['kvs']['缩写']"></td>
+												<td v-text="tr['kvs']['中文名']"></td>
+												<td v-text="tr['kvs']['检验结果']"></td>
+												<td v-text="tr['kvs']['标志']" class="text-center"></td>
+												<td v-text="tr['kvs']['参考区间']"></td>
+												<td v-text="tr['kvs']['单位']"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-md-6 ansysdata">
+									<table class="table">
+										<thead>
+											<tr>
+												<th></th>
+												<th>检验项目名称</th>
+												<th>结果</th>
+												<th>标志</th>
+												<th>参考区间</th>
+												<th>单位</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="tr in halfData(table.beans, false)">
+												<td v-text="tr['kvs']['缩写']"></td>
+												<td v-text="tr['kvs']['中文名']"></td>
+												<td v-text="tr['kvs']['检验结果']"></td>
+												<td v-text="tr['kvs']['标志']" class="text-center"></td>
+												<td v-text="tr['kvs']['参考区间']"></td>
+												<td v-text="tr['kvs']['单位']"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="reportfooter clearfix">
+								<span class="baseitem">
+										<label>接收时间：</label><span v-text="table.beans[0]['kvs']['接收时间']"></span>
+								</span>
+								<span class="baseitem">
+										<label>报告时间：</label><span v-text="table.beans[0]['kvs']['报告时间']"></span>
+								</span>
+								<span class="baseitem">
+										<label>检验医师：</label><span v-text="table.beans[0]['kvs']['检验医师']"></span>
+								</span>
+								<span class="baseitem">
+										<label>审核医师：</label><span v-text="table.beans[0]['kvs']['审核医师']"></span>
+								</span>
+								<span class="baseitem">
+										<label>采样时间：</label><span v-text="table.beans[0]['kvs']['采样时间']"></span>
+								</span>
+								<span class="baseitem">
+										<label>报告备注：</label><span v-text="table.beans[0]['kvs']['检验备注']"></span>
+								</span>
+							</div>
+							<div class="reportremark">
+								<h6>**此结果仅对本标负责** 如对检验结果有疑义，请在报告发出三日内与检验科联系核对复查。</h6>
+							</div>
+						</div>
+						<div class="re_title" v-bind:title="table.kvs.record_name.replace('报告单', '')" v-text="table.kvs.record_name.replace('报告单', ' ' + table.remark)"></div>
+						<div class="icon-del" @click="removeItem(lis.key, table.key)" v-if="fdata.edit"><span>×</span></div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-button-next"></div>
+			<div class="swiper-button-prev"></div>
+		</section>
+	</section>
+	<template v-else>
+        <section v-if="fdata.form.img_list.length < 1 && !fdata.isload" class="noresult">
+			<img src="../img/noresult.png" style="width:24px;" alt="" />
+		</section>
+	</template>
+	<section v-if="fdata.isload" class="loading">
+		<img src="../img/loading/31.gif" style="width:32px;" alt="" />
+	</section>
+    <section class="pac-list" v-show="fdata.form.img_list.length > 0">
+        <div class="blocklist pacsSignlist flex vue IMG">
+            <div class="pacsSign"><span class="sing">IMG</span></div>
+            <div class="pac-outer f1" style="margin-left: -10px;">
+                <my-webupload :id="'lisfiles'" :list="fdata.form.img_list" @success="pacfileok" :btn="false" :edit="fdata.edit" :editname="true" ref="lisfiles"></my-webupload>
+            </div>
+        </div>
+    </section>
+</div>

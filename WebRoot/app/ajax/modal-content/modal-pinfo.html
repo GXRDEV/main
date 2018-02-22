@@ -1,0 +1,296 @@
+<button type="button" class="close fixed-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<div class="modal-body prelative" id="vue-modal-pinfo">
+    <form class="smart-form vuemodalpinfo" style="margin:0 60px;" :class="{'readonly':!edit}">
+        <header class="flex">
+            <div class="f0 thumb" style="width:9em">
+                <my-webupload :id="'headpic'" :edit="edit" :oid="form.docid + ''" :single="true" :list="headpic" ref="webuploadsingle"></my-webupload>
+                <label class="block" style="color:#999;margin-top: 118px;">点击头像更换</label>
+            </div>
+            <div class="f1 bsinfo">
+                <p v-text="form.mobileTelphone" style="margin: 6px 0 15px"></p>
+                <p v-text="form.displayName"></p>
+                <p v-text="select.hosName + ' ' + select.depName"></p>
+            </div>
+            <div class="f0 scancode" style="width:12em">
+                <img :src="erweimaUrl || 'img/zjh/ma_zjk.png'" style="width:130px;" alt="">
+                <label for="block">扫一扫，分享我的名片</label>
+            </div>
+        </header>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group input" :class="{'state-error':!form.displayName}">
+                    <label for="category"> 真实姓名*</label>
+                    <input type="text" v-model="form.displayName" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group input" :class="{'state-error' : vtel}">
+                    <label for="tags"> 联系方式*</label>
+                    <input type="text" v-model="form.mobileTelphone" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group select">
+                    <label for="category"> 职务</label>
+                    <select v-model="form.duty" class="form-control">
+                        <option v-for="o in dutylist" :value="o">{{o}}</option>
+                        <!--<option value="">---暂无职务---</option>-->
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group select">
+                    <label for="tags"> 职称</label>
+                    <select v-model="form.profession" class="form-control">
+                        <option v-for="o in professionlist" :value="o">{{o}}</option>
+                        <!--<option value="">---暂无职称---</option>-->
+                    </select>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-md-6 hassplit">
+                <div class="form-group select">
+                    <label for="category"> 所在城市*</label>
+                    <select v-model="select.prov" @change="provchange" class="form-control">
+                        <option v-for="o in select.provlist" :value="o.distCode">{{ o.distName }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group select">
+                    <label class="nbsp" for="tags"></label>
+                    <select v-model="select.city" class="form-control">
+                        <option v-for="o in select.citylist" :value="o.distCode">{{ o.distName }}</option>
+                    </select>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-md-6 hassplit">
+                <div class="form-group select">
+                    <label for="category"> 所属医院/科室*</label>
+                    <select v-model="select.hosid" @change="hoschange" class="form-control">
+                        <option v-for="o in select.hoslist" :value="o.id">{{ o.displayName }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group select">
+                    <label class="nbsp" for="tags"></label>
+                    <select v-model="select.depid" @change="depchange" class="form-control">
+                        <option v-for="o in select.deplist" :value="o.id">{{ o.displayName }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>     
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group input">
+                    <label for="category">地址*</label>
+                    <input type="text" class="form-control" v-model="form.position"  />
+                </div>
+                <div class="form-group textarea">
+                    <label for="category">擅长领域*</label>
+                    <textarea class="form-control" v-model="form.speciality" rows="5" ></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="category">上传照片（让患者更多的了解您）*</label>
+                    <div class="webuploader">
+                        <my-webupload :id="'modelfilelist'" :edit="edit" :oid="form.docid + ''" :list="relatedPics" ref="webupload"></my-webupload>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="edit" class="modal-footer text-align-center">
+            <button type="button" class="btn btn-lg btn-default" data-dismiss="modal">取消</button>
+            <button type="button" @click.prevent="saveForm"  :disabled="validate" class="btn btn-lg btn-primary">保存</button>
+        </div>
+    </form>
+    <section v-if="isload" class="loading center">
+		<img src="../img/loading/31.gif" style="width:32px;" alt="" />
+	</section>
+</div>
+<script>
+    (function () {
+        var utype = SStorage.get('_token_utype');
+        var hosurl = utype == '2' ? '/system/gainhosbyprovin' : '/kangxin/gaincoohospitals';
+        var depurl = utype == '2' ? '/system/gaindepartsbyhos' : '/kangxin/gainhosdeparts';
+        var dialog = new Vue({
+            el: '#vue-modal-pinfo',
+            data: {
+                docid:'',
+                isload: true,
+                form:{
+                    docid: '',
+                    displayName: '',
+                    mobileTelphone: '',
+                    duty:'',
+                    profession: '',
+                    hosid: '',
+                    depid:'',
+                    position:'',
+                    speciality:'',
+                    profile: '',//个人简介
+                    distCode:'',
+                    relatedPics:''//相关图片
+                },
+                erweimaUrl: '',
+                dutylist:['主任医师','副主任医师', '主治医师', '---暂无职务---'],
+                professionlist:['教授','副教授', '讲师', '---暂无职称---'],
+                select:{
+                    prov : '',
+                    city : '',
+                    hosid: '',
+                    depid: '',
+                    hosName: '',
+                    depName: '',
+                    provlist: [],
+                    citylist: [],
+                    hoslist: [],
+                    deplist: []
+                },
+                relatedPics: [],
+                headpic: [],
+                edit: utype == '2'
+            },
+            created: function(){
+                (function(that){
+                    $.get('/expert/exinfo')
+                    .done(function(d){
+                        var doc = d.special || {};
+                        if(!doc.specialId){
+                            return $.smallBox({title: "数据出错，请重试",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+                        }
+                        that.headpic = [{
+                            fileUrl: doc.listSpecialPicture || (BASE.href + 'app/img/avatars/male.png')
+                        }];
+                        that.erweimaUrl = doc.erweimaUrl || '';
+                        that.relatedPics = d.images || [];
+                        that.form.displayName = doc.specialName;
+                        that.form.mobileTelphone = doc.mobileTelphone;
+                        that.form.docid = doc.specialId;
+                        that.form.duty = doc.duty || '---暂无职务---';
+                        that.form.profession =  doc.profession || '---暂无职称---';
+                        that.form.position = doc.position;
+                        that.form.speciality = doc.specialty;
+                        that.form.profile =  doc.profile;
+                        that.form.distCode = doc.distCode || '';
+                        that.form.hosid = doc.hosId || '';
+                        that.form.depid = doc.depId || '';
+                        that.select.hosName = doc.hosName;
+                        that.select.depName = doc.depName;
+                        that.initselect(1);
+                        that.isload = false;
+                    });
+                })(this);
+            },
+            computed: {
+                provid: function(){
+                    return this.form.distCode ? (this.form.distCode.substring(0,2) + '0000') : '';
+                },
+                cityid: function(){
+                    return this.form.distCode || '';
+                },
+                validate: function(){
+                    return !this.form.displayName || !BASE.valideTel(this.form.mobileTelphone || '');
+                },
+                vtel: function(){
+                    return !BASE.valideTel(this.form.mobileTelphone || '');
+                }
+            },
+            methods: {
+                saveForm: function () {
+                    var form = $.extend(this.form, {
+                        relatedPics: (this.$refs.webupload.ids || []).join(','),
+                        headImageUrl: (this.$refs.webuploadsingle.urls || []).join(','),
+                        distCode: this.select.city || this.select.prov,
+                        hosid: this.select.hosid,
+                        depid: this.select.depid
+                    });
+                    $.post('/expert/editexpert',form)
+                    .done(function(){
+                        $.smallBox({title: "更新成功", color: $.color.success,timeout: 3000});
+                        BASE.hideModel();
+                    })
+                    .fail(function(){
+                        $.smallBox({title: "更新失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 3000});
+                    });
+                },
+                initselect: function(){
+                    var that = this;
+                    $.get('/system/gainproorcitys?stype=1&procost=')
+                        .done(function (d) {
+                            that.select.provlist = d.codes || [];
+                            that.provid && (that.select.prov = that.provid, that.provchange(true));
+                        });
+                    this.gethos('');
+                },
+                provchange: function(bol) {
+                    var that = this, code = (this.select.prov || '').replace('0000','');
+                    code ? $.get('/system/gainproorcitys?stype=2&procost=' + code)
+                        .done(function (d) {
+                            that.select.citylist = d.codes || [];
+                            that.select.city = bol===true ? that.cityid : '';
+                        }):(
+                            that.select.citylist = [],
+                            that.select.city = ''
+                        );
+                    this.gethos(code, bol);
+                },
+                hoschange: function (bol) {
+                    var that = this;
+                    this.select.hosid ? $.get(depurl + '?hosid=' + this.select.hosid)
+                        .done(function (d) {
+                            that.select.deplist = d.departs || [];
+                            that.select.depid = bol !== true ? that.form.depid : '';
+                        }):(
+                            that.select.deplist = [],
+                            that.select.depid = ''
+                        );
+                    
+                    var v = this.select.hosid;
+                    var idx = v ? BASE.arrayFindObjIndex(v, 'id', this.select.hoslist) : -1;
+                    this.select.hosName = idx != -1 ? this.select.hoslist[idx]['displayName'] : '';
+                },
+                depchange: function () {
+                    var v = this.select.depid;
+                    var idx = v ? BASE.arrayFindObjIndex(v, 'id', this.select.deplist) : -1;
+                    this.select.depName = idx != -1 ? this.select.deplist[idx]['displayName'] : '';
+                },
+                gethos: function(code, bol){
+                    var that = this;
+                    $.get(hosurl + '?procost=' + code)
+                        .done(function (d) {
+                            that.select.hoslist = d.hospitals || [];
+                            that.select.hosid = bol !==true ? that.form.hosid : '';
+                            that.select.hosid ? that.hoschange(bol) : (
+                                that.select.deplist = [],
+                                that.select.depid = ''
+                            );
+                        });
+                }
+            }
+        })
+    })();
+</script>
+<style>
+    .vuemodalpinfo header{margin: 0;padding: 10px 0;margin-bottom:20px;}
+    .vuemodalpinfo header .f0{ text-align: center;font-size: 12px;}
+    .vuemodalpinfo header .f0 label{line-height: 2em;}
+    .vuemodalpinfo header .f1 p{ text-indent:2em; color: #000;margin-bottom: 4px;}
+    .vuemodalpinfo .nbsp{display: block;height: 18px;}
+    .vuemodalpinfo .hassplit:after{content: "-";position: absolute;top: 50%;right: -3px;margin-top: -6px;}
+    .modal-footer .btn{min-width: 8em;}
+    .vuemodalpinfo .diyUpload .parentFileBox .fileBoxUl li{margin: 0 10px 10px 0;}
+    .vuemodalpinfo #headpic .diyFileName,
+    .vuemodalpinfo .row.header{display: none!important;}
+    .vuemodalpinfo #headpic{margin: 0;}
+    .readonly input,.readonly select,.readonly textarea{cursor: not-allowed!important;}
+</style>

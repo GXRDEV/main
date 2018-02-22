@@ -1,0 +1,39 @@
+<div class="wxsuccesspay">    	
+	<div class="w1200">
+ 		<div class="blockdiv normal wxsuccessdetail">
+    		<div class="boyder clearfix">
+    			<h2><b>预约成功</b></h2>
+    			<p>短信已发送到手机<b><?=@data.personTel?></b>，请关注以下内容</p>
+    			<div class="yuyuedetail">
+    				<dl class="detail">
+    					<dd><label>就&ensp;诊&ensp;人：</label><span><?=@data.personName?></span></dd>
+    					<dd><label>预约医生：</label><span><?=@data.docName?>（<?=@data.hosName?>）</span></dd>
+    					<dd><label>就诊时间：</label><span><?=@data.mtime?></span></dd>
+    					<dd><label>门诊类型：</label><span>远程门诊（<?=@data.cost?>元）</span></dd>
+    					<dd><label>门诊地点：</label><span><?=@data.hosAdd?></span></dd>
+    				</dl>
+    				<dl class="something">
+    					<dt>注意事项：</dt>
+    					<dd>1、您可以在‘我的预约单’里查看订单详情</dd>
+    					<dd>2、如果您预约成功，由于个人原因不能就诊，请及时取消订单</dd>
+    					<dd>3、如遇专家停诊，您的订单会被取消，我们会以短信的方式通知您，请保持手机畅通。</dd>
+    					<dd>4、每个帐号每月下单和取消订单数量有上限，请按需预约，若超出上限，当月将无法再预约。</dd>
+    				</dl>
+    			</div>
+    			<div class="followus clearfix">
+    				<div class="fleft">
+    					<img src="<?=base?>img/website/app1.png"/>
+    				</div>
+    				<div class="fleft">
+    					<img src="<?=base?>img/website/wx1.png"/>
+    				</div>
+    			</div>
+    		</div>
+ 		</div>
+ 	</div> 	
+</div>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.success_wxpay();
+	});
+</script>

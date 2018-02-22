@@ -1,0 +1,23 @@
+<div class="modal-body" id="vue-modal-max-img" style="text-align: center">
+    <button type="button" class="close close-report" data-dismiss="modal" aria-hidden="true" style="margin: 10px 20px 0 0">×</button>
+    <img :src="imgUrl" alt="" style="width: 360px; text-align: center">
+</div>
+<script>
+    (function(){
+        var dialog = new Vue({
+            el: '#vue-modal-max-img',
+            data: {
+                imgUrl: Page.maximg
+            }
+        })
+    })()
+</script>
+<style>
+    .imgs{
+        display: block;
+        width: 300px;
+        height: 500px;
+        background-repeat:no-repeat;
+        background-size: cover 
+    }
+</style>

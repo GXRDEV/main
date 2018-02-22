@@ -1,0 +1,301 @@
+<script>
+    Page.popup = null;
+    Page.onPopupPostMsg = function(msg){
+        Page.popup && Page.popup.postMessage(msg || "iframe ready!", location.origin);
+    }
+    Page.openScreenIframe = function() {
+        var src = "/doctor/popscreenshare?oid=" + Page.order.id, iframe = $('iframe#screenframe');
+        iframe.size() < 1 ? Page.openScreenWindow() : iframe.attr('src', src).attr('data-src', src);
+
+        if(Page.mainForms.maintabs.list.screen){
+            Page.mainForms.maintabs.list.screen.show = true;
+            Page.mainForms.maintabs.selected = 'screen';
+            $(window).trigger("resize");
+        }
+    }
+    Page.openScreenWindow = function() {
+        var src = "/doctor/popscreenshare?oid=" + Page.order.id;
+        window._OpenWindow = window.open(src, "newwin", "height=450,width=800,toolbar=no,menubar=no,alwaysRaised=yes,depended=yes,location=no");
+    }
+
+    window.addEventListener("message", function (event) {
+        var key = event.data;
+        if (event.origin == location.origin && Page && Page.mainForms) {
+            if (key == 'new') {
+                Page.mainForms.$refs.room.newWindow();
+            } else if (key == 'back') {
+                Page.mainForms.$refs.room.backIframe();
+            } else if (key == 'sharescreen') {
+                Page.openScreenIframe();
+            } else if (key == 'showfooter') {
+                Page.mainForms.footer = true; //显示底部按钮区域
+                Page.footer.isBegin = true; //显示底部挂断按钮
+            } else if (key == 'leaveroom') {
+                Page.footer.isBegin = false;
+                Page.order.roletype == 'receive' && (Page.mainForms.footer = false);
+            } else if (typeof key == 'object') {
+                if (key.name == 'bigBox') {
+                    $.bigBox(key.options);
+                } else if (key.name == 'smallBox') {
+                    $.smallBox(key.options);
+                } else if (key.name == 'online') {
+                    Page.footer.online = Page.mainForms.$refs.room.expInfo.state = key.options;
+                } else if (key.name == 'updateExpInfo') {
+                    Page.mainForms.$refs.room.expInfo = key.options;
+                }
+            }
+        }
+    });
+</script>
+<script>
+    Page.Ctr = {
+        pid: +new Date(),
+        oid: Page.oid,
+        utype: Page.utype,
+        init: function(b){
+            if(getParam('cleartime')){
+	            confirm('确定清除已通话时间？') && clearVedioTime(this.oid);
+	        } else {
+	            this.loadBase(b, this.pid)
+	                .loadOrder(b, this.pid);
+	        }
+	        function clearVedioTime(_roomKey) {
+		        $.post("/doctor/clearVedioTime", {
+		            oid: _roomKey
+		        }, function (data) {
+		            if (data.status == 'success') {
+		                window.location = window.location
+		            }
+		        });
+		    }
+        },
+        loadOrder:function(b, pid){
+            var that = this;
+            $.post('/order/loadOrderInfo', { orderId: Page.oid, orderType: Page.otype })
+            .done(function (d) {
+                var o = d.order, hasdoc;
+                if(!(Page && Page.Ctr && pid == Page.Ctr.pid)) return 0;
+                if(BASE.isLost(d)) return $.smallBox({title: "订单信息加载失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+                if(!o) return 0;
+                Page.order = o;
+                Page.order.utype = Page.utype;
+                Page.order.uid = Page.uid;
+                Page.order.roletype = d.sendOrReceive;
+                Page.ouid = o.uuid;
+                Page.usertype = b.usertype = d.sendOrReceive; // send, receive;
+                hasdoc = Page.usertype == 'receive' ? (o.localDoctorId || o.doctorId) : o.expertId;
+                b.dockingMode = o.dockingMode; 
+                b.protag = o.status;
+                b.room = [20, 40].indexOf(o.status) != -1 && !!hasdoc;
+                if(Page.otype == '4'){
+                    b.video = b.room && o.status == 20;
+                }
+                that.loadFooter(b);
+                that.loadGoeasy(o.uuid, pid);
+                that.loadPac(b, pid);
+                // !Page.nolis && that.loadLis(b, pid);
+                ['4', '5'].indexOf(Page.otype) != -1 && [20, 40].indexOf(o.status) != -1 && that.loadReport(b, pid);
+                debugState && console.log('------loadOrder-----' + (new Date()).Format('yyyy-MM-dd hh:mm:ss.S'));
+            });
+            return this;
+        },
+        loadReport: function(b, pid) {
+            var that = this;
+            $.post('/order/loadReportInfo', { orderUuid: Page.ouid, orderType: Page.otype })
+            .done(function (d) {
+                var o = d.opinion || {};
+                if(!(Page && Page.Ctr && pid == Page.Ctr.pid)) return 0;
+                if(BASE.isLost(d)) return $.smallBox({title: "订单信息加载失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+                //专家报告
+                Page.usertype == 'receive' && b.maintabs.list.report && (b.maintabs.list.report.show = true);
+                (o.diagnosis || o.treatPlan || o.attentions || o.photoReport) && b.maintabs.list.report && ( 
+                    b.maintabs.list.report.show = true,
+                    b.reportlist = o
+                );
+                debugState && console.log('------loadReport-----' + (new Date()).Format('yyyy-MM-dd hh:mm:ss.S'));
+            });
+            return this;
+        },
+        loadBase: function(b, pid){
+            b.baseForm.isload = true;
+            b.profileForm.isload = true;
+            $.get('/order/loadCaseInfo',{ orderId: Page.oid, orderType: Page.otype })
+            .done(function(data){
+                if(!(Page && Page.Ctr && pid == Page.Ctr.pid)) return 0;
+                var bse = data.caseinfo || {};
+                if(BASE.isLost(data)) return $.smallBox({title: "基本信息加载失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+                b.caseid = bse.id;
+                b.othersForm.form.localFiles = data.normals || [];  
+                data.attachments.map( function (item, ind) {
+                    item.active_id = item.createTime + ind
+                    item.reportTime = item.reportTimes
+                })
+                b.encloForm = data.attachments  
+                b.pacForm.form.img_list = data.radiographFilmImags || [];
+                b.baseForm.form = {
+                    username: bse.contactName,
+                    sex: bse.sex,
+                    age: bse.age,
+                    idcard: bse.idNumber,
+                    telphone: bse.telephone
+                };
+                b.profileForm.form = {
+                    description: bse.description,
+                    mainSuit: bse.mainSuit,
+                    historyIll: bse.historyIll,
+                    presentIll: bse.presentIll,
+                    examined: bse.examined,
+                    assistantResult: bse.assistantResult,
+                    initialDiagnosis: bse.initialDiagnosis,
+                    familyHistory: bse.familyHistory,
+                    treatAdvice: bse.treatAdvice
+                };
+                b.ask.form = {
+                    askProblem: bse.askProblem
+                };
+                Page.otype == '5' && bse.description && b.$refs.room.userMsg.unshift({
+                    "sendType": '3',
+                    "msgContent": bse.description,
+                    "msgType": "text",
+                    "fileUrl": null
+                });
+            })
+            .always(function(){
+                b.baseForm.isload = false;
+                b.profileForm.isload = false;
+            });
+            return this;
+        },
+        loadPac: function(b, pid){
+            b.pacForm.isload = true;
+            $.get('/order/gainPacsData',{ orderId: Page.oid, orderType: Page.otype })
+            .done(function(data){
+                if(!(Page && Page.Ctr && pid == Page.Ctr.pid)) return 0;
+                if(BASE.isLost(data)) return $.smallBox({title: "影像资料数据加载失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+                b.pacForm.form.list = data['pac_records'] || [];
+            })
+            .fail(function(){
+                b.pacForm.form.list = [];
+            })
+            .always(function(){
+                b.pacForm.isload = false;
+            });
+            return this;
+        },
+        loadFooter: function(b){
+            $('#main-btns').size() && $('#main-btns').load('ajax/doc/footer.html');
+            return this;
+        },
+        loadGoeasy: function(channelId,pid){
+            var _utype = this.utype,that = this; 
+            if('undefined' == typeof GO_SUB) return window.setTimeout(function(){that.loadGoeasy(channelId,pid)},50), 0;
+            channelId && GO_SUB(channelId, function(message){   
+                if(!(Page && Page.Ctr && pid == Page.Ctr.pid)) return 0;
+
+                debugState && console.log('订单【'+ channelId +'】GoEasy', JSON.stringify(message, null, '\t'));
+
+                var content = message.content.replace(/&quot;/g,"\"");
+            	var jmessage = JSON.parse(content);  
+            	var _type    =  jmessage.type;
+            	var _from    =  jmessage.from;  
+
+            	//就绪通知
+            	if(_type == 'launchNotify'){
+            		location.reload();
+            	//退出通知
+            	} else if (_type =='cancelNotify' && _from !=_utype ){
+            		//endwaitvideo();
+                
+            	//结束订单
+            	} else if(_type == 'finishVedioNotify' && _from != _utype){
+                    _utype=='2' && Page.footer.sendreport();
+                    Page.mainForms.footer = false;
+                    Page.mainForms.video = false;
+                    Page && Page.mainForms && (
+                        Page.mainForms.maintabs.list.screen && (Page.mainForms.maintabs.list.screen.show = false),
+                        Page.mainForms.maintabs.list.report.show = true,
+                        Page.mainForms.maintabs.selected = 'report'
+                    );
+            	//进入就绪或退出就绪状态
+                } else if(_type == 'progressNotify' && _from !=_utype){
+            		//var _progress = jmessage.progress;
+            		//alert("inside"  + content);
+            	//报告通知
+            	} else if (_type =='reportNotify' && _from != _utype ){
+                    Page && Page.mainForms && (
+                        Page.mainForms.maintabs.list.report.show = true,
+                        Page.mainForms.maintabs.selected = 'report',
+                        Page.mainForms.reportlist = jmessage
+                    );
+            	} 
+            	else if (_type =='syncPacs' && _from ==_utype ){
+            		setPacsProgram(jmessage);
+            	}
+            	else if (_type =='syncPacsOut' && _from ==_utype ){
+            		//!!_signSyncBtn ? setPacListWithType1(jmessage) : setPacListWithType0(jmessage);
+            	}
+            	else if (_type =='syncLis' && _from ==_utype ){
+            		setLisProgram(jmessage);
+            	}
+            	else if (_type =='updcm'){
+            		uploadPacs(jmessage);
+            	}
+            	else if (_type =='share' && _utype == '2'){
+            		msgShareScreen(jmessage);
+            	}
+            	else if (_type =='jSignature'){
+                    Page.dialog && (Page.dialog.form.signature = jmessage.url)
+            	}
+
+                function setPacsProgram(jmsg){
+                    console.log('正在同步'+ jmsg.modality +'.imglist.a'+ _pacsSign +':eq('+ idx +')['+ percent +'%]');
+                }
+                function setPacListWithType0(jmsg){
+
+                }
+                function setPacListWithType1(jmsg){
+
+                }
+                function setLisProgram(jmsg){
+
+                }
+                function uploadPacs(jmsg){
+                    var key = jmsg.Modality;
+                    var status = jmsg.status == 'new';
+                    if(!status) return;
+                    var pacs = Page.mainForms.pacForm.form.list;
+                    var arr = jmsg.dcmurl.split('|');
+                    var pac = { key: key, beans: [] };
+                    var bean = {
+                        key: jmsg.pid,
+                        studyId: arr[1],
+                        seriesId: arr[2],
+                        instanceId: arr[3],
+                        remark: jmsg.REPORT_DATE,
+                        kvs:{
+                            patient_id: arr[0],
+                            Check_Item_E: ''
+                        }
+                    };
+                    var idx = BASE.arrayFindObjIndex(key, 'key', pacs);
+                    if(idx != -1){
+                        pacs[idx].beans.push(bean);
+                    }else{
+                        pac.beans.push(bean);
+                        pacs.push(pac);
+                    }
+                    $(window).trigger('scroll');
+                }
+                function msgShareScreen(){
+                    $.smallBox({
+                        title : "屏幕分享请求",
+                        content : "医生方面没有看到您的桌面分享，请求您再次分享，是否分享? <p class='text-align-right'><a href='javascript:void(0);' class='btn btn-default' onclick='Page.onPopupPostMsg(\"sharetodoc\");'>分享</a> <a href='javascript:void(0);' class='btn btn-danger'>忽略</a></p>",
+                        color : $.color.noraml,
+                        icon : "fa fa-bell swing animated"
+                    });
+                }
+            });
+            return this;
+        }
+    };
+</script>

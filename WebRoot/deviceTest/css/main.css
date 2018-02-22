@@ -1,0 +1,33 @@
+#container{text-align:center;}
+#meters{display:inline-block;margin-top:40px;text-align:left;}
+div#meters > div {
+  margin-bottom:1em;
+  text-align:left;
+}
+
+div#meters div.label {
+  display: inline-block;
+  font-weight: 400;
+  margin: 0 0.5em 0 0;
+  width: 3.5em;
+}
+
+div#meters div.value {
+  display: inline-block;
+}
+
+meter {
+  width: 40vw;
+}
+
+meter#clip {
+  color: #db4437;
+}
+
+meter#slow {
+color: #f4b400;
+}
+
+meter#instant {
+color: #0f9d58;
+}

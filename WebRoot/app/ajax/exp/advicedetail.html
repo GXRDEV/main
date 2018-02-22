@@ -1,0 +1,201 @@
+<div id="main-forms" class="mainframe flex ">
+	<div class="main-column f1">		
+		<div class="gloal-title bgfff">
+			<ul class="taps-button">
+				<template v-for="(val,key) in maintabs.list" >
+					<li v-if="val.show" :class="{selected : maintabs.selected == key}" @click="tapMainTabs(key)">
+						<span v-text="val.text"></span>
+					</li>
+				</template>
+			</ul>
+		</div>
+		<div class="doc-detail">
+			<section class="personinfo" v-show="'info'==maintabs.selected">
+				<header class="clearfix">					
+					<my-tab ref="tab"></my-tab>
+				</header>
+				<article>
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="base">
+							<h4>患者信息</h4>
+							<form class="smart-form" :class="{editing : baseForm.edit}">
+								<my-baseform :fdata="baseForm" ref="base"></my-baseform>								
+							</form>
+							<h4 class="last-title">诊疗信息</h4>
+							<form class="smart-form" :class="{editing : profileForm.edit}">
+								<my-profileform :fdata="profileForm" ref="profile" :edit="false"></my-profileform>
+							</form>
+							<form class="smart-form" :class="{editing : othersForm.edit}">
+								<my-webupload :id="'localfiles'" :list="othersForm.form.localFiles" :edit="false" ref="others">
+									<template slot="title">入院记录</template>
+								</my-webupload>
+							</form>
+							<form class="smart-form" :class="{editing : ask.edit}">
+								<my-question :fdata="ask" ref="ask" :edit="false">
+									<template slot="title">咨询目的</template>									
+								</my-question>
+							</form>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="pacs">
+							<form class="smart-form">
+								<my-pacs :fdata="pacForm" ref="pacs">
+									<h4 slot="title" style="color: #000">影像资料&ensp;<span style="font-size: .7em">专业医学影像DCM资料</span></h4>									
+								</my-pacs>
+							</form>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="enclo">
+							<form class="smart-form">
+								<my-enclosure :fdata="encloForm" :readonly="true">
+									<h4 slot="title" style="color: #000">病历附件&ensp;<span style="font-size: .7em">图片格式病历附件内容</span></h4>
+								</my-enclosure>
+							</form>
+						</div>
+					</div>
+				</article>
+			</section>
+			<section class="expreport" v-show="'report'==maintabs.selected">
+				<my-report :list="reportlist" :status="protag" :oid="oid" :otype="otype"></my-report>
+			</section>
+		</div>		
+	</div>
+	<div class="f0">
+		<my-room :oid="oid" :docask="'true'" :room="room" ref="room" :status="protag"></my-room>
+	</div>
+</div>
+<footer id="main-btns" class="public-actions"></footer>
+<script id="script-load" type="text/x-template"></script>
+<script type="text/javascript">
+	var Page = {
+		oid: getParam('oid'),
+        uid: SStorage.get('_token_uid'),
+		_uid: BASE.uid,
+        utype: SStorage.get('_token_utype'),
+		docask: 'true',
+		otype: getParam('otype') || '5', //转诊是10
+		nolis: true
+	};
+
+	pageSetUp();
+
+	var pagefunction = function() {
+		$('#script-load').load('ajax/script-templet/remote.init.html',function(){
+			new Vue({
+				el: '#main-forms',
+				data: {
+					oid: Page.oid,
+					otype: Page.otype,
+					caseid: '',
+					userid: '',
+					dockingMode: '2',
+					protag: 6,
+					room: false,
+					footer: false,
+					maintabs: {
+						list: {
+							info: {
+								text: '患者病历',
+								show: true
+							},
+							report: {
+								text: '就诊报告',
+								show: false
+							}
+						},						
+						selected: 'info'
+					},
+					baseForm:{
+						form: {
+							username:'',
+							sex:'1',
+							age:'',
+							idcard:'',
+							telphone:''
+						},
+						old:{},
+						validate: false,
+						edit: false,
+						isload: false,
+						issave: false
+					},
+					profileForm:{
+						form: {
+							mainSuit:'',
+							historyIll:'',
+							presentIll:'',
+							examined:'',
+							assistantResult:'',
+							initialDiagnosis:'',
+							familyHistory:''
+						},
+						old:{},
+						edit: false,
+						isload: false,
+						issave: false
+					},
+					ask:{
+						form: {
+							askProblem:''
+						},
+						old:{},
+						edit: false,
+						isload: false,
+						issave: false
+					},
+					encloForm: [],
+					pacForm:{
+						form:{
+							list: [],
+							img_list: [],
+							pacs_ids: []
+						},
+						old:{},
+						validate: false,
+						edit: false,
+						isload: false,
+						issave: false
+					},
+					othersForm: {
+						form: {
+							localFiles:[],
+							normalImages:[]
+						},
+						old:{},
+						edit: false,
+						isload: false,
+						issave: false
+					},
+					reportlist: {}
+				},
+				methods: {
+					tapMainTabs: function(key){
+						this.maintabs.selected = key;
+					}
+				},
+				created: function(){
+					Page.mainForms = this;
+					Page.Ctr.init(this);
+				},
+				beforeDestroy: function(){
+					$.ajax({
+						type: 'get',
+						url: '/doctor/modifyMsgToRead',
+						data: {
+							otype: Page.otype,
+							oid: this.oid
+						},
+						success: function(data){}
+					})
+				}
+			});
+		});
+	};
+	
+	var pagedestroy = function(){
+		Page.mainForms.$destroy();
+		Page = null;
+	}
+
+	if(!Page.oid) page404()
+	else pagefunction();
+
+</script>

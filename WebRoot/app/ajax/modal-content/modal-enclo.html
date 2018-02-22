@@ -1,0 +1,179 @@
+<button type="button" class="close fixed-close" data-dismiss="modal" aria-hidden="true">×</button>
+<div id="vue-modal-enclo" class="vue-modal-enclo" @click="timepicker=false">
+    <h3>添加&编辑病历附件</h3>
+    <div class="type">
+        <label>请选择类型</label>
+        <p>
+            <span v-for="(typeList, typeIndex) in encloType" :key="typeIndex" @click="choice(typeList, typeIndex)" :class="{'choiceType' : typeIndex == ind}">{{typeList.displayName}}</span>
+        </p>
+    </div>
+    <div class="relative" style="margin-top: 1rem">
+        <label>请选择时间</label>
+        <span class="modal-title" id="myModalLabel" style="cursor: pointer" @click.stop="timepicker = true">{{reportTime}}</span>
+        <div class="modal-body" id="vue-modal-deny" v-show="timepicker">
+            <form class="smart-form vuemodalpay" style="margin:0 30px;">
+                <div class="row text-align-center">
+                    <div class="date" id="datetimepicker" style="display:inline-block; margin: 1em auto;">
+                        <input type="text" id="mirror_field" readonly hidden>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div style="margin-top: 1em">
+        <textarea name="remark" cols="30" rows="10" placeholder="请对此附件进行描述" v-model="remark"></textarea>
+    </div>
+    <div style="margin-top: 1rem">
+        <my-webupload :id="'enclofiles'" @success="uploadok" :list="encloForm.files" :edit="encloForm.edit" ref="enclo"></my-webupload>
+    </div>
+    <div style="text-align: center">
+        <button @click="btn" class="btn btn-primary preser coloseModal"  :disabled="disabled">保存</button>
+    </div>
+</div>
+<script>
+    var vmEnclo;
+    (function () {
+        vmEnclo = new Vue({
+            el: '#vue-modal-enclo',
+            data: {
+                ind: -1,
+                reportTime: '',
+                timer: '',
+                remark: '',
+                timepicker: false,
+                encloType: [],
+                choiceType: '',
+                array: [],
+                type: '',
+                attachmentIds: '',
+                encloForm: {
+					files: [],
+					old:{},
+					edit: true,
+					isload: false,
+					issave: false,
+				},
+                attachments: [],
+                arrN: []
+            },
+            created () {
+                let that = this
+                this.encloType = Page.encloType
+                this.timer = sessionStorage.getItem('_catch_time_name_')
+                sessionStorage.getItem('_catch_attachments_') && (this.attachments = JSON.parse(sessionStorage.getItem('_catch_attachments_')))
+                this.attachments && (this.array = this.attachments.find( (obj) => { return obj.active_id == that.timer }))
+                let year = new Date().getFullYear()
+                let mon =  (new Date().getMonth()+1) < 10 ? '0' + (new Date().getMonth()+1) : new Date().getMonth() + 1 
+                let day =  new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate() 
+                this.reportTime = year + '-' + mon +'-' + day;
+                if(this.array){
+                    this.id = this.array.id || ''
+                    this.reportTime = this.array.reportTime || this.reportTime
+                    this.remark = this.array.remark
+                    this.ind = this.encloType.findIndex((obj) => {return obj.code == that.array.type})
+                    this.type = this.array.type
+                    this.encloForm.files = this.array.files
+                }
+            },
+            mounted: function () {
+                let that = this
+                loadCss("js/plugin/datetime/bootstrap-datetimepicker.min.css");
+                loadScript("js/plugin/datetime/bootstrap-datetimepicker.min.js", function(){
+					loadScript("js/plugin/datetime/bootstrap-datetimepicker.zh-CN.js", function(){
+                        $('#datetimepicker').datetimepicker({
+                            minView: "month",
+                            language: 'zh-CN',
+                            linkField: "mirror_field",
+                            format: 'yyyy-mm-dd',
+                            linkFormat: "yyyy-mm-dd",
+                        }).on('changeDate', function(ev){
+                            that.reportTime = $("#mirror_field").val()
+                            that.timepicker = false
+                        });
+                    })
+				});
+            },
+            methods: {
+                choice: function (item, ind){
+                    this.ind = ind
+                    this.choiceType = item
+                    this.type = item.code
+                },
+                btn: function (){
+                    var nouploadArr = document.querySelectorAll('.diyUploadHover')
+                    if(nouploadArr.length) {
+                        return alert('正在上传中,请稍等！')
+                    }
+                    let form = {
+                        id: this.id,
+                        active_id: this.timer,
+                        reportTime: this.reportTime,
+                        type: this.type,
+                        remark: this.remark,
+                        files: this.encloForm.files,
+                        attachmentIds: this.$refs.enclo.ids
+                    }
+                    if( !this.array ){
+                        this.attachments = this.attachments.concat(form)
+                    } else {
+                        let ind = this.attachments.findIndex( (obj) => { return obj.active_id == this.timer })
+                        this.attachments.splice(ind, 1, form)
+                    }
+                    sessionStorage.setItem('_catch_attachments_', JSON.stringify(this.attachments))
+                    let arr=[]
+                    this.attachments.forEach(function (item) {
+                        arr.push({
+                            id: item.id || '',
+                            type: item.type,
+                            reportTime: item.reportTime,
+                            remark: item.remark,
+                            attachmentIds: (item.attachmentIds instanceof Array) ? item.attachmentIds.join(',') : item.attachmentIds
+                        })
+                    })
+                    this.arrN = arr;
+                    $(document).trigger('changeenclo')
+                    this.submitEnclo();
+                    document.querySelector('.coloseModal').setAttribute("data-dismiss","modal")
+                    document.querySelector('.coloseModal').setAttribute("aria-hidden","aria-hidden")
+                },
+                uploadok: function(){
+					this.encloForm.files = this.$refs.enclo.imglist;
+				},
+                submitEnclo: function(){
+                    this.saveForm('editCaseInfo', {
+                        'attachments': JSON.stringify({'attachments': this.arrN}),
+                    }, this.encloForm, '病例附件')
+                },
+                saveForm: function(fun, data, d, title){
+                    data.caseid = Page.mainForms.caseid;
+                    data.oid = Page.oid;
+                    data.otype = Page.otype;
+                    $.post('/doctor/' + fun, data)
+                            .done(function () {
+                                $.smallBox({
+                                    title: "保存提示",
+                                    content: title + "修改成功",
+                                    color: $.color.success,
+                                    timeout: 3000
+                                });
+                            })
+                            .fail(function () {
+                                $.smallBox({
+                                    title: "保存提示",
+                                    content: title + "修改失败",
+                                    color: $.color.error,
+                                    iconSmall: "fa fa-times"
+                                });
+                            })
+                }
+            },
+            computed: {
+                disabled: function (){
+                    return !(this.type && this.reportTime && this.remark && this.encloForm.files.length)
+                }
+            }
+        });
+    })();
+</script>
+<style>
+</style>

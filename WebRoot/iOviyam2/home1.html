@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>iOviyam 2.0</title>
+        <link rel="stylesheet" href="css/jquery.mobile-1.1.1.min.css" />
+        <link rel="stylesheet" href="css/home.css" />
+        <link type="text/css" href="css/jqm-datebox.min.css" rel="stylesheet" /> 
+
+        <link rel="apple-touch-icon" href="i-ovm.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="touch-icon-ipad.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="touch-icon-iphone-retina.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="touch-icon-ipad-retina.png" />
+        <!-- NOTE: Script load order is significant! -->
+        <script src="js/JqueryMobile-mini/jquery.min.js"></script>
+        <script src="js/JqueryMobile-mini/jquery.mobile-1.1.1.min.js"></script>
+        <script src="js/Mobile-UI/home.js"></script>
+        <script src="js/ioviyam/home.js"></script>
+        <script src="js/Controls/date.js"></script>
+
+    </head>  
+    <body  >
+        <!-- Home -->
+        <div data-role="page" id="querypage" style="background: black" >
+            <div id="headertxt" data-theme="a" data-role="header" >
+                <h3 id="headingtxt">
+                    Oviyam 2.0
+                </h3>
+                <a class="button"  id="btnLogout"  >Logout</a>
+                <a class="button"  id="configinit"  data-inline="false" data-theme="a"  data-icon="gear" data-iconpos="right">Settings</a>
+            </div>
+            <div data-role="content" align="center" >
+                <div data-role="collapsible-set" data-mini="true"  class="grdiv">
+                    <div id="collap" data-role="collapsible" data-collapsed="false" style="display: none" >
+                        <h3>Quick Search</h3>
+                        <div id="quickSearchDiv" data-role="controlgroup" data-theme="a">
+                        </div>
+                    </div>
+                    <div data-role="collapsible" data-collapsed="true" id="collapadsearch">
+                        <h3>Advanced Search</h3>
+                        <div style="margin-top:0%;margin-bottom:0%;margin-right:0%;margin-left:0%;" class="grdiv">
+                            <div  id="n">
+                                <div data-role="content" >
+                                <label for="patientmenu">
+                                </label>
+                                <select id="patientmenu"  data-mini="true"   data-native-menu="false" name="Patientqry" data-theme="a" data-inline="false">
+                                    <option value="PatientId">
+                                        Patient Id
+                                    </option>
+                                    <option value="PatientName">
+                                        Patient Name
+                                    </option>
+                                    <option value="AccessionNo">
+                                        Accession No
+                                    </option>
+                                    <option value="BirthDate">
+                                        Birth Date
+                                    </option>
+                                </select>
+                                </div>
+                            </div>
+                            <fieldset  >
+                                <label for="patienttxt">
+                                </label>
+                                <input name="" id="patienttxt" placeholder="PatientId"  data-mini="true"  value="" type="text" data-inline="false" />
+                            </fieldset>
+                            <div >
+                                <label for="datesearch">
+                                </label>
+                                <select id="datesearch"  data-mini="true"  data-native-menu="false" name="Date" data-theme="a">
+                                    <option value="Anydate">
+                                        Any Date
+                                    </option>
+                                    <option value="Today">
+                                        Today
+                                    </option>
+                                    <option value="Yesterday">
+                                        Yesterday
+                                    </option>
+                                    <option value="Last week">
+                                        Last Week
+                                    </option>
+                                    <option value="Last Month">
+                                        Last Month
+                                    </option>
+                                    <option id="bt" value="Between">
+                                        Between
+                                    </option>
+                                </select>
+                            </div>
+                            <div id="frmdiv"  >
+                                <label id="fromlbl" for="mydatefrm">From Date</label>
+                                <input name="mydate" id="mydatefrm" type="date" data-role="datebox" data-inline="false"  data-mini="true" 
+                                       data-options='{"mode": "calbox"}'>
+                            </div>
+                            <div  id="todiv">
+                                <label id="tolbl" for="mydateto">To Date</label>
+                                <input name="mydate" id="mydateto" type="date" data-role="datebox" data-inline="false"  data-mini="true" 
+                                       data-options='{"mode": "calbox"}'>
+                            </div>
+                            <div style="margin-top: 1%" >
+                                <label for="modalitymenu" ></label>
+                                <select id="modalitymenu"  name="modality" data-native-menu="false" data-theme="a" data-mini="true"   >
+                                    <option value="All Modality">
+                                        All Modality
+                                    </option>
+                                    <option value="CT">
+                                        CT
+                                    </option>
+                                    <option value="MR">
+                                        MR
+                                    </option>
+                                    <option value="XA">
+                                        XA
+                                    </option>
+                                    <option value="CR">
+                                        CR
+                                    </option>
+                                    <option value="SE">
+                                        SE
+                                    </option>
+                                    <option value="NM">
+                                        NM
+                                    </option>
+                                    <option value="RF">
+                                        RF
+                                    </option>
+                                    <option value="DX">
+                                        DX
+                                    </option>
+                                    <option value="US">
+                                        US
+                                    </option>
+                                    <option value="PX">
+                                        PX
+                                    </option>
+                                    <option value="OT">
+                                        OT
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="ui-grid-a">
+                                <div  class="ui-block-a"><button type="button"  data-mini="true"  id="queryserver" data-theme="a">Search</button></div>
+                                <div class="ui-block-b"><button type="button"  data-mini="true"  id="clear" data-theme="a">Clear</button></div>	   
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+        </div>
+
+        <div data-role="page" id="viewer" >           
+            <div id="imagedisplay"></div>
+        </div>
+    </body>
+</html>

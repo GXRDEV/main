@@ -1,0 +1,71 @@
+<div class="base-templet prelative">
+	<div class="row header">
+		<div class="pull-left">
+			<slot name="title"></slot>
+		</div>
+		<div class="pull-right">
+			<slot name="actions"></slot>
+		</div>
+	</div>
+	<section class="bodyer">
+		<div class="row">
+			<div class="col col-4">
+				<label class="label">患者姓名<i style="color:#bf3131; font-style: normal;vertical-align: middle;">*</i></label>
+				<label class="input" :class="{'state-error': fdata.edit && !fdata.form.username}">
+					<span v-if="!fdata.edit" class="text" v-text="fdata.form.username"></span>
+					<template v-else>
+						<input type="text" v-model="fdata.form.username" class="form-control">
+						<div v-if="!fdata.form.username" class="note note-error">患者姓名不能为空</div>
+					</template>
+				</label>
+			</div>
+			<div class="col col-3">
+				<label class="label">性别<i style="color:#bf3131; font-style: normal;vertical-align: middle;">*</i></label>
+				<label class="select">
+					<span v-if="!fdata.edit" class="text" v-text="fdata.form.sex == '1' ? '男' : (fdata.form.sex == '2' ? '女': '未定义性别')"></span>
+					<template v-else>
+						<select v-model="fdata.form.sex" class="form-control">
+							<option value="2">女</option>
+							<option value="1">男</option>
+						</select>										
+					</template>				
+				</label>
+			</div>
+			<div class="col col-3">
+				<label class="label">年龄<i style="color:#bf3131; font-style: normal;vertical-align: middle;">*</i></label>
+				<label class="input" :class="{'state-error': fdata.edit && validateAge(fdata.form.age)}">
+					<span v-if="!fdata.edit" class="text" v-text="fdata.form.age"></span>
+					<template v-else>
+						<input type="number" v-model.number="fdata.form.age" class="form-control">	
+						<div v-if="validateAge(fdata.form.age)" class="note note-error">请输入有效的年龄</div>
+					</template>
+				</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-5">
+				<label class="label">身份证号</label>
+				<label class="input" :class="{'state-error': fdata.edit && validateCard(fdata.form.idcard)}">
+					<span v-if="!fdata.edit" class="text" v-text="fdata.form.idcard"></span>
+					<template v-else>
+						<input type="text" v-model="fdata.form.idcard" class="form-control">	
+						<div v-if="validateCard(fdata.form.idcard)" class="note note-error">请输入有效的身份证号</div>										
+					</template>
+				</label>
+			</div>
+			<div class="col col-5">
+				<label class="label">联系方式</label>
+				<label class="input" :class="{'state-error': fdata.edit && validateTel(fdata.form.telphone)}">
+					<span v-if="!fdata.edit" class="text" v-text="fdata.form.telphone"></span>
+					<template v-else>
+						<input type="text" v-model="fdata.form.telphone" class="form-control">
+						<div v-if="validateTel(fdata.form.telphone)" class="note note-error">请输入有效的联系电话</div>											
+					</template>
+				</label>
+			</div>
+		</div>
+	</section>	
+	<section v-if="fdata.isload" class="loading center">
+		<img src="../img/loading/31.gif" style="width:32px;" alt="" />
+	</section>
+</div>

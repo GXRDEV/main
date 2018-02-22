@@ -1,0 +1,161 @@
+@import "_variables.less";
+@import "library/animation/animation-engine.less";
+@import "_common.less";
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+[disabled]{
+    cursor:not-allowed!important;
+}
+#extr-page{
+    height: 100%;
+    background: transparent;
+    font-family: @font-family-base;
+    body:extend(#extr-page){
+        &.login{
+            background:url("@{img-path}login/bg.jpg") center center / cover no-repeat;
+            min-height: 660px;
+            #main:extend(#extr-page){
+                .logo { position: absolute; top: 14px; left: 26px;}
+                .web_wechat_login_logo {
+                    background: url("@{img-path}login/logo.png") no-repeat center center;
+                    width: 82px; height: 30px;
+                    vertical-align: middle;
+                    display: inline-block;
+                }
+                .web_wechat_login_sublogo {
+                    background: url("@{img-path}login/sublogo.png") no-repeat center center;
+                    width: 207px; height: 16px;
+                    vertical-align: middle;
+                    display: inline-block;
+                    margin:5px 0 0 10px;
+                }
+                .download{position: absolute;top: 20px;right: 26px; color:#767676;font-size:12px; line-height: 1.5em;}
+                .download span{line-height:2em;}
+                .download a{display:inline-block;padding:2px 6px;border:1px solid #0085D0;border-radius:2px; color:#0085D0;text-decoration: none;}
+
+            }
+        } 
+    }
+}
+.login .container{
+    position: fixed;
+    top:50%;left:50%;
+    width:460px;height: 400px;
+    margin:-200px 0 0 -230px;
+    .well{
+        border:0;
+        border-radius:5px;
+        box-shadow: 0 0 22px 2px #9e9c9c;
+        background: #fff;    
+    }
+    header{
+        position: absolute;
+        top:-70px;
+        width: 100%;
+        border:0;
+        background: transparent;
+        box-sizing: border-box;
+        label{
+            text-align: center;
+            color:#000;
+            cursor: pointer;
+            input{
+                display:none;
+                &:checked ~ span{
+                    color:@main-color;
+                }
+            }
+            & + label{
+                border-left:1px solid #000;
+                margin-left:-1px;
+            }
+        }
+    }
+    footer{
+        background: #fff;
+        border: 0;
+        margin:0 18%;
+        label:extend(.login .container header label all){
+            font-size: 16px;
+        }
+    }
+    fieldset{
+        border: 0;
+    }
+    .logintypefieldset1{
+        .label{display: none;}
+        .input input{
+            border:0;
+            border-bottom: 1px solid #D0D0D0;
+            height: 40px;
+            font-size: 1.2em;
+        }
+        .note{
+            text-align: right;
+            line-height: 3em;
+            a{color:#aaa;}
+        }
+        section{
+            &:last-child{
+                text-align: center;
+                padding:2em 0;
+                margin:0 2em;
+                .btn{
+                    border-radius:22px;
+                    margin-top:0.7em;
+                }
+            }
+        }
+    }
+    .logintypefieldset2{
+        text-align: center;
+        .login_box{
+            .sub_title{
+                padding: 3.35em 0 1em;
+                color:#222;
+            }
+            .qrcode{
+                //display: none;
+            }
+            .avatar{
+                display: none;
+            }
+        }
+    }
+    .smart-form{
+        padding-top:1px;
+        fieldset{
+            margin: 40px 30px;
+        }
+        .icon-append{
+            top: 8px;border: 0;
+        }
+    }
+}
+@media (max-width: 1366px){
+    .login {
+        .container{
+            width:360px;height: 400px;
+            margin:-200px 0 0 -180px;
+        }
+    }
+}
+@media (max-width: 460px){
+    .login {
+        .container{
+            width:300px;height: 400px;
+            margin:-200px 0 0 -150px;
+            footer label{
+                font-size: 14px;
+            }
+            .smart-form header{
+                font-size: 13px;
+            }
+        }    
+        .web_wechat_login_sublogo,
+        .download span{
+            display: none!important;
+        }
+    }
+}

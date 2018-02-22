@@ -1,0 +1,199 @@
+.prelative{position:relative;}
+.exportdetail .header h3{padding:0.6em 0 0.6em 2.3em;border-bottom: 1px solid #f8f8f8;background-color:#fdfdfd;margin-top:0;}
+.exportdetail form{margin:0;}
+.exportdetail .diyUpload .fileBoxUl{margin:0;}
+.exportdetail .diyUpload .fileBoxUl li{width:80px;height:80px;float:left;}
+.exportdetail .diyUpload .fileBoxUl .webuploader-container{width:100%;height:100%;background-color:transparent;}
+.exportdetail .diyUpload .fileBoxUl .webuploader-pick{position:relative;}
+.exportdetail .diyUpload .fileBoxUl .webuploader-pick i{font-size:80px;color:#bbb;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+.exportdetail .diyUpload .fileBoxUl .webuploader-pick-hover {
+	background: #f9f9f9;
+}
+.exportdetail .diyUpload .parentFileBox>.fileBoxUl>li>.diySuccess {
+    display: none!important;
+}
+.exportdetail .checkbox{padding-left:0;}
+.exportdetail .checkbox input{margin:0 10px 0 1px;}
+.exportdetail input[type="text"], 
+.exportdetail input[type="number"], 
+.exportdetail select, 
+.exportdetail textarea, 
+.exportdetail .uneditable-input{width:30%;box-sizing:border-box;height:36px;}
+.exportdetail textarea{height:6em;}
+
+.exportdetail .doublewidth input[type="text"],
+.exportdetail .doublewidth input[type="number"], 
+.exportdetail .doublewidth textarea, 
+.exportdetail .doublewidth .uneditable-input{width:60%;}
+.exportdetail .serverslist{padding-bottom:6px;height:36px;}
+.exportdetail .serverslist .checkbox{display:inline-block;min-width:9em;}
+.exportdetail .serverslist input[type="number"]{width:8em;height:20px;}
+.exportdetail .serverslist .add-on b{color:red;margin-left:4px;}
+
+.exportdetail .forcoohos .control-label b{display:none;}
+.exportdetail .required .control-label b{color:red;display:inline-block;}
+
+.exportdetail .form-action,
+.dochelporder form .form-action{padding:1em 0 3em 180px;border-top:1px solid #f1f1f1;background-color:#fafafa;margin-top: 20px;}
+.exportdetail .form-action .btn,
+.dochelporder form .form-action .btn{padding: 8px 30px;}
+.exportdetail .inputval,
+.dochelporder form .inputval{padding:5px 0;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.exportdetail select[disabled],
+.dochelporder form select[disabled]{border:0;background:transparent url();height: auto;padding: 0;
+	appearance:none;-moz-appearance:none;-webkit-appearance:none;width:inherit;}
+
+
+.hosdetailpass .form-horizontal .control-group{margin-bottom:10px;}
+.dochelporder {background:#fff;}
+.dochelporder .radio{display:inline-block;padding-left:0;margin-right:30px;}
+.dochelporder .doslist{position:relative; width:198px;border:1px solid #ccc;text-align:center;display:inline-block;margin:8px 6px;cursor:pointer;}
+.dochelporder .doslist:hover,
+.dochelporder .doslist.selected{border-color:#00CC99;box-shadow:0 2px 0 0 #00CC99;}
+.dochelporder .doslist:hover:after,
+.dochelporder .doslist.selected:after{content:"";position:absolute;top:5px;right:5px;width:18px;height:12px;
+	 border:2px solid #00CC99;border-top:0;border-right:0;transform:rotate(-45deg);-webkit-transform:rotate(-45deg);}
+.dochelporder .doslist .thumb{position: relative;width:100px;height:100px;overflow:hidden;border-radius:50%;margin:10px auto;}
+.dochelporder .doslist .thumb img{position:absolute;top:50%;left:50%; width:100%;max-width:auto;
+	transform:translate(-50%,-50%);-webkit-transform:translate(-50%,-50%);
+	-ms-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);
+	-o-transform:translate(-50%,-50%);
+}
+.dochelporder .exportslist{margin:13px 15px 0;}
+.dochelporder .doslist .fp{font-size:18px;font-weight:500;}
+.dochelporder .doslist .lp{margin:0 1em 10px;text-align:left;height:3.2em;overflow:hidden;line-height:1.6em;}
+
+.dochelporder .doctimes .swiper-container{margin:20px 30px;}
+.dochelporder .doctimes .timelist{display:inline-block;width:7em;text-align:center;margin:0 0.52em;float:left;}
+.dochelporder .doctimes .timelist:hover dt{border-bottom-color:#07C597;}
+.dochelporder .doctimes .timelist dt{border-bottom:2px solid transparent;line-height:2em;}
+.dochelporder .doctimes .timelist dd{border:1px solid #D2D2D2;color:#A2A2A2;margin:15px 0;line-height:1.5em;}
+.dochelporder .doctimes .timelist dd.open{border:1px solid #07C597;color:#07C597;cursor:pointer;}
+.dochelporder .doctimes .timelist dd.open:hover,
+.dochelporder .doctimes .timelist dd.hover{background-color:#07C597;color:#fff;}
+.dochelporder .doctimes .timelist dd.disabled{background-color:#D2D2D2;border-color:#D2D2D2;color:#A2A2A2;}
+.dochelporder .userinfo{min-height:100px;}
+.dochelporder .form-horizontal .baseformaction{border:0;}
+
+.dochelporder .section2,
+.dochelporder .section3,
+.dochelporder .section4,
+.dochelporder .section5,
+.dochelporder .section6{display:none;}
+.dochelporder .form-horizontal .bodyer .controls input, 
+.dochelporder .form-horizontal .bodyer .controls .input{width:auto;height:auto;}
+.dochelporder .userinfo .section .bodyer{margin-bottom:0;}
+.dochelporder .form-horizontal .bodyer textarea{width:80%;}
+.dochelporder .form-horizontal .bodyer input[type="text"]{height:36px;width:40%;}
+.dochelporder .form-horizontal .bodyer .control-label {padding-top:6px;width:160px;}
+.dochelporder .form-horizontal .bodyer .controls{margin-left:180px;}
+
+.dochelporder .diyUpload ul{list-style:none;}
+.dochelporder .diyUpload li{text-align:center;}
+.dochelporder .diyUpload .webuploader-container{overflow:visible!important;}
+.dochelporder .diyUpload .webuploader-pick label{position: absolute;bottom: -1.5em;width: 100%;}
+
+.dochelporder .wxconfirmpay .header i{color:#00C907;font-size: 29px; vertical-align: -6px;}
+.dochelporder .wxconfirmpay .bodyer,
+.dochelporder .wxsuccesspay .bodyer{padding:40px 0 0;}
+.dochelporder .wxconfirmpay .bodyer p{line-height:2em;font-size:16px;text-align:center;}
+.dochelporder .wxconfirmpay .bodyer h2{line-height:2em;font-size:22px;color:#FE4E2A;text-align:center;}
+.dochelporder .wxconfirmpay .bodyer .imgerm{position:relative;overflow:hidden;height:300px; width:220px;margin:20px auto;border:2px solid #1DB88E;}
+.dochelporder .wxconfirmpay .bodyer .imgerm div{margin:15px;}
+.dochelporder .wxconfirmpay .bodyer .imgerm img{width:240px;position:absolute;left:0;top:0;}
+.dochelporder .wxconfirmpay .bodyer .imgerm i{font-size:76px;color:#07C796;position:absolute;left:6px;bottom:35px;}
+.dochelporder .wxconfirmpay .bodyer .imgerm span{position:absolute;right:12px;bottom:33px;font-size:16px;}
+
+.dochelporder .wxsuccesspay h2{font-size:16px;line-height:2em;text-align:center;}
+.dochelporder .wxsuccesspay b{color:#1DC592;}
+.dochelporder .wxsuccesspay p{line-height:2em;font-size:14px;text-align:center;}
+.dochelporder .wxsuccesspay .yuyuedetail{margin:20px auto;width:700px;border:1px dashed #1DC592; }
+.dochelporder .wxsuccesspay .yuyuedetail dl{padding:2em;line-height:2em;}
+.dochelporder .wxsuccesspay .yuyuedetail .something dt{color:#333;}
+.dochelporder .wxsuccesspay .yuyuedetail .something dd{color:#999;}
+
+
+.dochelporder .fleft{float:left;}
+.dochelporder .fright{float:right;}
+
+.dochelporder .topheader.hasexp .statedd{width:33.33%;}
+.dochelporder .topheader.hasexp .last{width:0;}
+
+.dochelporder .topheader.hasexp6 .statedd{width:20%;}
+.dochelporder .topheader.hasexp6 .last{width:0;}
+
+.dochelporder .editorArea{margin:10px 10px -10px;}
+.dochelporder .editorArea button{background:#B8B8B8;border:0;color:#fff;padding:8px 1.5em;}
+.dochelporder .editorArea button.selected{background:#28B77A;}
+.dochelporder .querywhere{padding:10px 0;border-bottom: 1px dashed #ccc;}
+.dochelporder .customlists{position:relative;padding:6px 0;margin:0 20px;}
+.dochelporder .customlists label{position:absolute;top:9px;left:0;color:#aaa;margin:0;}
+.dochelporder .customlists dl{margin:0 0 0 4em;min-height:1em;}
+.dochelporder .customlists dl.only2em{height:30px;overflow:hidden;}
+.dochelporder .customlists dd{display:inline-block;color:#656565;
+    padding: 3px 2em 3px 0;
+    cursor: pointer;
+    width: 20%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;}
+.dochelporder .customlists dd:hover,
+.dochelporder .customlists dd.selected{color:#28B77B;}
+.dochelporder .customlists dt{position:absolute;top:7px;right:0;font-weight:400;padding: 3px 0;}
+.dochelporder .customlists dt a{display:inline-block;color:#28B77B;}
+
+.pagenationDIV_pages{text-align:center;padding:1em;}
+.pagenationDIV_pages .page{display:inline-block;text-align:center;width:40px;height:40px;line-height:40px;color:#999;border:1px solid #aaa;}
+.pagenationDIV_pages .page.curr{color:#06C496;border-color:#06C496;}
+
+#confirmLoginName .close, #confirmLoginName .modal2-footer button[data-dismiss]{display:none!important;}
+
+.baseinfoIndex .row-fluid .span3{width:30%;margin-left:0%;}
+.baseinfoIndex .row-fluid .span9{width:70%;margin-left:0%;}
+
+.baseinfoIndex .section{border:1px solid #F0F0F0;margin:10px;}
+.baseinfoIndex .section .header{background-color:#EFEFEF;line-height:40px;border-bottom:1px solid #F0F0F0;}
+.baseinfoIndex .section .header .stitle .iconfont{margin:0 5px 0 10px;}
+.baseinfoIndex .section .header .tright{text-align:right;padding-right:10px;}
+.baseinfoIndex .section .bodyer{background-color:#FEFEFE;min-height:120px;margin-bottom:5px;}/* overflow:auto; */
+
+
+.baseinfoIndex .required.error > span:after{content:"不能为空";color:red;font-size:12px;}
+
+.baseinfoIndex .baseform .controls{display:block;padding:6px 0;margin:0 10px;}
+.baseinfoIndex .baseform .controls span{display:block;padding:5px 0}
+.baseinfoIndex .baseform .controls span b{color:red;}
+.baseinfoIndex .baseform .controls input[type="text"],
+.baseinfoIndex .baseform .controls input[type="password"],
+.baseinfoIndex .baseform .controls select{display:block;width:94%;}
+
+
+.baseinfoIndex .imgupload .thumb{width:100px;height:100px;background:#fafafa;}
+.baseinfoIndex .imgupload .thumb:hover{background:#f1f1f1;}
+.baseinfoIndex .imgupload .webuploader-container{width:100%;height:100%;border-radius:0;background:transparent;}
+.baseinfoIndex .imgupload .webuploader-pick i{color:#aaa;font-size:50px;position:absolute;top:50%;left:50%;margin:-0.5em 0 0 -0.5em;line-height:1em;}
+.baseinfoIndex .imgupload .webuploader-pick-hover{background:#f4f4f4;opacity:.6;}
+.baseinfoIndex .imgupload .webuploader-pick-hover i{text-shadow:1px 1px #fff;}
+.baseinfoIndex .fileBoxUl{margin:0;}
+.baseinfoIndex .parentFileBox .fileBoxUl li{margin:0;}
+.baseinfoIndex .parentFileBox .fileBoxUl .viewThumb{width:100px;height:100px;}
+.baseinfoIndex .parentFileBox>.fileBoxUl>li>.diyBar{width:100px;height:100px;line-height:100px;}
+.baseinfoIndex .parentFileBox{position: absolute;top: 0;left: 0;z-index:1;}
+.baseinfoIndex .parentFileBox .diyCancel,
+.baseinfoIndex .parentFileBox .diySuccess,
+.baseinfoIndex .parentFileBox .diyFileName{display:none!important;}
+.baseinfoIndex .imgupload #logourl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);-webkit-transform:translate(-50%,-50%);z-index:0;}
+#edui1_bottombar{display:none;}
+#edui1_iframeholder{min-height:300px;}
+
+
+
+
+
+
+
+
+
+
+
+

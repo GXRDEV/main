@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+						http://www.springframework.org/schema/mvc 
+						http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd 
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd ">
+	<bean id="config_2"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:dbconfig/pacs_db_test.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="pacsdataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${pacsdb.driverClass}" />
+		<property name="jdbcUrl" value="${pacsdb.jdbcUrl}" />
+		<property name="user" value="${pacsdb.user}" />
+		<property name="password" value="${pacsdb.password}" />
+		<property name="initialPoolSize" value="${pacsdb.initialPoolSize}" />
+		<property name="maxPoolSize" value="${pacsdb.maxPoolSize}" />
+		<property name="minPoolSize" value="${pacsdb.minPoolSize}" />
+		<property name="testConnectionOnCheckin" value="${pacsdb.testConnectionOnCheckin}" />
+		<property name="automaticTestTable" value="${pacsdb.automaticTestTable}" />
+		<property name="idleConnectionTestPeriod" value="${pacsdb.idleConnectionTestPeriod}" />
+		<property name="maxIdleTime" value="${pacsdb.maxIdleTime}" />
+		<property name="testConnectionOnCheckout" value="${pacsdb.testConnectionOnCheckout}" />
+	</bean>
+	
+
+	<!-- 定义sessionFactory -->
+	<bean id="pacssessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<!-- sessionFactory数据源 -->
+		<property name="dataSource" ref="pacsdataSource" />
+		<property name="packagesToScan" value="com.tspeiz.modules.pacs.bean" />
+		<!-- hibernate的配置 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.hbm2ddl">update</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 配置hibernateTemplate -->
+	<bean id="pacsHibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="pacssessionFactory" />
+	</bean>
+	
+	<!-- 注入hibernateTemplate -->
+	<bean id="baseDao2" class="com.tspeiz.modules.pacs.common.daoImpl.BaseDaoImpl"
+		abstract="true">
+		<property name="pacsHibernateTemplate" ref="pacsHibernateTemplate" />
+	</bean>
+	<bean id="instanceRelateDao" class="com.tspeiz.modules.pacs.common.daoImpl.InstanceRelateDaoImpl" parent="baseDao2"></bean>
+
+	<bean id="dcmService" class="com.tspeiz.modules.pacs.common.serviceImpl.DcmServiceImpl">
+		<property name="instanceRelateDao" ref="instanceRelateDao"></property>
+	</bean>
+	
+
+	<!-- 事务管理器 -->
+	<bean id="txManager_pacs"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="pacssessionFactory"></property>
+	</bean>
+
+	<!-- 配置事物的传播特性 (事物通知)-->
+	<tx:advice id="txAdvice_pacs" transaction-manager="txManager_pacs">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="find*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:advisor pointcut="execution(* com.tspeiz.modules.*.serviceImpl.*.*(..))"
+			advice-ref="txAdvice_pacs" />
+	</aop:config>
+</beans>

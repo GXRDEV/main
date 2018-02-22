@@ -1,0 +1,30 @@
+<!Doctype html>  
+<html>  
+	<head>  
+		<meta charset="utf-8">  
+    	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+		<title>远程会诊专家报告签名</title> 
+		<style type="text/css">
+			body{
+				width: 100vw;
+				height: 100vh; overflow: hidden;
+			}
+			img{ width: 100%; }
+		</style> 
+		<script>
+			document.write('<img src="' + getParam('url') + '" alt="">');
+			function getParam(name) {
+			    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+			    var regexS = "[\\?&]" + name + "=([^&#]*)";
+			    var regex = new RegExp(regexS);
+			    var results = regex.exec(window.location.href);
+			    if (results == null)
+			        return "";
+			    else
+			        return results[1];
+			}
+		</script>
+	</head>  
+	<body>
+	</body>
+</html>

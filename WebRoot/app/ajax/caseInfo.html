@@ -1,0 +1,65 @@
+<div id="main-forms" class="flex app-dcm">
+	<div class="main-column f1" style="background: #fff">		
+		<section class="personinfo">
+			<div class="doc-detail">
+				<div role="tabpanel" class="tab-pane" id="pacs">
+					<form class="smart-form">
+						<my-pacs :fdata="pacForm" ref="pacs" :edit="false">
+							<h4 slot="title" style="color: #000">影像资料&ensp;<span style="font-size: .7em">专业医学影像DCM资料</span></h4>									
+						</my-pacs>
+					</form>
+				</div>
+			</div>
+		</section>
+	</div>	
+</div>
+<script id="script-load" type="text/x-template"></script>
+<script type="text/javascript">
+	var Page = {
+		oid: '',
+		otype: '-1',
+		mainForms: {
+			pacForm: {}
+		},
+		resize: function(){
+			$('#screenframe').height(($('.side-column > .side-column-fixed').height() - 55) + 'px');
+		}
+	};
+	pageSetUp();
+	var pagefunction = function() {
+		$('#script-load').load('ajax/script-templet/remote.init.html',function(){
+			new Vue({
+				el: '#main-forms',
+				data: {
+					caseUuid: '',
+					pacForm:{
+						form:{
+							list: [],
+							img_list: [],
+							pacs_ids: []
+						},
+						edit: true,
+						old:{}
+					}
+				},
+				created: function(){
+					var that = this
+					this.caseUuid = window.location.hash.slice(window.location.hash.indexOf('=')+1)
+					Page.ouid = this.caseUuid
+					$.get('/doctor/gainPacsData_case', { caseUuid: this.caseUuid})
+					.done( function (data){
+						that.pacForm.form.list = data['pac_records'] || [];
+						Page.mainForms.pacForm = that.pacForm
+					});
+					Page.Ctr.loadGoeasy( this.caseUuid, Page.Ctr.pid);
+				}
+			});
+		})
+    	$(window).bind("resize",Page.resize);
+		$('body.minified').size() < 1 && $('[data-action="minifyMenu"]').trigger('click');
+	};
+	pagefunction()
+</script>
+<style>	
+	.app-dcm .main-column{ padding: 1.5em; border: 4px dashed #ccc; margin: 3em 4em; min-height: 450px;}
+</style>

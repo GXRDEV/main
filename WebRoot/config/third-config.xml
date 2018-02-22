@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<user_id>20135</user_id>
+	<password>123456</password>
+	<visit_url>http://112.33.17.181:8090/TMSServer/api/v2/server.do</visit_url>
+	<token_url>http://112.33.17.181:8090/TMSServer/auth/server.do</token_url>
+</root>

@@ -1,0 +1,149 @@
+<div id="vue-footer" v-if="footer" class="main-btns" :class="{ 'hasroom': room }">
+    <div class="flex">
+        <div class="f1" style="line-height: 53px; padding: 0 2em;">
+            <span v-if="state==30">退诊理由：{{ refusal }}</span>
+            <template v-else>
+                <span v-if="otype=='4'">会诊时间：{{ conDate }}</span>
+                <span v-if="otype=='10'">转入本院住院时间：{{ conDate }}</span>
+                <label v-if="isexp && otype!=5 && [10, 20].indexOf(state) != -1" style="position:relative; color:#0186D1; border: 1px solid #0186D1;display: inline-block;line-height: 1;padding: 4px 10px;">
+                    更改
+                    <input type="text" class="timepicker" style="position:absolute;top:0; left:0;width: 100%;height: 100%;opacity: 0;" id="datetimepicker" readonly v-model="conDate"/>
+                </label>
+            </template>
+        </div>
+        <div v-if="state==10">
+            <button v-if="usertype=='send'" @click="acceptState(50)" type="button" class="btn btn-danger">取消</button>
+            <template v-if="isexp">
+                <button type="button" @click="denyState" class="btn btn-danger">退诊</button>
+                <button type="button" @click="acceptState(20)" class="btn btn-primary">接诊</button>
+            </template>
+        </div>
+        <div v-if="state==20">
+            <button v-if="((otype==4 && isBegin) || otype==5) && showBtn" type="button" @click="endMeet" class="btn btn-danger">完成会诊</button>
+            <template v-if="isexp">
+                <button v-if="otype==10" type="button" @click="acceptState(40)" class="btn btn-danger">完成</button>
+                <template v-else>
+                    <button v-if="isexp && otype==4 && !isBegin" :disabled="!online" type="button" @click="beginMeet" class="btn btn-primary">开始会诊</button>
+                </template>
+            </template>
+        </div>
+    </div>
+</div>
+<script>
+    (function(){
+        var base = Page.mainForms;
+        var footer = new Vue({
+            el: '#vue-footer',
+            data: {
+                isBegin: false,
+                isexp: Page.usertype == 'receive',
+                isask: Page.otype == '5',
+                otype: Page.otype,
+                usertype: Page.usertype,
+                refusal: Page.order.refusalReason,
+                conDate: [Page.order.consultationDate].concat(Page.order.consultationTime || []).concat(Page.order.referralDate || []).join(' '),
+                state: '',
+                online: false,
+                showBtn: true
+            },
+            created () {
+                this.state = base.protag;
+            },
+            methods: {
+                beginMeet: function () {
+                    this.isBegin = true;
+                    Page.onPopupPostMsg('start');
+                    window.setTimeout(function(){
+                        Page.onPopupPostMsg('keep alive');
+                    }, 3000);
+                },
+                endMeet: function () {
+                    var that = this;
+                    this.isexp && that.sendreport();//弹出填写报告界面
+                    if(this.otype == '4'){
+                        Page.onPopupPostMsg('destroy'); //挂断视频
+                        base.video = false //隐藏视频
+                    }
+                    !this.isexp && (
+                        Page.mainForms.maintabs.list.screen && (Page.mainForms.maintabs.list.screen.show = false),
+                        Page.mainForms.maintabs.list.report && (Page.mainForms.maintabs.list.report.show = true),
+                        Page.mainForms.maintabs.selected = 'report'
+                    ) //隐藏专家屏幕
+
+                    $.post('/doctor/finishBusinessVedioOrder',{ orderType: Page.otype, oid:Page.oid })
+                    .done(function(){
+                    	that.state = base.protag =40;
+                        base.footer = false;
+                        that.showBtn = false;
+                    })
+                    .fail(function(){
+                        $.smallBox({title: "完成会诊",content:'网络出错，请重试',color: $.color.success,iconSmall: "fa fa-times",timeout: 3000});
+                    });
+                },
+                sendreport: function(){
+                    Page.mainForms.maintabs.list.report.show = true;
+                    Page.mainForms.maintabs.selected = 'report';
+                    BASE.showModel({
+                        remote: 'ajax/modal-content/modal-report.html',
+                        cls: 'modal-lg',
+                        single: true
+                    });
+                },
+                showDateChange: function(){
+                    BASE.showModel({
+                        remote: 'ajax/modal-content/modal-changedate.html'
+                    });
+                },
+                acceptState: function(sval){
+                    $.post('/order/processOrderStatus', {
+                        orderId: Page.oid,
+                        orderType: Page.otype,
+                        sval: sval,
+                        refusalReason: ''
+                    }).done(function(){
+                        Page.Ctr.loadOrder(base, Page.Ctr.pid)
+                    });
+                },
+                denyState: function(){
+                    BASE.showModel({
+                        remote: 'ajax/modal-content/modal-deny.html'
+                    });
+                }
+            },
+            computed:{
+                room: function(){
+                    return base.room;
+                },
+                footer: function(){
+                    return [10, 20].indexOf(this.state) != -1 || (this.state == 30 && !!this.refusal) || (this.state == 40 && !!this.conDate);
+                }
+            },
+            mounted: function () {
+                let that = this;
+                loadCss("js/plugin/datetime/bootstrap-datetimepicker.min.css");
+                loadScript("js/plugin/datetime/bootstrap-datetimepicker.min.js", function(){
+					loadScript("js/plugin/datetime/bootstrap-datetimepicker.zh-CN.js", function(){
+                        $('#datetimepicker').datetimepicker({
+                            language: 'zh-CN',
+                            autoclose: false,
+                            pickerPosition: 'top-left',
+                            format: 'yyyy-mm-dd hh:ii'
+                        }).on('changeDate', function(ev){
+                            var data = $("#datetimepicker").val();
+                            Page.ouid && $.post('/order/modifyConTime', {
+                                orderUuid: Page.ouid,
+                                orderType: Page.otype,
+                                newTime: data
+                            }).done(function(){
+                                that.conDate = data;
+                                BASE.hideModel();
+                            });
+                        });
+                    })
+				});
+            }
+        });
+
+        Page.footer = footer;
+    })();
+</script>

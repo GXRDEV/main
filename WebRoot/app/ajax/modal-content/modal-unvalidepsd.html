@@ -1,0 +1,69 @@
+<div class="modal-body" id="vue-modal-repsd">
+    <form class="modal-form smart-form vuemodalrepsd prelative">   
+        <h3>请登录</h3>
+        <h5>登录已失效，请重新登录</h5>
+        <div class="form-group">
+            <input class="form-control" type="password" @keyup="oldpsd" v-model="form.password" placeholder="请输入密码" />
+            <span class="error-color" v-if="psdmsg">{{ psdmsg }}</span>
+        </div>
+    </form>
+    <div class="modal-footer prelative clearfix" style="padding: 10px 0;border: 0;">
+        <div class="pull-left" v-if="success">
+            <span class="success-color">登陆成功</span>
+        </div>
+        <div class="pull-right">
+            <button type="button" @click.prevent="changeUser" class="btn btn-default btn-sm botTempo">切换帐户</button>
+            <button type="button" @click.prevent="saveForm" :disabled="!validate" class="btn btn-default btn-sm botTempo">
+                <img v-if="issave" src="../img/loading/load_24.gif" style="width: 1em; vertical-align: -1;margin-right: 3px;" alt=""> 登录
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+    (function () {
+        new Vue({
+            el: '#vue-modal-repsd',
+            data: {
+                form:{
+                    stype: SStorage.get('_token_utype'),
+                    username: SStorage.get('_token_uname'),
+                    password: ''
+                },
+                psdmsg: '',
+                success: false,
+                issave: false
+            },
+            computed: {
+                validate: function(){
+                    return !!this.form.password;
+                }
+            },
+            methods: {
+                saveForm: function(){
+                    var that = this;
+                    this.issave = true;
+                    if(!this.form.username) return loginOut(), 0;
+                    BASE.loginIn(this.form,function(){
+                        that.success = true;
+                        window.setTimeout(BASE.hideModel, 600);
+                    },function(){
+                        that.psdmsg = '密码输入错误，请重试';
+                    },function(){
+                        that.psdmsg = '网络出错';
+                    },function(){
+                        that.issave = false;
+                    }, true);
+                },
+                oldpsd: function(){
+                    this.psdmsg = !this.form.password ? '请输入密码' : '';
+                },
+                changeUser: function(){
+                    BASE.loginOut();
+                }
+            }
+        });
+    })();
+</script>
+<style>
+    
+</style>

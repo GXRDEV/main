@@ -1,0 +1,56 @@
+<div class="registDiv loginregistDiv">    	
+	<div class="w1200 clearfix blockdiv">
+		<div class="sectionleft fleft">
+			<h2 class="tabs">
+				<a href="javascript:void(0)" class="curr"><span>找回密码</span></a>
+				<a href="javascript:void(0)" class="registtab" data-action="regist"><span>用户注册</span></a>
+			</h2>
+			<div class="forms loster">
+				<label class="form-group">
+					<span class="form-label">手机号</span>
+					<span class="form-input">
+						<input type="text" name="tel" data-type="lost"/>
+						<span>手机号即登录用户名</span>
+					</span>
+				</label>
+				<label class="form-group twoinput">
+					<span class="form-label">验证码</span>
+					<span class="form-input">
+						<input type="password" name="code" autocomplete="off" onfocus="this.type='text'" />
+						<span>请输入手机收到的验证码</span>
+					</span>
+					<button class="js-getcode getcode" data-type="2" type="button">获取验证码</button>
+				</label>
+				<label class="form-group">
+					<span class="form-label">设置密码</span>
+					<span class="form-input">
+						<input type="password" name="password" />
+						<span>密码长度必需在6到20位之间</span>
+					</span>
+				</label>
+				<div class="form-actions">
+					<button type="button" class="registbtn js-formlostme">保存</button>
+				</div>
+			</div>
+		</div>
+		<div class="sectionright fleft">
+			<div class="registdiv">
+				<p style="color:#00cc99">已有帐户，马上登录>></p>
+				<a class="loginbtn" href="javascript:void(0)" data-action="login">登录</a>
+				<div class="download clearfix">
+					<div class="fleft">
+						<img src="<?=base?>img/website/app1.png"/>
+					</div>
+					<div class="fright">
+						<img src="<?=base?>img/website/wx1.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.logonREG();
+	});
+</script>

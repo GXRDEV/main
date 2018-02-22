@@ -1,0 +1,34 @@
+<div class="remoteDiv mycenters">    	
+	<div class="w1200 clearfix">
+		<div class="sectionleft fleft" style="width:100%">	
+			<div id="personlist" data-pid="<?=@pid?>" class="blockdiv prelative">
+	    		<dl>
+	    			<dt>
+	    				<img id="imgProfilePicture" src="http://51zhuanjiahao.com/images/member_heard/user_pople01.jpg" width="196" height="193">
+	    			</dt>
+	    			<dd>
+	    				<a href="#user/user_myaskimg" class="<?=(@pid.indexOf('user_myaskimg') != -1 ? 'selected' :'')?>">我的图文问诊</a>
+	    				<a href="#user/user_myasktel" class="<?=(@pid == 'user_myasktel' ? 'selected' :'')?>">我的电话问诊</a>
+	    				<!-- <a href="#user/user_myaccout" class="<?=(@pid == 'user_myaccout' ? 'selected' :'')?>">我的帐户</a> -->
+	    			</dd>
+	    		</dl>
+	    		<div id="mycenterDIV"></div>
+	    	</div>		    	
+    	</div>
+    	<!-- <div class="sectionright fright">
+			<a href="<?=base?>doctor/login?ltype=2" target="_blank" class="blockdiv enterinway whitespace h blue">
+				<i class="icon"><img src="<?=base?>img/website/export.png" /></i>
+				<label>平台专家入口</label>
+			</a>
+			<a href="<?=base?>doctor/login?ltype=3" target="_blank" class="blockdiv enterinway whitespace h red">
+				<i class="icon"><img src="<?=base?>img/website/hospart.png" /></i>
+				<label>合作医院入口</label>
+			</a>
+		</div> -->
+   	</div>			
+</div>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.user();
+	});
+</script>

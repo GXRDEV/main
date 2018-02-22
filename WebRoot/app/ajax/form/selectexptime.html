@@ -1,0 +1,36 @@
+<div class="selecttime">
+    <section class="flex" style="border-bottom: 1px solid #E5E5E5;padding-bottom: 15px;">
+        <div class="thumb" style="width:100px;height:100px;margin-right: 15px;">
+            <img :src="imgSrc(info.listSpecialPicture)" style="width:100px;height:100px;" class="img-circle" alt="">
+        </div>
+        <div class="f1 details">
+            <h3 style="margin: 5px 0 0;">
+                <span v-text="info.specialName" style="font-weight: 600;color:#000;"></span>&emsp;
+                <span style="font-size: 0.8em">{{ info.duty }} / {{ info.profession }}</span>
+            </h3>
+            <h3 style="margin:10px 0 20px;"><span style="font-size: 0.8em;color:#1551DF;">{{ info.hosName }}-{{ info.depName }}</span></h3>
+            <p style="line-height: 1.6em;color:#999;">擅长：<span style="color:#000;">{{ info.specialty }}</span></p>
+            <p style="line-height: 1.6em;color:#999;">简介：<span style="color:#000;">{{ info.profile }}</span></p>
+        </div>
+    </section>
+    <section class="timesoption">
+        <dl class="header flex" style="margin:8px 0;color:#000;font-weight: 500;padding:10px 0;">
+            <dd v-for="d in sdates" @click="fillTimes(d.ymd)" :class="{'selected':d.ymd==sdate}" class="f1">
+                <span>{{d.md}}（{{d.w}}）</span>
+            </dd>
+        </dl>
+        <dl class="bodyer" style="min-height: 120px;position: relative">
+            <template v-if="times.length > 0">
+                <dd v-for="d in times" @click="select(d.id, d.startTime)" :class="{'disabled':d.hasAppoint == '1','selected':timeid==d.id}">
+                    <span v-text="d.startTime"></span>
+                </dd>
+            </template>
+            <dd v-else class="noresult">
+                <img src="../img/noresult.png" style="width:24px;" alt="">
+            </dd>
+            <dd v-if="isload" class="loading flex acenter jcenter" style="position: absolute;top:0;left:0;width: 100%;height: 100%;background: rgba(0,0,0,.05)">
+                <img src="../img/loading/31.gif" style="width:32px;" alt="">
+            </dd>
+        </dl>
+    </section>
+</div>

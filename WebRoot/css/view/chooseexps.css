@@ -1,0 +1,31 @@
+.modal2-dialog{ height: 90% !important; overflow: hidden; position: relative}
+.modal2-content{ height: 100% !important; overflow: auto}
+.modal2-header{ position: fixed; top: 1px; left: 1px; right: 1px; background: #fff; z-index: 10}
+.modal2-footer{ position: fixed; bottom: 1px; left: 1px; right: 1px; background: #fff; z-index: 10}
+.modal2-body{ padding: 90px 0 45px}
+.modal2-body th{font-weight:600;}
+.modal2-body td{ text-align: center;}
+.trtimelists .doctimelist{margin:10px 10px;}
+.trtimelists .doctimelist .timelist{display:inline-block;width:7em;text-align:center;margin:0 0.52em;float:left;}
+.trtimelists .doctimelist .timelist:hover dt{border-bottom-color:#07C597;}
+.trtimelists .doctimelist .timelist dt{border-bottom:2px solid transparent;line-height:2em;}
+.trtimelists .doctimelist .timelist dd{border:1px solid #D2D2D2;color:#A2A2A2;margin:15px 0;line-height:1.5em;}
+.trtimelists .doctimelist .timelist dd.open{border:1px solid #07C597;color:#07C597;cursor:pointer;}
+.trtimelists .doctimelist .timelist dd.open:hover,
+.trtimelists .doctimelist .timelist dd.hover{background-color:#07C597;color:#fff;}
+.trtimelists .doctimelist .timelist dd.disabled{background-color:#D2D2D2;border-color:#D2D2D2;color:#A2A2A2;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

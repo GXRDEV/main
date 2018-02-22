@@ -1,0 +1,59 @@
+<div id="al-user-profile" class="dropdown al-user-profile">
+    <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
+        <img :src="imgsrc() + '?x-oss-process=image/resize,m_fill,h_60,w_60'" alt=""/>
+        <span>{{ role }}</span><i class="fa fa-angle-down"></i>
+    </a>
+    <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
+        <li class="dropdown-item"><i class="dropdown-arr"></i></li>
+        <li class="dropdown-item"><a href @click.prevent="showPinfo" ><i class="fa fa-user"></i>个人资料</a></li>
+        <li class="dropdown-item"><a href @click.prevent="showReset"><i class="fa fa-cog"></i>修改密码</a></li>
+        <li class="dropdown-item"><a href="login.html" class="signout"><i class="fa fa-power-off"></i>退出系统</a></li>
+    </ul>
+</div>
+<script>
+    (function(){
+		var uid = SStorage.get('_token_uid');
+		var utype = SStorage.get('_token_utype');
+        var role = (utype == '2' ? '专家' : '医生');
+		if(!uid) return this.loginOut(), 0;
+        var userProfile = new Vue({
+            el: '#al-user-profile',
+            data: {
+                user: {
+                    specialName: 'XXX'
+                }
+            },
+            methods: {
+                imgsrc: function(){
+                    return BASE.imgsrc(this.user.listSpecialPicture);
+                },
+                showPinfo: function(){
+                    BASE.showModel({
+                        remote: 'ajax/modal-content/modal-pinfo.html',
+                        cls: 'modal-lg'
+                    });
+                },
+                showReset: function(){
+                    BASE.showModel({
+                        remote: 'ajax/modal-content/modal-repassword.html',
+                        cls: 'modal-smartbox'
+                    });
+                }
+            },
+            created: function(){
+                $.get('/doctor/showbasicinfo')
+                .done(function(d){
+                    sessionStorage.setItem('_local_info',JSON.stringify(d.special));
+                    userProfile.user = d.special || {};
+                    BASE.uid = d.special.specialId || '';
+                })
+                .fail(BASE.loginOut);
+            },
+            computed: {
+                role: function(){
+                    return this.user.specialName + (this.user.specialName.indexOf(role) != -1 ? '' : role) ;
+                }
+            }
+        })
+    })(BASE.checkLogin(true));
+</script>

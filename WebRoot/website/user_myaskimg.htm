@@ -1,0 +1,40 @@
+<?
+	var list = @pager.list,
+		target = @target || '_self'
+?>
+<div class="innerDiv myaskimg">
+	<h2 class="user_title"><span>我的图文咨询</span></h2>
+	<table class="table">
+		<thead>
+			<tr><th>患者</th><th>所选专家</th><th>医院</th><th>科室</th><th>提问时间</th><th>状态</th><th>最新回复</th></tr>
+		</thead>
+		<tbody>
+			<?for(var i = 0,l = list.length; i<l; i++){?>
+				<?
+					var cls = (list[i]['payStatus'] || '') == '4' ? 'notpay' : 'haspay';
+				?>
+				<tr data-id="<?=(list[i]['id'] + '/' + list[i]['askStatus'])?>" class="<?=(list[i]['askStatus'] == '4' ? cls : 'haspay')?>">
+					<td><?=(list[i]['contactName'] || '')?></td>
+					<td><?=(list[i]['docName'] || '')?></td>
+					<td title="<?=(list[i]['hospital'] || '')?>"><?=(list[i]['hospital'] || '')?></td>
+					<td><?=(list[i]['depart'] || '')?></td>
+					<td><?=(list[i]['subTime'] || '')?></td>
+					<td>
+						<?if(list[i]['askStatus'] == '0'){?><span class="ed">完成</span><?}?>
+						<?if(list[i]['askStatus'] == '4'){?><span class="ing">进行中</span><?}?>
+						<?if(list[i]['askStatus'] == '5'){?><span class="cancel">取消</span><?}?>
+						<?if(list[i]['askStatus'] == '13'){?><span class="closed">超时关闭</span><?}?>
+					</td>
+					<td>
+						<?if((list[i]['askStatus'] || '') == '4'){?>
+							<span class="new"><?=(list[i]['patMessageCount'] || '')?></span>
+						<?}?>
+					</td>
+				</tr>
+			<?}?>
+		</tbody>
+	</table>
+	<?if(@pageSize == list.length){?>
+		<div class="hasmore"><a class="moretable" data-no="<?=(parseInt(@pageNumber,10) + 1)?>" href="javascript:void(0)">加载更多</a></div>
+	<?}?>
+</div>

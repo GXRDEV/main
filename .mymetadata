@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="tspeiz"
+  id="myeclipse.1441159263338"
+  context-root="/tspeiz"
+  j2ee-spec="5.0"
+  archive="tspeiz.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

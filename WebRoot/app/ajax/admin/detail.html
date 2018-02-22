@@ -1,0 +1,430 @@
+<div id="main-forms" class="mainframe flex ">
+        <div class="main-column f1">		
+            <div class="gloal-title">
+                <ul class="taps-button">
+                    <template v-for="(val,key) in maintabs.list" >
+                        <li v-if="val.show" :class="{selected : maintabs.selected == key}" @click="tapMainTabs(key)">
+                            <span v-text="val.text"></span>
+                        </li>
+                    </template>	
+                </ul>
+            </div>
+            <div class="doc-detail">
+                <section class="personinfo" v-show="'info'==maintabs.selected">
+                    <header class="clearfix">
+                        <my-tab ref="tab"></my-tab>
+                    </header>
+                    <article>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="base">
+                                <h4>患者信息</h4>
+                                <form class="smart-form">
+                                    <my-baseform :fdata="baseForm" ref="base"></my-baseform>								
+                                </form>
+                                <h4 class="last-title">诊疗信息</h4>
+                                <form class="smart-form">
+                                    <my-profileform :fdata="profileForm" ref="profile" :edit="false"></my-profileform>
+                                </form>
+                                <form class="smart-form">
+                                    <my-webupload :edit="false" :list="othersForm.form.localFiles" ref="others">
+    									<template slot="title">入院记录</template>                                        
+                                    </my-webupload>
+                                </form>
+                                <form class="smart-form" :class="{editing : ask.edit}">
+                                    <my-question :fdata="ask" ref="ask" :edit="false">
+                                        <template slot="title">咨询目的</template>
+                                    </my-question>
+                                </form>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="pacs">
+                                <form class="smart-form">
+                                    <my-pacs :fdata="pacForm" ref="pacs">
+         						        <h4 slot="title" style="color: #000">影像资料&ensp;<span style="font-size: .7em">专业医学影像DCM资料</span></h4>									
+                                    </my-pacs>
+                                </form>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="enclo">
+                                <form class="smart-form">
+                                    <my-enclosure :fdata="encloForm" :readonly="true">
+                                        <h4 slot="title" style="color: #000">病历附件&ensp;<span style="font-size: .7em">图片格式病历附件内容</span></h4>
+                                    </my-enclosure>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+                <section class="expreport" v-show="'report'==maintabs.selected">
+                    <my-report :list="reportlist" :status="protag" :oid="oid" :otype="otype" :edit="false"></my-report>
+                </section>
+            </div>		
+        </div>
+        <div class="f0">
+            <my-room-detail ref="room" :oid="oid" :room="room"></my-room-detail>
+        </div>
+    </div>
+    <script>
+    Vue.component('my-room-detail', function (resolve, reject) {
+        $.get('ajax/form/room-detail.html')
+            .done(function (d) {
+                resolve({
+                    template: d,
+                    props: {
+                        oid: { type: String, default: '' },
+                        docask: { type: String, default: '' },
+                        room: { type: Boolean, default: false },
+                        video: { type: Boolean, default: false },
+                        footer: { type: Boolean, default: false },
+                        status: { type: Number }
+                    },
+                    data: function () {
+                        return {
+                            roomid: '',
+                            expInfo: {
+                                info: {
+                                    specialName: '未分配'
+                                },
+                                state: false
+                            },
+                            utype: '3',
+                            sysMsg: [],
+                            userMsg: [],
+                            playId: '',
+                            playLength: null,
+                            OBJ: {}
+                        }
+                    },
+                    methods: {
+                        showPic: function(idx){
+                            var item = this.userMsg[idx];
+                            Page.media = item;
+                            BASE.showModel({
+                                remote: 'ajax/modal-content/modal-media.html',
+                                backdrop: true
+                            });
+                        },
+                        playMedia: function(idx){
+                            var that = this;
+                            var item = this.userMsg[idx];
+                            if(this.playId == item.msgContent){
+                                this.playId = ''
+                                return false;
+                            }
+                            this.playId = item.msgContent;
+                            if(!this.playId){
+                                return alert('播放异常，找不到文件。'), false;
+                            }
+                            this.playLength = Math.floor(this.playId.length / 1024) + 1;
+                            if (that.playId && typeof RongIMLib != 'undefined' && ('RongIMVoice' in RongIMLib)) {
+                                RongIMLib.RongIMVoice.init();
+                                RongIMLib.RongIMVoice.preLoaded(that.playId, function(){
+                                    RongIMLib.RongIMVoice.play(that.playId, that.playLength)
+                                    RongIMLib.RongIMVoice.onprogress = function(){
+                                        that.playLength--
+                                        !that.playLength && (that.playId = '')
+                                    }
+                                })
+                            }
+                        },
+                        roomsuccess: function () {
+                            this.$emit('roomsuccess');
+                        },
+                        loadroom: function(){
+                            var that = this;
+                            loadMessage(this);
+                            function loadMessage(a) {
+                                $.get('/doctor/loadmessages',{oid: Page.oid, docask: a.docask, vtype: Page.utype == '2' ? '3' : '2'})
+                                .done(function(d){                               
+                                    a.userMsg = (a.userMsg).concat(d.messages || []);
+                                });
+                            }
+                            this.roomsuccess();
+                            window.setTimeout(function(){
+                                $( ".side-column-fixed" ).resizable({
+                                    handles: "w",
+                                    minWidth: 240,
+                                    resize: function( event, ui ) {
+                                        var out = ui.element.parent();
+                                        var vdo = ui.element.find('header.videos .video-eles section');
+                                        ui.element.css({'left': 'auto'});
+                                        out.css({'width': ui.size.width});
+                                        vdo.css('height', ui.size.width * 0.75);
+                                    }
+                                });
+                            },1600);
+                        }
+                    },
+                    watch:{
+                        room: function(n,o){
+                            if(!n) return 0;
+                            this.loadroom();
+                        }
+                    },
+                    mounted: function(){
+                        this.room && this.loadroom();
+                    },
+                    updated: function () {
+                        scrollMsgToView();
+                        function scrollMsgToView() {
+                            $('.side-column .messagelist dd:last').size() && $('.side-column .messagelist dd:last')[0].scrollIntoView(true);
+                        }
+                    },
+                    destroyed: function(){
+                        try{
+                            this.OBJ.room.destroy();
+                        }catch(e){
+                            //debugState && console.log('this.OBJ.room.destroy', e);
+                        }
+                    }
+                })
+            });
+    });
+    </script>
+    <script>
+        var Page = {
+            id: +new Date,
+            oid: getParam('oid'),
+            otype: getParam('otype'), // 订单类型  4:视频会诊  5:咨询专家  10:预约转诊
+            uid: '',
+            _uid: BASE.uid,
+            docask: '',
+            utype: '2'
+        };
+    </script>
+    <script>
+        Page.Ctr = {
+            pid: +new Date(),
+            oid: Page.oid,
+            utype: Page.utype,
+            init: function(b){
+                this.loadBase(b, this.pid)
+                    .loadOrder(b, this.pid);
+            },
+            loadOrder:function(b, pid){
+                var that = this;
+                $.post('/order/loadOrderInfo', { orderId: this.oid, orderType: Page.otype, docask: Page.docask })
+                .done(function (d) {
+                    var o = d.order, hasdoc;
+                    if(!(Page && Page.Ctr && pid == Page.Ctr.pid)) return 0;
+                    if(BASE.isLost(d)) return $.smallBox({title: "订单信息加载失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+                    if(!o) return 0;
+                    Page.order = o;
+                    Page.order.utype = Page.utype;
+                    Page.order.uid = Page.uid;
+                    Page.ouid = o.uuid;
+                    hasdoc = that.utype == '2' ? (o.localDoctorId || o.doctorId) : o.expertId;
+                    b.dockingMode = o.dockingMode; 
+                    b.protag = o.status;
+                    b.room = o.status && !!hasdoc;
+                    if(Page.otype == '5'){
+                        b.footer = o.status != 1;
+                        that.loadFooter(b);
+                    }else{
+                        b.footer = that.utype == '2';
+                    }
+                    that.loadPac(b, pid);
+                    ['4', '5'].indexOf(Page.otype) != -1 && [20, 40].indexOf(o.status) != -1 && that.loadReport(b, pid);
+    
+                });
+                return this;
+            },
+            loadReport: function(b, pid) {
+                var that = this;
+                $.post('/order/loadReportInfo', { orderUuid: Page.ouid, orderType: Page.otype })
+                .done(function (d) {
+                    var o = d.opinion || {};
+                    //专家报告
+                    b.maintabs.list.report && (b.maintabs.list.report.show = true);
+                    (o.diagnosis || o.treatPlan || o.attentions || o.photoReport) && b.maintabs.list.report && ( 
+                        b.maintabs.list.report.show = true,
+                        b.reportlist = o
+                    );
+                    debugState && console.log('------loadReport-----' + (new Date()).Format('yyyy-MM-dd hh:mm:ss.S'));
+                });
+                return this;
+            },
+            loadBase: function(b, pid){
+                b.baseForm.isload = true;
+                b.profileForm.isload = true;
+                $.get('/order/loadCaseInfo',{ orderId: this.oid, orderType: Page.otype, docask: Page.docask })
+                .done(function(data){
+                    if(!(Page && Page.Ctr && pid == Page.Ctr.pid)) return 0;
+                    var bse = data.caseinfo || {};
+                    if(BASE.isLost(data)) return $.smallBox({title: "基本信息加载失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+                    b.caseid = bse.id;
+                    data.attachments.forEach( function (item, ind) {
+                        item.active_id = item.createTime + ind
+                        item.reportTime = item.reportTimes
+                    })
+                    b.encloForm = data.attachments
+                    b.othersForm.form.localFiles = data.normals || [];                
+                    b.pacForm.form.img_list = data.radiographFilmImags || [];
+                    b.baseForm.form = {
+                        username: bse.contactName,
+                        sex: bse.sex,
+                        age: bse.age,
+                        idcard: bse.idNumber,
+                        telphone: bse.telephone
+                    };
+                    b.profileForm.form = {
+                        description: bse.description,
+                        mainSuit: bse.mainSuit,
+                        historyIll: bse.historyIll,
+                        presentIll: bse.presentIll,
+                        examined: bse.examined,
+                        assistantResult: bse.assistantResult,
+                        initialDiagnosis: bse.initialDiagnosis,
+                        familyHistory: bse.familyHistory
+                    };
+                    b.ask.form = {
+                        askProblem: bse.askProblem
+                    };
+                    Page.otype == '5' && bse.description && b.$refs.room.userMsg.unshift({
+                        "sendType": '3',
+                        "msgContent": bse.description,
+                        "msgType": "text",
+                        "fileUrl": null
+                    });
+                })
+                .always(function(){
+                    b.baseForm.isload = false;
+                    b.profileForm.isload = false;
+                });
+                return this;
+            },
+            loadPac: function(b, pid){
+                b.pacForm.isload = true;
+                $.get('/order/gainPacsData',{ orderId: this.oid, orderType: Page.otype,  uuid: Page.order.uuid || '', asktype:Page.docask  })
+                .done(function(data){
+                    if(!(Page && Page.Ctr && pid == Page.Ctr.pid)) return 0;
+                    if(BASE.isLost(data)) return $.smallBox({title: "影像资料数据加载失败",color: $.color.error,iconSmall: "fa fa-times",timeout: 5000}),0;
+                    b.pacForm.form.list = data['pac_records'] || [];
+                })
+                .fail(function(){
+                    b.pacForm.form.list = [];
+                })
+                .always(function(){
+                    b.pacForm.isload = false;
+                });
+                return this;
+            },
+            loadFooter: function(b){
+                $('#main-btns').size() && $('#main-btns').load('ajax/doc/footer.html');
+                return this;
+            }
+        };
+    </script>
+    <script type="text/javascript">
+        pageSetUp();
+        var pagefunction = function () {
+            new Vue({
+                el: '#main-forms',
+                data: {
+                    oid: Page.oid,
+                    otype: Page.otype,
+                    caseid: '',
+                    userid: '',
+                    dockingMode: '2',
+                    protag: 10,
+                    room: false,
+                    video: false,
+                    maintabs: {
+                        list: {
+                            info: {
+                                text: '患者病历',
+                                show: true
+                            },
+                            report: {
+                                text: '就诊报告',
+                                show: false
+                            }
+                        },
+                        selected: 'info'
+                    },
+                    baseForm: {
+                        form: {
+                            username: '',
+                            sex: '',
+                            age: '',
+                            idcard: '',
+                            telphone: ''
+                        },
+                        old: {},
+                        validate: false,
+                        edit: false,
+                        isload: false,
+                        issave: false
+                    },
+                    profileForm: {
+                        form: {
+                            mainSuit: '',
+                            historyIll: '',
+                            presentIll: '',
+                            examined: '',
+                            assistantResult: '',
+                            initialDiagnosis: '',
+                            familyHistory: ''
+                        },
+                        old: {},
+                        edit: false,
+                        isload: false,
+                        issave: false
+                    },
+                    ask:{
+                        form: {
+                            askProblem:''
+                        },
+                        old:{},
+                        edit: false,
+                        isload: false,
+                        issave: false
+                    },
+                    pacForm: {
+                        form: {
+                            list: [],
+                            img_list: [],
+                            pacs_ids: []
+                        },
+                        old: {},
+                        validate: false,
+                        edit: false,
+                        isload: false,
+                        issave: false
+                    },
+                    othersForm: {
+                        form: {
+                            localFiles: [],
+                            normalImages: []
+                        },
+                        old: {},
+                        edit: false,
+                        isload: false,
+                        issave: false
+                    },
+                    reportlist: {},
+                    encloForm: []
+
+                },
+                methods: {
+                    loadvideo: function(){
+                        Page.Ctr.loadFooter(this);
+                    },
+                    tapMainTabs: function (key) {
+                        this.maintabs.selected = key;
+                    }
+                },
+                mounted: function () {
+                    Page.mainForms = this;
+                    Page.Ctr.init(this);
+                }
+            });
+        };
+        
+        var pagedestroy = function(){
+            Page.mainForms.$destroy();
+            Page = null;
+        }
+    
+        if(!Page.oid) page404()
+        else pagefunction();
+    
+    </script>

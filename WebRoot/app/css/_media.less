@@ -1,0 +1,27 @@
+@media (max-width: 979px) and (min-width: 768px){
+    #left-panel {
+        left: -210px;
+    }
+}
+@media (max-width: 979px){
+    .minified.fixed-header{
+        #main #ribbon{
+            left: @menu-mini-width;
+        }
+    }
+    .fixed-header,.fixed-ribbon{        
+        #ribbon{
+            left:0;
+        }
+    }
+    #main{
+        margin-left:0;
+    }
+}
+@media (max-width: 850px){
+    #ribbon{
+        .notification{
+            display: none;
+        }
+    }
+}

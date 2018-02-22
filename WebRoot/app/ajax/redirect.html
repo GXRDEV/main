@@ -1,0 +1,25 @@
+<div class="showadvice" style="overflow: hidden;">
+    <iframe id="mainframe" name="mainframe" style="width:100%;" frameborder="no" border="0" allowscriptaccess="always" marginwidth="0" marginheight="0" allowfullscreen="true" wmode="opaque" allowTransparency="true" type="application/x-shockwave-flash"></iframe>
+</div>
+<script type="text/javascript">
+    var Page = {
+        uid: SStorage.get('_token_uid'),
+        utype: SStorage.get('_token_utype'),
+		resize: function(){
+			$('#mainframe').height(($(window).height() - 74) + 'px')
+		}
+	};
+	pageSetUp();
+	
+	var pagefunction = function() {
+		$(window).bind("resize",Page.resize);
+        Page.resize();
+		$('#mainframe').attr('src', getParam('rdt'))
+	};
+
+	var pagedestroy = function(){
+		
+	}
+	pagefunction();
+	
+</script>

@@ -1,0 +1,37 @@
+<div class="file-templet">
+    <div class="row header">
+		<div class="pull-left"><slot name="title"></slot></div>
+        <div class="pull-right"><slot name="actions"></slot></div>
+    </div>
+    <div :id="id" class="diyUpload">
+        <div class="parentFileBox">
+            <ul class="fileBoxUl clearfix" :class="{'single':single}">
+                <li v-for="img in imglist" v-bind:data-id="img.id" class="vue">
+                    <div class="viewThumb">
+                        <img v-if="isImg(img.fileUrl)" :src="imgsrc(img.thumb || img.fileUrl)" :data-src="imgsrc(img.fileUrl)" :alt="img.fileName" />
+                        <a v-else class="media video_diy_bg" @click="showVideo($event)">
+                            <video name="media" class="onlyvideo" controls>
+                                <source :src="imgsrc(img.fileUrl)"></source>
+                            </video>
+                        </a>
+                    </div>
+                    <div class="diyFileName">
+                        <textarea v-if="edit && editname" class="editFileName" v-on:change="saveFileName(img.id,img.fileName)" v-model="img.fileName"></textarea>
+                        <span v-else v-text="img.fileName"></span>
+                    </div>
+                    <div class="diyCancel del" @click="removeImage(img.id + '')" v-if="edit">×</div>
+                </li>
+                <li class="actionAdd" v-show="btn && edit">
+                    <div :id="id + '_addfiles'"><i class="glyphicon glyphicon-cloud-upload viewThumb"></i><label class="diyFileName">本地资料</label></div>
+                </li>
+            </ul>
+            <section v-if="!isload && !edit && imglist.length < 1" class="noresult">
+                <img src="../img/noresult.png" style="width:24px;" alt="" />
+            </section>
+            <section v-if="isload" class="loading">
+                <img src="../img/loading/31.gif" style="width:32px;" alt="" />
+            </section>
+        </div>
+        <input type="hidden" v-model="ids.join(',')">
+    </div>
+</div>

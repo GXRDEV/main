@@ -1,0 +1,77 @@
+<div id="vue-text" class="testPage">
+	<i class="signarr"></i>
+	<div class="outerDiv">
+		<div class="navbar navbar-default" role="navigation" style="margin-bottom: 0;border: 0">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" href="#">
+		        <img alt="Brand" src="/img/icons/zjh-24.png">
+		      </a>
+		    </div>
+		
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+				<li class="active"><a href="/deviceTest/chrome.jsp" target="iframe-test">浏览器环境</a></li>
+				<li><a href="/deviceTest/audio.jsp" target="iframe-test">耳机/音响测试</a></li>
+				<li><a href="/deviceTest/volumn.jsp" target="iframe-test">话筒测试</a></li>
+				<li><a href="/deviceTest/vedio.jsp" target="iframe-test">摄像头测试</a></li>
+				<li><a href="/deviceTest/speed.jsp" target="iframe-test">网络测试</a></li>
+		      </ul>
+		      <ul class="nav navbar-nav navbar-right">
+		        <li><a href="tel:400-631-9377">客服电话：400-631-9377</a></li>
+		      </ul>
+		    </div>
+		  </div>
+		</div>
+		<section style="border:1px solid #e7e7e7;top:50px">
+			<iframe id="iframe-test" name="iframe-test" src="/deviceTest/chrome.jsp" style="width:100%;height:100%;" frameborder="no" border="0" allowscriptaccess="always" marginwidth="0" marginheight="0" allowfullscreen="true" wmode="opaque" allowTransparency="true" type="application/x-shockwave-flash"></iframe>
+		</section>
+	</div>
+</div>
+<script type="text/javascript">	
+	var Page = {
+        uid: SStorage.get('_token_uid'),
+        utype: SStorage.get('_token_utype'),
+				resize: function(){
+					$('#iframe-test').height(($(window).height() - 132) + 'px')
+				}
+	};
+	pageSetUp();	
+	var pagefunction = function() {
+		$('.navbar-nav:first li').click(function(){
+			$(this).addClass('active').siblings().removeClass('active');
+		});
+		$(window).bind("resize",Page.resize);
+        Page.resize();
+	};
+
+	var pagedestroy = function(){
+	
+	}
+	pagefunction();	
+</script>
+<style>
+	.testPage{position: relative; }
+	.testPage .signarr{
+		width: 0;height: 0;
+		position: absolute;z-index: 902;
+		right: 120px;top: -19px;
+		border: 10px solid transparent;	
+		border-bottom-color: #C7C8CB;
+
+	}
+	.testPage .signarr:after{
+		content: "";
+		width: 0;height: 0;
+		position: absolute;z-index: 902;
+		right: -10px;top: -9px;
+		border: 10px solid transparent;
+		border-bottom-color: #f8f8f8;
+	}
+</style>

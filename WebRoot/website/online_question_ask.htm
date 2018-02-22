@@ -1,0 +1,122 @@
+<?
+	var picurl = @data['detailsProfilePicture'] || @data['listSpecialPicture'];
+?>
+<div class="docdetailDiv onlinedocdetailDiv">    	
+ 	<div class="w1200">
+ 		<div class="blockdiv docdetail">
+ 			<div class="thumbviews">
+ 				<div class="thumb">
+	 				<?if(picurl){?>
+						<?if(picurl.indexOf('://') != -1){?>
+							<img src="<?=picurl.replace('http://','https://')?>"/>
+						<?}else{?>
+							<img src="http://wx.15120.cn/SysApi2/Files/<?=picurl?>"/>
+						<?}?>			
+					<?}else{?>
+						<img src="<?=@base?>img/defdoc.jpg"/>
+					<?}?>
+ 				</div>
+ 			</div>
+ 			<div class="docinfos" data-id="<?=@data['specialId']?>" data-name="<?=@data['specialName']?>" data-hos="<?=@data['hosName']?>" data-dep="<?=@data['depName']?>">
+ 				<p>
+ 					<span style="font-size:20px;color:#333;"><?=@data['specialName']?></span>&emsp;
+ 					<span style="line-height:1.8em;color:#828282">
+ 						<?=@data['duty']?>
+ 						<?if((@data['profession']||'') == '教授'){?>
+ 							/<?=@data['profession']?>
+ 						<?}?>
+ 					</span>
+ 				</p>
+ 				<p style="color:#07C595"><?=@data['hosName']?>&emsp;<?=@data['depName']?></p>
+ 				<p class="layout2"><label>费用：</label><span>￥<?=(parseFloat(@data['askAmount']||'').toFixed(2))?></span></p>
+ 				<p class="layout1"><label>擅长：</label><span><?=(@data['specialty'] || '')?></span></p>
+ 				<p class="layout1"><label>简介：</label><span><?=(@data['profile'] || '')?></span></p>
+ 			</div>
+ 		</div>
+ 		<div class="blockdiv normal doctimes docpicaskquestion">
+ 			<div class="header margin40">
+    			<h2 class="h">图文问诊</h2>
+    		</div>
+ 			<div class="clearfix margin40">
+ 				<div class="sectionleft fleft prelative">
+			    	<form method="post" action="" class="postaskquestion" id="myform">
+			    		<div class="form-group">
+			    			<label class="form-label">问诊人姓名<b>*</b></label>
+			    			<div class="form-input">			    				
+			    				<div class="select contactName">
+			    					<input type="text" name="contactName" />
+			    					<ul class="options"></ul>
+			    				</div>
+			    				<div class="otherinfo">
+			    					<label class="radio">
+			    						<input type="radio" name="sex" checked value="1"/>
+			    						<span>先生</span>
+			    					</label>
+			    					<label class="radio">
+			    						<input type="radio" name="sex" value="0"/>
+			    						<span>女士</span>
+			    					</label>
+			    					<input type="number" class="input" title="年龄" name="age" placeholder="年龄"/>
+			    				</div>
+			    			</div>
+			    		</div>
+			    		<div class="form-group">
+			    			<label class="form-label">联系电话<b>*</b></label>
+			    			<div class="form-input">
+			    				<input type="text" name="telephone" />
+			    			</div>
+			    		</div>
+			    		<div class="form-group">
+			    			<label class="form-label">身份证号</label>
+			    			<div class="form-input">
+			    				<input type="text" name="idcard" />
+			    			</div>
+			    		</div>
+			    		<div class="form-group">
+			    			<label class="form-label">问诊疾病<b>*</b></label>
+			    			<div class="form-input">
+			    				<input type="text" name="caseName" />
+			    			</div>
+			    		</div>
+			    		<div class="form-group">
+			    			<label class="form-label">疾病描述<b>*</b></label>
+			    			<div class="form-input">
+			    				<textarea name="description"></textarea>
+			    			</div>
+			    		</div>
+			    		<div class="form-group">
+			    			<div class="form-input">
+			    				<div class="pickerdiv prelative">
+			    					<div id="picslist" class="imglist parentFileBox"><ul class="fileBoxUl"></ul></div>
+			    					<div id="addPics">上传影像资料</div>
+			    				</div>
+			    				<p class="describ">病症部位、检查报告单、诊断报告以及病历等其它病情资料（请保证图片清晰，共可上传9张）</p>
+			    			</div>
+			    		</div>			    		
+			    		<div class="form-group form-action">
+			    			<div class="form-input">
+			    				<input type="hidden" name="caseImages" id="caseImages"/>
+								<input type="hidden" name="docid" value="<?=@data['specialId']?>" />
+			    				<input type="hidden" name="pmoney" value="<?=(@data['askAmount']||'')?>"/>
+			    				<input type="hidden" name="uid" />
+			    				<input type="hidden" name="caseid" />
+			    				<button type="button" class="h" id="uploadask">提交问诊</button>
+			    			</div>
+			    		</div>
+			    	</form>
+		    	</div>
+		    	<div class="sectionright fright" style="position:relative;">
+					<ul style="position:relative;top:150px;">
+						<div style="color:#07C595">提示：</div>
+						<div style="color:#D60C0A">想得到专业医生的详细指导，需有符合要求的病情资料！请按提示提交疾病信息！</div>
+					</ul>
+				</div>
+ 			</div>
+ 		</div>
+   	</div>			
+</div>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.online_docdetail('ask');
+	});
+</script>

@@ -1,0 +1,70 @@
+package com.tspeiz.modules.common.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.tspeiz.modules.common.bean.AdviceBean;
+import com.tspeiz.modules.common.bean.D2pOrderBean;
+import com.tspeiz.modules.common.bean.weixin.MobileSpecial;
+import com.tspeiz.modules.common.entity.newrelease.DistCode;
+import com.tspeiz.modules.common.entity.newrelease.HospitalDetailInfo;
+import com.tspeiz.modules.common.entity.newrelease.StandardDepartmentInfo;
+import com.tspeiz.modules.common.entity.newrelease.UserBillRecord;
+import com.tspeiz.modules.common.entity.release2.BusinessD2dReferralOrder;
+import com.tspeiz.modules.common.entity.release2.BusinessD2pConsultationRequest;
+import com.tspeiz.modules.common.entity.release2.BusinessD2pFastaskOrder;
+import com.tspeiz.modules.common.entity.release2.BusinessD2pReportOrder;
+import com.tspeiz.modules.common.entity.release2.BusinessD2pTelOrder;
+import com.tspeiz.modules.common.entity.release2.BusinessD2pTuwenOrder;
+import com.tspeiz.modules.common.entity.release2.BusinessT2pTuwenOrder;
+import com.tspeiz.modules.common.entity.release2.SystemWarmthInfo;
+import com.tspeiz.modules.common.entity.release2.UserMedicalRecord;
+import com.tspeiz.modules.common.entity.release2.UserWarmthInfo;
+
+public interface ID2pService {
+	public Map<String,Object> queryd2pteldatas(Map<String,Object> querymap,Integer start,Integer length);
+	public Map<String,Object> queryd2ptuwendatas(Map<String,Object> querymap,Integer start,Integer length);
+	public Map<String,Object> queryd2pfastaskdatas(Map<String,Object> querymap,Integer start,Integer length);
+	public Map<String,Object> queryd2preportdatas(Map<String,Object> querymap,Integer start,Integer length);
+	public Map<String,Object> queryd2pconreqdatas(Map<String,Object> querymap,Integer start,Integer length);
+	public Map<String,Object> queryd2preferdatas(Map<String,Object> querymap,Integer start,Integer length);
+	public D2pOrderBean queryOrderDetailInfo(Integer oid,Integer otype);
+	public Integer saveBusinessD2pFastAskOrder(BusinessD2pFastaskOrder forder);
+	public BusinessD2pFastaskOrder queryd2pfastaskorderbyid(Integer oid);
+	public void updated2pfastaskorder(BusinessD2pFastaskOrder order);
+	public Integer saveBusinessPatientReportOrder(BusinessD2pReportOrder order);
+	public List<BusinessD2pReportOrder>queryd2preportordersbyuserid(Integer userid);
+	public BusinessD2pReportOrder queryd2preportorderbyconditions(String subUserUuid,Integer docid);
+	public List<SystemWarmthInfo> querysystemwarms();
+	public Integer saveUserWarmthInfo(UserWarmthInfo uw);
+	public UserWarmthInfo queryuserwarminfo(Integer id);
+	public void updateuserwarminfo(UserWarmthInfo uw);
+	public List<D2pOrderBean> querymyorders(Integer userid,String ltype,Integer pageNo,Integer pageSize);
+	public List<UserMedicalRecord> queryusermedicalrecords(String subUserUuid);
+	public Integer saveUserMedicalRecord(UserMedicalRecord record);
+	public Integer querydoctorwarms(Integer docid);
+	public BusinessD2pReportOrder queryd2preportorderbyid(Integer id);
+	public BusinessD2pTuwenOrder queryd2ptuwenorderbyid(Integer id);
+	public BusinessD2pTelOrder queryd2ptelorderbyid(Integer id);
+	public List<MobileSpecial> querydoctors(String search,String serviceid,String depid,String distcode,Integer _pageNo,Integer pageSize);
+	public List<AdviceBean> newlyadvices(Integer userId);
+	public Integer saveBusinessD2pTelOrder(BusinessD2pTelOrder order);
+	public Integer saveBusinessD2pTuwenOrder(BusinessD2pTuwenOrder order);
+	public List<StandardDepartmentInfo> querystanddeps(String ispage,String ishot,Integer pageNo,Integer pageSize);
+	public List<HospitalDetailInfo> querynearhoses(String ispage,String htype,String distcode,Integer _pageNo,Integer _pageSize);
+	public void updated2ptuwenorder(BusinessD2pTuwenOrder order);
+	public void updated2ptelorder(BusinessD2pTelOrder order);
+	public List<UserWarmthInfo> querydoctorwarms_list(Integer docid,Integer pageNo,Integer pageSize);
+	public List<DistCode> gainArea(String type,String parentCode);
+	public BusinessD2pConsultationRequest queryd2pconreqorderbyid(Integer oid);
+	public void updated2pconreqorder(BusinessD2pConsultationRequest order);
+	public BusinessT2pTuwenOrder querybusinesst2ptuwenById(Integer id);
+	public void updatet2ptuwen(BusinessT2pTuwenOrder order);
+	public BusinessD2dReferralOrder queryd2dreferralOrderbyId(Integer id);
+	public void updated2dreferralOrder(BusinessD2dReferralOrder order);
+	public Integer saveBusinessD2dReferralOrder(BusinessD2dReferralOrder order);
+	public void updateBusinessD2dReferralOrder(BusinessD2dReferralOrder order);
+	public BusinessD2dReferralOrder queryBusinessD2pReferralOrderByUuid(String orderUuid);
+	public MobileSpecial queryBusinessD2dReferralOrderByUserId(Integer docid);
+	
+}

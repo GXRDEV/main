@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
+        <title>屏幕分享</title>
+        <style type="text/css"> 
+			 a:link,a:visited,a:hover,a:active{text-decoration: none;}
+             .tipshow{position:fixed;top:50%;left:0;right:0;text-align:center;margin-top:-0.5em;font-size:18px;color:#888;}
+             .tipshow a{font-size:20px;margin:0 6px;font-weight:600;color:#6d88ef;}
+        </style>
+	</head>              
+    <body>
+    	<div id="notlink" style="display:none;">
+    		<p class="tipshow">等待专家发起分享</p>
+    	</div>
+    	<div id="outed" style="display:none;">
+    		<p class="tipshow">屏幕分享已在新窗口打开，点击<a href="javascript:;" id="goback">回到本页</a>，在本页内显示分享。</p>
+    	</div>
+    	<div id="closed" style="display:none;">
+    		<p class="tipshow">专家已停止分享屏幕</p>
+    	</div>
+        <script type="text/javascript">
+            function getParameter(queryString, parameterName) {
+                var parameterName = parameterName + "=";
+                if(queryString.length > 0) {
+                    var begin = queryString.indexOf(parameterName);
+                    if(begin != -1) {
+                        begin += parameterName.length;
+                        var end = queryString.indexOf("&", begin);
+                        if(end == -1) {
+                            end = queryString.length;
+                        }
+                        return unescape(queryString.substring(begin, end));
+                    }
+                    return "";
+                }
+            }
+        </script>
+		<script type="text/javascript">
+			var queryString = document.location.search.substring(1);
+			var state = getParameter(queryString, "state");
+			var div = document.getElementById(state);
+			var goback = document.getElementById("goback");
+			div.style.display = "block";
+			goback.onclick = function(){
+				window.parent._OpenWindow && window.parent._OpenWindow.close();
+				window.parent.openwin && window.parent.openwin();
+			}
+		</script>
+    </body>
+</html>

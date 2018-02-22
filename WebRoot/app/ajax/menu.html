@@ -1,0 +1,148 @@
+<ul id="vue-menu-ul">
+    <template v-if="type==3">
+        <li class="menu-item">
+            <a href="#">
+                <i class="icon iconfont icon-wenjian1"></i>
+                <span class="menu-item-parent">我的订单</span>
+            </a>
+            <ul>
+                <li>
+                    <a href="ajax/doc/remote.html">视频会诊</a>
+                    <ol class="hiddenMenu">
+                        <li><a href="ajax/doc/detail.html">订单详情</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <a href="ajax/doc/showReferral.html">预约转诊</a>
+                    <ol class="hiddenMenu">
+                        <li><a href="ajax/doc/advicedetail.html#2">回复详情</a></li>
+                    </ol>
+                </li> 
+                <li><a href="ajax/doc/showadvice.html">图文会诊</a>
+                    <ol class="hiddenMenu">
+                        <li><a href="ajax/doc/advicedetail.html#3">回复详情</a></li>
+                    </ol>
+                </li>                
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="#">
+            <i class="icon iconfont icon-wendang"></i>
+            <span class="menu-item-parent">辅助下单</span>
+            </a>
+            <ul>
+               <li>
+		            <a href="ajax/doc/helporder.html">视频会诊</a>
+		       </li>
+               <li>
+		            <a href="ajax/doc/advice.html">图文会诊</a>
+		        </li>     
+		        <li>
+		            <a href="ajax/doc/referral.html">预约转诊</a>
+		        </li>         
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="#">
+                <i class="icon iconfont icon-jinbi"></i>
+                <span class="menu-item-parent">账户明细</span>
+            </a>
+            <ul>
+                <li>
+                    <a href="ajax/doc/account.html">收支记录</a>
+                </li>
+                <li>
+                    <a href="ajax/doc/withdrawals.html">提现申请</a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="#">
+                <i class="icon iconfont icon-jishu"></i>
+                <span class="menu-item-parent">设置</span>
+            </a>
+            <ul>
+            	 <li><a href="ajax/exp/timeset.html">视频会诊排班</a></li>
+                <li>
+                    <a href="ajax/doc/server.html">服务设置</a>
+                </li>
+                <li>
+                    <a href="ajax/redirect.html?rdt=/doctor/mytimeset">出诊时间设置</a>
+                </li>            
+            </ul>
+        </li>
+    </template>
+    <template v-if="type==2">
+        <li class="menu-item">
+            <a href="#">
+                <i class="icon iconfont icon-wenjian1"></i>
+                <span class="menu-item-parent">我的订单</span>
+            </a>
+            <ul>
+                <li>
+                    <a href="ajax/exp/remote.html">视频会诊</a>
+                    <ol class="hiddenMenu">
+                        <li><a href="ajax/exp/detail.html">订单详情</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <a href="ajax/exp/showadvice.html">图文会诊</a>
+                    <ol class="hiddenMenu">
+                        <li><a href="ajax/exp/advicedetail.html">回复详情</a></li>
+                    </ol>
+                </li>  
+                <!--<li><a href="ajax/exp/ask.html">图文问诊</a></li>
+                <li><a href="ajax/exp/tel.html">电话问诊</a></li>-->
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="#">
+                <i class="icon iconfont icon-jinbi"></i>
+                <span class="menu-item-parent">账户明细</span>
+            </a>
+            <ul>
+                <li>
+                    <a href="ajax/doc/account.html">收支记录</a>
+                </li>
+                <li>
+                    <a href="ajax/doc/withdrawals.html">提现申请</a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="#">
+                <i class="icon iconfont icon-jishu"></i>
+                <span class="menu-item-parent">我的设置</span>
+            </a>
+            <ul>
+                <li><a href="ajax/exp/timeset.html">视频会诊排班</a></li>
+                <li><a href="ajax/redirect.html?rdt=/doctor/mytimeset">出诊时间设置</a></li> 
+                <li><a href="ajax/doc/server.html">服务设置</a></li>
+            </ul>
+        </li>
+    </template>
+    <li class="hiddenMenu">
+        <a href="#">
+            <i class="fa fa-fw fa-home"></i>
+            <span class="menu-item-parent">首页</span>
+        </a>
+        <ol class="hiddenMenu">
+            <li><a href="ajax/notify.html">通知</a></li>
+            <li><a href="ajax/test.html">设备调试</a></li>
+        </ol>
+    </li>
+</ul>
+<script>
+    (function(){
+        new Vue({
+            el: '#vue-menu-ul',
+            data: {
+                type: SStorage.get('_token_utype')
+            },
+            mounted: function(){
+                initApp.leftNav();
+                BindMenuEvent();
+            }
+        })
+    })();
+</script>

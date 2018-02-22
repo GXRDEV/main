@@ -1,0 +1,34 @@
+{
+    "menu":[
+        {
+            "href" : "#",
+            "icon" : "fa fa-fw fa-align-left",
+            "text" : "我的订单",
+            "children" : [
+                {
+                    "href" : "ajax/exp/remote.html",
+                    "text" : "远程门诊"
+                },
+                {
+                    "href" : "ajax/exp/advice.html",
+                    "text" : "图文问诊"
+                },
+                {
+                    "href" : "ajax/exp/advice.html",
+                    "text" : "电话问诊"
+                }
+            ]
+        },
+        {
+            "href" : "ajax/helporder.html",
+            "icon" : "fa fa-fw fa-pencil-square-o",
+            "text" : "我的设置",
+            "children" : [
+                {
+                    "href" : "ajax/exp/remote.html",
+                    "text" : "远程会诊排班"
+                }
+            ]
+        }
+    ]
+}

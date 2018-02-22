@@ -1,0 +1,85 @@
+<?
+	var picurl = @data['detailsProfilePicture'] || @data['listSpecialPicture'];
+?>
+<div class="docdetailDiv">    	
+ 	<div class="w1200">
+ 		<div class="blockdiv docdetail">
+ 			<div class="thumbviews">
+ 				<div class="thumb">
+	 				<?if(picurl){?>
+						<?if(picurl.indexOf('://') != -1){?>
+							<img src="<?=picurl.replace('http://','https://')?>?x-oss-process=image/resize,m_fill,h_100,w_100"/>
+						<?}else{?>
+							<img src="http://wx.15120.cn/SysApi2/Files/<?=picurl?>"/>
+						<?}?>			
+					<?}else{?>
+						<img src="<?=@base?>img/defdoc.jpg"/>
+					<?}?>
+ 				</div>
+ 			</div>
+ 			<div class="docinfos" data-id="<?=@data['specialId']?>" data-name="<?=@data['specialName']?>" data-hos="<?=@data['hosName']?>" data-dep="<?=@data['depName']?>">
+ 				<p>
+ 					<span style="font-size:20px;color:#333;"><?=@data['specialName']?></span>&emsp;
+ 					<span style="line-height:1.8em;color:#828282">
+ 						<?=@data['duty']?>
+ 						<?if((@data['profession']||'') == '教授'){?>
+ 							/<?=@data['profession']?>
+ 						<?}?>
+ 					</span>
+ 				</p>
+ 				<p style="color:#07C595"><?=@data['hosName']?>&emsp;<?=@data['depName']?></p>
+ 				<!-- <p class="layout2"><label>从医</label><span>20年</span></p> -->
+ 				<p class="layout1"><label>擅长：</label><span><?=(@data['specialty'] || '')?></span></p>
+ 				<p class="layout1"><label>简介：</label><span><?=(@data['profile'] || '')?></span></p>
+ 			</div>
+ 		</div>
+ 		<div class="blockdiv normal doctimes">
+ 			<div class="header margin40">
+    			<h2 class="h">远程门诊预约</h2>
+    		</div>
+ 			<div class="clearfix margin40">
+ 				<div class="sectionleft fleft prelative">
+			    	<div class="swiper-container">
+				    	<div class="swiper-wrapper" data-sid="<?=@data['specialId']?>"></div>
+				    	<div class="swiper-button-next" style="display:none;"></div>
+				    	<div class="swiper-button-prev" style="display:none;"></div>
+			    	</div>
+			    	<div class="choosedetail clearfix">
+			    		<div class="fleft">
+			    			<span><i class="iconfont">&#xe610;</i><span>门诊地点：</span><label><?=(@data['hosname'] || '')?></label></span>
+			    		</div>
+			    		<div class="fleft">
+			    			<span><i class="iconfont">&#xe611;</i><span>选择科室：</span><label><?=(@data['depname'] || '')?></label></span>
+			    		</div>
+			    		<div class="fleft">
+			    			<span><i class="iconfont">&#xe60f;</i><span>门诊费用：</span><label class="costmoney" style="color:#00CB97"><?=(@data['vedioAmount'] || '200')?>元</label></span>
+			    		</div>
+			    	</div>
+			    	<div class="timedetailtip"></div>
+		    	</div>
+		    	<div class="sectionright fright">
+					<ul>
+						<dt style="color:#07C595">提示：</dt>
+						<li>为避免错过预约时间，请您提前到您所在地已开通服务的医院等候。</li>
+						<li>您可以预约两周内的时间。</li>
+						<li>远程门诊时间以专家变动为准</li>
+						<li>因专家职业特殊性，延迟难以避免，若超过30分钟，患者可以取消订单，费用全额返还。</li>
+					</ul>
+				</div>
+ 			</div>
+ 		</div>
+   	</div>			
+</div>
+<form method="post" action="<?=base?>kangxin/confirmorderandpay#confirmpay" target="_blank" id="confirmpay">
+	<input type="hidden" name="expertId" value="<?=@data['specialId']?>" />
+	<input type="hidden" name="localHosId" value="" />
+	<input type="hidden" name="localDepartId" value="" />
+	<input type="hidden" name="stimeid" value="" />
+	<input type="hidden" name="uid" value="" />
+	<input type="hidden" name="pmoney" value="<?=(@data['vedioAmount'] || '200')?>" />
+</form>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.remote_docdetail();
+	});
+</script>

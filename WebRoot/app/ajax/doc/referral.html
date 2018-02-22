@@ -1,0 +1,434 @@
+<div id="referral" class="referral">
+	<article v-if="page==1" class="bgfff">
+		<section v-if="steps==1">
+			<div class="refHeader">
+				1.选择转诊类型
+			</div>
+			<div class="refContent">
+				<label class="turn">
+					<span style="padding-right: 5px">转门诊</span> 
+					<span class="input"><input type="radio" name="radio" v-model="referralType" value="0"><i><b></b></i></span>
+				</label>
+				<label class="turn">
+					<span style="padding-right: 5px">转住院</span> 
+					<span class="input"><input type="radio" name="radio" v-model="referralType" value="1"><i><b></b></i></span>
+				</label>
+			</div>
+			<div class="refFooter">
+				<button class="btn btn-primary refnext" @click="++steps" :disabled="!referralType">下一步</button>
+			</div>
+		</section>
+		<section v-if="steps==2" class="Choice">
+			<div class="changeChoice bgfff" @click="choiceHos">
+				<span class="imgicon"></span>
+				<p>选择所在医联体内的医院或科室</p>
+			</div>
+			<div class="changeChoice bgfff" @click="steps+=2">
+				<span class="imghead"></span>
+				<p>自由选择平台内所有医生或专家</p>
+			</div>
+		</section>
+		<section v-if="steps==3">
+			<h4 class="choiceTitle">选择医联体内医院科室</h4>
+			<form class="smart-form flex column">
+				<my-selectdep v-on:adddep-class="selectDep" v-on:addhos-class="selectDep" ref="selectdep"></my-selectdep>
+			</form>
+			<footer class="refFooter" style="border: none">
+				<button class="btn btn-primary refnext" :disabled="!other.depId" @click="submitOther">下一步</button>
+			</footer>
+		</section>
+		<section v-if="steps==4">
+			<h4 class="choiceTitle">选择平台内的医生或专家</h4>
+			<form class="smart-form flex column">
+				<my-selectdoc :docask="3+''" :eid="2" v-on:select="selectExp" ref="selectexp"></my-selectdoc>
+			</form>
+			<footer class="refFooter">
+				<button class="btn btn-primary refnext" :disabled="!other.expid" @click="submitOther">下一步</button>
+			</footer>
+		</section>
+	</article>
+	<article v-if="page==2" class="bgfff">
+		<div class="gloal-title flex">
+			<h3 class="f1" v-if="step==1">1.期望会诊时间</h3>
+			<h3 class="f1" v-if="step==2">2.填写患者基本信息</h3>
+			<h3 class="f1" v-if="step==3">3.填写患者病例</h3>
+			<h3 class="f1" v-if="step==4">4.填写咨询内容</h3>
+			<h3 class="f1" v-if="step==5">5.完成</h3>
+			<div class="f0 hidden-sm text-align-right">
+				<dl class="steps flex">
+					<dd v-for="n in 5" class="step f1" :class="{'passed': step >= n}">
+						<span v-text="n" class="num"></span>
+					</dd>
+				</dl>			
+			</div>
+		</div>
+		<section v-if="step == 1">
+			<div class="refContent">
+				<label class="turn">
+					<span style="padding-right: 5px">三日内</span> 
+					<span class="input"><input type="radio" name="radio" v-model="referralDate" value="三日内"><i><b></b></i></span>
+				</label>
+				<label class="turn">
+					<span style="padding-right: 5px">五日内</span> 
+					<span class="input"><input type="radio" name="radio" v-model="referralDate" value="五日内"><i><b></b></i></span>
+				</label>
+				<label class="turn">
+					<span style="padding-right: 5px">一周内</span> 
+					<span class="input"><input type="radio" name="radio" v-model="referralDate" value="一周内"><i><b></b></i></span>
+				</label>
+			</div>
+			<div class="refFooter">
+				<button class="btn btn-primary refnext" @click="++step" :disabled="!referralDate">下一步</button>
+			</div>
+		</section>
+		<section v-if="step == 2">
+			<form class="smart-form" @submit.prevent="submitBase">
+				<my-baseform :fdata="baseForm" ref="base"></my-baseform>
+				<footer>
+					<button type="submit" class="btn btn-primary refnext" :disabled="validateBase()">
+						<img v-if="baseForm.issave" src="../img/loading/load_24.gif" alt=""> 下一步
+					</button>
+				</footer>
+			</form>
+		</section>
+		<section v-if="step == 3" class="step3">
+			<form class="smart-form">
+				<my-profileform :fdata="profileForm" ref="profile">
+					<h4 slot="title">临床信息</h4>
+				</my-profileform>
+				<keep-alive>
+					<my-record :fdata="othersForm" ref="record">
+						<h4 slot="title">入院记录&ensp;<i class="iconfont icon-xialajiantou"></i></h4>
+					</my-record>
+				</keep-alive>
+				<keep-alive>
+					<my-enclosure @attach="getenclo">
+						<h4 slot="title">病历附件&ensp;<i class="iconfont icon-xialajiantou"></i></h4>
+					</my-enclosure>
+				</keep-alive>
+				<keep-alive>
+					<my-pacs :fdata="pacForm" ref="pacs">
+						<h4 slot="title">影像资料</h4>
+					</my-pacs>
+				</keep-alive>
+				<footer>
+					<button type="button" class="btn btn-primary refnext" @click.prevent="next">下一步</button>
+				</footer>
+			</form>
+		</section>
+		<section v-if="step == 4" class="step4">
+			<form class="smart-form" @submit.prevent="submitForm">
+				<my-question :fdata="ask" ref="ask"></my-question>
+				<footer>
+					<button type="submit" class="btn btn-primary refnext">
+						<img v-if="ask.issave" src="../img/loading/load_24.gif" alt=""> 提交
+					</button>
+				</footer>
+			</form>
+		</section>
+		<section v-if="step == 5" class="step5 text-align-center">
+			<i class="bji"></i>
+			<p class="ptext">预约转诊成功!稍后工作人员将与您取得联系。</p>
+			<dl class="stepInfo">
+				<dd>患者信息：{{baseForm.form.username}}&ensp;（{{sex[baseForm.form.sex]}}&ensp;{{this.baseForm.form.age}}）</dd>
+				<dd>服务类型：预约转诊</dd>
+				<dd>指定专家：{{other.expname || "未指定"}}</dd>
+				<dd>会诊时间：{{referralDate || "未指定"}}</dd>
+			</dl>
+			<footer class="refFooter" style="border: none">
+				<a href="#ajax/doc/showReferral.html" onclick="return BASE.backList(this, Page.otype), false" class="btn btn-primary refnext btns">返回订单列表</a>
+				<a :href="'#ajax/doc/advicedetail.html#2?otype=10&oid='+oid+'&docask=referral'" onclick="return BASE.backDetail(this, Page.otype), false" class="btn btn-default refback btns">查看订单详情</a>
+			</footer>
+		</section>
+	</article>
+</div>
+<style>
+	.referral .refHeader{ 
+		padding: 20px 40px 0; 
+		color: #0186d3
+	}
+	.referral .refContent{ 
+		padding: 100px 40px; 
+		text-align: center
+	}
+	.referral .refFooter {
+		border-top: 1px solid #eee;
+		padding: 20px 40px;
+		text-align: center;
+	}
+	.referral .refnext{
+		background: #0186d3;
+		border-radius: 30px;
+		height: 34px;
+		width: 207px;
+		border: none;
+		color: #fff;
+	}
+	.referral .btns{
+		width: 160px;
+		height: 32px;
+		margin: 0 8px
+	}
+	.referral .refback{
+		border: 1px solid #0186d3;
+		border-radius: 30px;
+		color: #0186d3;
+		background: #fff;
+	}
+	.referral .step3 .header{border-bottom: 1px solid #f1f1f1;margin-bottom: 14px;display: flex}
+	.referral .smart-form section{padding:0 20px;}
+	.referral .smart-form .label{padding: .6em 0 0 0;}
+	.referral .smart-form footer{display: flex;justify-content: center;}
+	.referral .smart-form .noresult{padding: 3em 0;width: 100%;}
+	.referral .smart-form section{padding:0 20px;}
+	.referral .smart-form .label{padding: .6em 0 0 0;}
+	.referral .row.header{ padding:10px 0 10px 32px;display: flex; box-sizing: border-box;width: 100%;}
+	.referral .header .pull-left:first-child{flex: 1 1 auto;}
+	.referral .step3 section{background-color: #fff;padding-top: 10px;}
+	.referral .askform .label{ display:none; }
+	.referral .step4 textarea{height:20em;padding:1em;width: 70%; margin: 0 auto;}
+	.referral .step5 .ptext{ color: #98adc0; font-size: 15px;}
+	.referral .step5 .stepInfo{ display: inline-block; text-align: left;}
+	.referral .step5 .stepInfo dd{ line-height: 2em}
+	.referral .step5 footer{ text-align: center}
+	.referral .noresult .row.header{ display: none !important}
+	.referral .noresult #recordfiles { margin-left: 5px}
+</style>
+<script id="script-load" type="text/x-template"></script>
+<script>
+	var Page = {
+		oid: '',
+        uid: SStorage.get('_token_uid'),
+        utype: SStorage.get('_token_utype'),
+		docask: 'referral',
+		otype: '10',
+		hash:location.hash,
+		resize: function(){
+			$('.referral .selectexp').height(($(window).height() - 239) + 'px')
+			$('.referral .selectdep').height(($(window).height() - 239) + 'px')
+		}
+	};
+	var pagefunction = function (){
+		var referral = new Vue({
+			el: '#referral',
+			created: function () {
+				Page.mainForms = this;
+				// 判断医生所在医院是否存在某个医联体
+				var that = this
+				$.get('/docadmin/gainhoshealthbydoc')
+				.done(function(data){
+					Page.ylt = data.hhas
+					data.hhas.length > 0? that.isylt = true: that.isylt = false;
+				})
+			},
+			data: {
+				oid: '',
+				page: 1,
+				steps: 1,
+				step: 1,
+				referralType: '0',
+				referralDate: '三日内',
+				exist: true,
+				dockingMode: '1',
+				sex: {'1': '男', '2': '女'},
+				isylt: true,
+				back: {
+					caseid: '',
+					oid: '',
+					uuid: ''
+				},
+				other:{
+					skip:true,
+					expid: '',
+					expname: '',
+					depId: '',
+					hosId: '',
+					issave: false
+				},
+				baseForm:{
+					form: {
+						username:'',
+						sex: '1',
+						age: '',
+						idcard:'',
+						telphone:''
+					},
+					old:{},
+					validate: false,
+					edit: true,
+					issave: false
+				},
+				profileForm:{
+					form: {
+						description:'',
+						mainSuit:'',
+						historyIll:'',
+						presentIll:'',
+						examined:'',
+						assistantResult:'',
+						initialDiagnosis:'',
+						familyHistory:''
+					},
+					old:{},
+					edit: true,
+					isload: false,
+					issave: false
+				},
+				pacForm:{
+					form:{
+						list: [],
+						img_list: [],
+						img_list_ids: [],
+						pacs_ids: []
+					},
+					old:{},
+					validate: false,
+					edit: true,
+					isload: false,
+					issave: false
+				},
+				othersForm: {
+					form:{
+						list: [],
+						img_list: [],
+						img_list_ids: [],
+						pacs_ids: []
+					},
+					old:{},
+					validate: false,
+					edit: true,
+					isload: false,
+					issave: false
+				},
+				ask:{
+					form: {
+						askProblem:''
+					},
+					old:{},
+					edit: true,
+					isload: false,
+					issave: false
+				},
+				enclo: ''
+			},
+			methods: {
+				getenclo: function (val){
+					val && (this.enclo = JSON.stringify({'attachments': val}))
+				},
+				next: function (){
+					++this.step;
+					sessionStorage.removeItem('_catch_attachments_')
+					sessionStorage.removeItem('_catch_time_name_')
+				},
+				choiceHos: function () {
+					this.isylt? 
+						++this.steps :
+						$.smallBox({title: "您所在医院没有加入任何医联体",color: $.color.error,iconSmall: "fa fa-times",timeout: 3000})
+				},
+				selectExp: function(){
+					this.other.expid = this.$refs.selectexp.$data.expid;	
+					this.other.expname = this.$refs.selectexp.$data.info.specialName
+					this.other.depId = this.$refs.selectexp.$data.info.depId
+					this.other.hosId = this.$refs.selectexp.$data.info.hosId
+				},
+
+				selectDep: function(hosId, depId){
+					this.other.hosId = hosId
+					this.other.depId = depId
+				},
+				submitOther: function () {
+					this.page = 2;
+					this.steps = 5;
+				},
+				submitBase: function () {
+					var that = this;
+					that.baseForm.issave = true;
+					that.referralType = parseInt(this.referralType)
+					var data={
+						referralType: that.referralType, 
+						referralDate: that.referralDate, 
+						referralDocId: that.other.expid, 
+						referralHosId: that.other.hosId,
+						referralDepId: that.other.depId, 
+						username: that.baseForm.form.username,
+						sex: parseInt(that.baseForm.form.sex), 
+						age: that.baseForm.form.age,
+						idcard : that.baseForm.form.idcard, 
+						telephone: that.baseForm.form.telphone
+					}
+					$.post('/docadmin/basicnext', data)
+					.done(function(d){
+						!Page.oid && (
+							Page.oid = that.oid = that.baseForm.form.oid = d.oid,
+							that.back.caseid = d.caseid,
+							that.back.oid = that.oid = Page.oid = d.oid,
+							Page.ouid = that.back.uuid = d.uuid,
+							$('#script-load').load('ajax/script-templet/remote.init.html',function(){
+								Page.Ctr.loadGoeasy(d.uuid, Page.Ctr.pid);
+							})
+						);
+						that.step = 3
+					})
+					.always(function(){
+						that.baseForm.issave = false;
+					});
+				},
+				validateBase: function(){
+					var _bform = this.$refs.base;
+					return !this.baseForm.form.username || 
+						_bform.validateAge(this.baseForm.form.age) || 
+						_bform.validateCard(this.baseForm.form.idcard) || 
+						_bform.validateTel(this.baseForm.form.telphone);
+				},
+				submitForm: function (){
+					var that = this
+					this.ask.issave = true
+					var data={
+						oid: this.back.oid,
+						uuid: this.back.uuid,
+						mainSuit: this.profileForm.form.mainSuit,
+						presentIll: this.profileForm.form.presentIll,
+						historyIll: this.profileForm.form.historyIll,
+						examined: this.profileForm.form.examined,
+						treatAdvice: this.profileForm.form.treatAdvice,
+						assistantResult: this.profileForm.form.assistantResult,
+						initialDiagnosis: this.profileForm.form.initialDiagnosis,
+						normalImages: this.othersForm.form.img_list_ids.join(','),
+						radiographFilmImags: this.pacForm.form.img_list_ids.join(','),
+						askProblem: this.ask.form.askProblem,
+						attachments: this.enclo,
+						pacs_ids: (function(list){
+							var arr = [];
+							$.each(list,function(i,n){
+								$.each(n.beans,function(ii,nn){
+									arr.push(nn.key);
+								});
+							});
+							return arr.join(',');
+						})(this.pacForm.form.list)
+					};
+					$.post('/docadmin/subreferralorder',data)
+					.then(function(){
+						that.ask.issave = true;
+						++that.step
+					},function(err){
+						that.ask.issave = true
+						alert('网络出错')
+					})
+				}
+			}
+		})
+		$(window).bind("resize",Page.resize);
+	}
+	var pagedestroy = function(){
+		Page.mainForms.$destroy();
+		Page = null;
+        pageleave = null;
+	}
+	var pageleave = function(){
+		return (Page.mainForms.page == 2 && Page.mainForms.step == 3);
+	};
+	pagefunction()
+</script>
+
+

@@ -1,0 +1,459 @@
+<div id="vue-helporder" class="helporder">
+	<article v-if="page == 1" class="bgfff">
+		<section class="Choice" v-if="pages == 1">
+			<div class="changeChoice bgfff" @click="selectDeps()">
+				<span class="imgicon"></span>
+				<p>选择所在医联体内的医院或科室</p>
+			</div>
+			<div class="changeChoice bgfff" @click="pages+=2">
+				<span class="imghead"></span>
+				<p>自由选择平台内所有医生或专家</p>
+			</div>
+			<div class="changeChoice bgfff" @click="pages+=3">
+				<span class="imgask"></span>
+				<p>写专家类型需求，由平台辅助您选择</p>
+			</div>
+		</section>
+		<section v-if="pages == 2">
+			<h4 class="choiceTitle">选择医联体内医院科室</h4>
+			<form class="smart-form flex column">
+				<my-selectdep v-on:adddep-class="selectDep" v-on:addhos-class="selectDep" ref="selectdep"></my-selectdep>
+			</form>
+			<footer class="Footer" style="border: none">
+				<button class="btn btn-primary refnext" :disabled="!other.depId" @click="++page">下一步</button>
+			</footer>
+		</section>
+		<section v-if="pages == 3">
+			<h4 class="choiceTitle">选择平台内的医生或专家</h4>
+			<form class="smart-form flex column">
+				<my-selectdoc :docask="2+''" :eid="1" :dtype="4" v-on:select="selectExp" ref="selectexp"></my-selectdoc>
+			</form>
+			<footer class="Footer">
+				<button class="btn btn-primary refnext" :disabled="!other.expid" @click="++page">下一步</button>
+			</footer>
+		</section>
+		<section v-if="pages == 4">
+			<h4 class="choiceTitle">填写期望医生或专家要求</h4>
+			<my-requirement :requir="requir"></my-requirement>
+			<footer class="Footer">
+				<button class="btn btn-primary refnext" :disabled="!requir.req" @click="++page">下一步</button>
+			</footer>
+		</section>
+	</article>
+	<div class="gloal-title flex" v-if="page == 2">
+		<h3 class="f1" v-if="step==1">1. 期望会诊时间</h3>
+		<h3 class="f1" v-if="step==2">2. 填写患者基本信息</h3>
+		<h3 class="f1" v-if="step==3">3. 填写患者病例</h3>
+		<h3 class="f1" v-if="step==4">4. 填写咨询内容</h3>
+		<h3 class="f1" v-if="step==5">5. 付款</h3>
+		<h3 class="f1" v-if="step==6">6. 完成</h3>
+		<div class="f0 hidden-sm text-align-right">
+			<dl class="steps flex">
+				<dd v-for="n in 6" class="step f1" :class="{'passed': step >= n}">
+					<span v-text="n" class="num"></span>
+				</dd>
+			</dl>			
+		</div>
+	</div>
+	<article v-if="page == 2" class="bgfff">
+		<section v-if="step == 1">
+			<div class="helContent">
+				<label class="turn">
+					<span style="padding-right: 5px">三日内</span> 
+					<span class="input"><input type="radio" name="radio" v-model="expectedTime" value="三日内"><i></i></span>
+				</label>
+				<label class="turn">
+					<span style="padding-right: 5px">五日内</span> 
+					<span class="input"><input type="radio" name="radio" v-model="expectedTime" value="五日内"><i></i></span>
+				</label>
+				<label class="turn">
+					<span style="padding-right: 5px">一周内</span> 
+					<span class="input"><input type="radio" name="radio" v-model="expectedTime" value="一周内"><i></i></span>
+				</label>
+			</div>
+			<div class="Footer">
+				<button class="btn btn-primary refnext" @click="++step" :disabled="!expectedTime">下一步</button>
+			</div>
+		</section>
+		<section v-if="step==2">
+			<form @submit.prevent="submitBase" class="smart-form">
+				<my-baseform :fdata="baseForm" ref="base"></my-baseform>
+				<footer class="Footer">
+					<button type="submit" class="btn btn-primary refnext" :disabled="validateBase() || baseForm.issave">
+						<img v-if="baseForm.issave" src="../img/loading/load_24.gif" alt=""> 下一步
+					</button>
+				</footer>
+			</form>
+		</section>
+		<section class="step3" v-if="step==3">
+			<form class="smart-form">
+				<my-profileform :fdata="profileForm" ref="profile">
+					<h4 slot="title">诊疗信息</h4>
+				</my-profileform>
+				<keep-alive>
+					<my-record :fdata="othersForm" ref="record">
+						<h4 slot="title">入院记录&ensp;<i class="iconfont icon-xialajiantou"></i></h4>
+					</my-record>
+				</keep-alive>
+				<keep-alive>
+					<my-enclosure @attach="getenclo">
+						<h4 slot="title">病历附件&ensp;<i class="iconfont icon-xialajiantou"></i></h4>
+					</my-enclosure>
+				</keep-alive>
+				<keep-alive>
+					<my-pacs :fdata="pacForm" ref="pacs">
+						<h4 slot="title">影像资料&ensp;<i class="iconfont icon-xialajiantou"></i></h4>
+					</my-pacs>
+				</keep-alive>
+				<footer class="Footer">
+					<button type="button" class="btn btn-primary refnext" @click.prevent="next">下一步</button>
+				</footer>
+			</form>
+		</section>
+		<section v-if="step==4">
+			<form class="smart-form" @submit.prevent="submitOther">
+				<my-question :fdata="ask" ref="ask"></my-question>
+				<footer class="Footer">
+					<button type="submit" class="btn btn-primary refnext">
+						<img v-if="other.issave" src="../img/loading/load_24.gif" alt=""> 提交
+					</button>
+				</footer>
+			</form>
+		</section>
+		<section v-if="step==5">
+			<form class="smart-form" style="background: #fff; overflow: hidden">
+				<div class="pay-title">
+					<span>1</span>微信扫码支付
+				</div>
+				<my-pay :money="other.money" v-on:payok="paysetok" :pay="other.pay" ref="pay"></my-pay>
+				<div class="pay-title">
+					<span>2</span>通知患者付款
+				</div>
+				<div class="pay-notice">
+					<i class="iconfont icon-zhifeijikuai"></i>
+					<span>&ensp;通知患者支付本次金额&ensp;</span>
+					<button type="button" class="btn btn-primary" style="padding: 4px 17px" @click="notice(4)">通知</button>
+				</div>
+			</form>
+		</section>
+		<section v-if="step==6">
+			<div class="orderend smart-form text-align-center">
+				<i class="bji"></i>
+				<h3 style="color:#5A7A97;">下单成功！稍候工作人员将会与您取得联系。</h3>
+				<dl style="color:#999;display: inline-block;text-align:left;font-size:16px;">
+					<dd>患者信息：{{ baseForm.form.username }}（{{ baseForm.form.sex == '1' ? '男' : '女' }}&ensp;{{ baseForm.form.age }}）</dd>
+					<dd>服务类型：远程会诊</dd>
+					<dd>指定专家：{{ other.expName || '未指定' }}</dd>
+					<dd>会诊时间：{{  expectedTime || '未指定' }}</dd>
+				</dl>
+				<footer style="border:0;" class="Footer">
+					<a href="#ajax/doc/remote.html" onclick="return BASE.backList(this, Page.otype), false" class="btn btn-primary refnext btns">返回订单列表</a>
+					<a :href="'#ajax/doc/detail.html?oid=' + oid" onclick="return BASE.backDetail(this, Page.otype), false" class="btn btn-default refback btns">查看订单详情</a>
+				</footer>
+			</div>
+		</section>
+	</article>
+</div>
+<script id="script-load" type="text/x-template"></script>
+<script type="text/javascript">
+	var Page = {
+		oid: '',
+        uid: SStorage.get('_token_uid'),
+        utype: SStorage.get('_token_utype'),
+		docask: '',
+		otype: '4',
+		hash:location.hash,
+		resize: function(){
+			$('.helporder .selectexp').height(($(window).height() - 239) + 'px')
+			$('.helporder .selectdep').height(($(window).height() - 239) + 'px')
+		}
+	};
+	var pagefunction = function() {
+		var base = new Vue({
+			el: '#vue-helporder',
+			data:{
+				page: 1,
+				pages: 1,
+				oid: '',
+				uuid: '',
+				caseid: '',
+				userid: '',
+				dockingMode: '1',
+				step: 1,
+				expectedTime: '三日内',
+				isylt: true,
+				status: 5,
+				requir: {
+					req: ''
+				},
+				baseForm:{
+					form: {
+						oid:'',
+						username:'',
+						sex: '1',
+						age: '',
+						idcard:'',
+						telphone:''
+					},
+					old:{},
+					validate: false,
+					edit: true,
+					issave: false
+				},
+				profileForm:{
+					form: {
+						description:'',
+						mainSuit:'',
+						historyIll:'',
+						presentIll:'',
+						examined:'',
+						assistantResult:'',
+						initialDiagnosis:'',
+						familyHistory:'',
+						treatAdvice: ''
+					},
+					old:{},
+					edit: true,
+					isload: false,
+					issave: false
+				},
+				ask:{
+					form: {
+						askProblem:''
+					},
+					old:{},
+					edit: true,
+					isload: false,
+					issave: false
+				},
+				pacForm:{
+					form:{
+						list: [],
+						img_list: [],
+						img_list_ids: [],
+						pacs_ids: []
+					},
+					old:{},
+					validate: false,
+					edit: true,
+					isload: false,
+					issave: false
+				},
+				othersForm: {
+					form:{
+						list: [],
+						img_list: [],
+						img_list_ids: [],
+						pacs_ids: []
+					},
+					old:{},
+					validate: false,
+					edit: true,
+					isload: false,
+					issave: false
+				},
+				other:{
+					skip:true,
+					hosId: '',
+					depId: '',
+					expid: '',
+					expName: '',
+					timeid: '',
+					timename: '',
+					money: 0,
+					pay: {},
+					issave: false
+				},
+				enclo: ''
+			},
+			methods:{
+				getenclo: function (val){
+					val && (this.enclo = JSON.stringify({'attachments': val}))
+				},
+				next: function (){
+					++this.step;
+					sessionStorage.removeItem('_catch_attachments_')
+					sessionStorage.removeItem('_catch_time_name_')
+				},
+				//判断是否拥有医联体
+				selectDeps: function(){
+					this.isylt? 
+						++this.pages :
+						$.smallBox({title: "您所在医院没有加入任何医联体",color: $.color.error,iconSmall: "fa fa-times",timeout: 3000})
+				},
+				// 选择平台内的医生或专家
+				selectExp: function(){
+					this.other.expid = this.$refs.selectexp.$data.expid;	
+					this.other.depId = this.$refs.selectexp.$data.info.depId;
+					this.other.hosId = this.$refs.selectexp.$data.info.hosId;
+					this.other.expName = this.$refs.selectexp.$data.info.specialName
+				},
+				//选择医联体内医院科室
+				selectDep: function(hosId, depId){
+					this.other.hosId = hosId
+					this.other.depId = depId
+				},
+				validateBase: function(){
+					var _bform = this.$refs.base;
+					return !this.baseForm.form.username || 
+						_bform.validateAge(this.baseForm.form.age) || 
+						_bform.validateCard(this.baseForm.form.idcard) || 
+						_bform.validateTel(this.baseForm.form.telphone);
+				},
+				submitBase: function(){
+					var that = this;
+					that.baseForm.issave = true;
+					var data={
+						remark: this.requir.req,
+						doctorId: this.other.expid,
+						hospitalId: this.other.hosId,
+						depId: this.other.depId,
+						consultationDate: that.expectedTime,
+						username: that.baseForm.form.username,
+						sex: parseInt(that.baseForm.form.sex), 
+						age: that.baseForm.form.age,
+						idcard : that.baseForm.form.idcard, 
+						telephone: that.baseForm.form.telphone
+					}
+					$.post('/docadmin/nextSubBasicVedioInfo', data)
+					.done(function(d){
+						!Page.oid && (
+							Page.oid = that.oid = that.baseForm.form.oid = d.oid,
+							$('#script-load').load('ajax/script-templet/remote.init.html',function(){
+								Page.Ctr.loadGoeasy(d.uuid, Page.Ctr.pid);
+							})
+						);
+						that.step = 3
+					})
+					.always(function(){
+						that.baseForm.issave = false;
+					});
+				},
+				submitOther: function(){
+					var that = this;
+					if(!that.other.expid){
+						that.submitForm('/docadmin/subnodocorder',function(){
+							that.step = 6
+						}), 0;
+					}else {
+						that.submitForm('/docadmin/surepay_pc',function(){
+							that.step = that.status;
+						})
+					}
+				},
+				submitForm: function(url,callback){
+					this.other.issave = true;
+					var that = this;
+					var data = {
+						oid: this.oid,
+						mainSuit: this.profileForm.form.mainSuit,
+						presentIll: this.profileForm.form.presentIll,
+						historyIll: this.profileForm.form.historyIll,
+						examined: this.profileForm.form.examined,
+						treatAdvice: this.profileForm.form.treatAdvice,
+						assistantResult: this.profileForm.form.assistantResult,
+						initialDiagnosis: this.profileForm.form.initialDiagnosis,
+						normalImages: this.othersForm.form.img_list_ids.join(','),
+						radiographFilmImags: this.pacForm.form.img_list_ids.join(','),
+						askProblem: this.ask.form.askProblem,
+						attachments: this.enclo,
+						pacs_ids: (function(list){
+							var arr = [];
+							$.each(list,function(i,n){
+								$.each(n.beans,function(ii,nn){
+									arr.push(nn.key);
+								});
+							});
+							return arr.join(',');
+						})(this.pacForm.form.list)
+					};
+					$.post(url,data)
+					.done(function(d){
+						if(d.status == 'error'){
+							that.status = 6
+						}else{
+							that.other.money = d.money
+						}
+						if(!BASE.isLost(d)){
+							if('code_url' in d){
+								if(d.code_url){
+									that.other.pay = d;
+								}else{
+									return $.smallBox({title: "保存失败", content: '支付二维码生成失败',color: $.color.error,iconSmall: "fa fa-times",timeout: 10000}), 0;
+								}								
+							}
+							callback();
+						}else{
+							$.smallBox({title: "保存失败", content: '网络出错，请重试，或者联系客服',color: $.color.error,iconSmall: "fa fa-times",timeout: 10000})
+						}
+					})
+					.always(function(){
+						that.other.issave = false;
+					});
+				},
+				paysetok:function(){
+					this.step = 6;
+				},
+				notice: function(otype){
+					let that = this;
+					$.post('/docadmin/notifyPatientToPay', {oid: this.oid, otype: otype})
+					.done(function(data){
+						data.status == 'success' && (that.step = 6) && $.smallBox({
+							title: "通知提示",
+							content: "已成功通知患者",
+							color: $.color.success,
+							timeout: 3000
+						});
+					})
+					.fail(function(){
+						$.smallBox({
+							title: "通知提示",
+							content: "通知患者失败，请重试",
+							color: $.color.error,
+							iconSmall: "fa fa-times"
+						});
+					})
+				}
+			},
+			created: function(){
+            	Page.mainForms = this;
+				var that = this;
+				$.get('/docadmin/gainhoshealthbydoc')
+				.done(function(data){
+					Page.ylt = data.hhas
+					data.hhas.length > 0? that.isylt = true: that.isylt = false;
+				})
+			}
+		});	
+		$(window).bind("resize",Page.resize);	
+	};
+
+	var pagedestroy = function(){
+		Page.mainForms.$destroy();
+		Page = null;
+        pageleave = null;
+	}
+   var pageleave = function(){
+	   return (Page.mainForms.page == 2 && Page.mainForms.step == 3);
+   };
+
+	pagefunction()
+</script>
+<style>
+	.helporder .row.header{padding:10px 0 10px 32px;display: flex; box-sizing: border-box;width: 100%;}
+	.helporder .step3 .header{border-bottom: 1px solid #f1f1f1;margin-bottom: 14px; margin-right: 0}
+	.helporder .header .pull-left:first-child{flex: 1 1 auto;}
+	.helporder .step3 section{background-color: #fff;padding-top: 10px;}
+	.helporder .smart-form section{padding:0 20px;}
+	.helporder .smart-form .label{padding: .6em 0 0 0;}
+	.helporder .smart-form .askform .textarea textarea{width: 70%; height: 15em;}
+	.helporder .smart-form footer{display: flex;justify-content: center;}
+	.helporder .smart-form footer .btn{height: auto; padding: 6px;min-width: 10em;}
+	.helporder .smart-form .noresult{padding: 3em 0;width: 100%;}
+	.helporder .smart-form .bigtextarea{width: 60%; margin: 20px 20%; padding:10px;height: 20em; background: #EEEFF3;}
+	.helporder .orderend dd{line-height: 2em;}
+	.helContent {text-align: center; padding: 100px 0}
+	.helporder .noresult .file-templet .row { display: none !important}
+	.helporder .noresult .row.header{ display: none !important}
+	.helporder .noresult #recordfiles { margin-left: 5px}
+</style>

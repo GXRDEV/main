@@ -1,0 +1,197 @@
+<!Doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<!-- <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"> -->
+	<!--<link rel="stylesheet" type="text/css" media="screen" href="/app/icon/iconfont.css">-->
+	<title>远程会诊专家报告签名</title>
+	<style type="text/css">
+		.flex{display: flex!important;display: -webkit-flex!important;display: -ms-flex;}
+		.flex.row{flex-direction:row;-webkit-flex-direction:row;}
+		.flex.column{flex-direction:column; -webkit-flex-direction:column;}
+		.flex.jcenter{justify-content:center;-webkit-justify-content:center;}
+		.flex.acenter{align-items:center;-webkit-align-items:center}
+		.flex .f0{-webkit-flex:0 0 auto;flex:0 0 auto;}
+		.flex .f1{-webkit-flex:1 1 auto;flex:1 1 auto;}
+		.flex .f00{-webkit-flex:0;flex:0;}
+		.flex .f10{-webkit-flex:1;flex:1;}
+		html{width: 100vw;height: 100vh;}
+		/*横的状态下*/
+		body{ margin: 0;}
+		.landscape body {
+			width: 100vw;
+			height: 100vh;
+		}
+		/*竖的状态下*/
+		.portrait body {
+			width: 100vh;
+			height: 100vw;
+			transform-origin: left top;
+			transform: translate(100vw, 0) rotate(90deg);
+		}
+		.header{
+			background: #0085D0 url("") no-repeat right 1em center; color:#fff; font-size: 18px;
+			background-size: auto 1em;
+			text-align:center; line-height: 2.6em;
+		}
+		.pcPage .header{ display: none;}
+		.footer{
+			text-align: right; background: #eee;
+			padding: 7px 1em;
+		}
+		.footer button{
+			border: 0; border-radius: 3px;
+			color: #fff;
+			font-size: 16px;
+			min-width: 8em; line-height: 2em; background: #BFBFBF;
+		}
+		.footer button.save{
+			background: #0085D0;
+		}
+		#signatureparent{
+			height: 100%;
+		}
+		#signature{
+			overflow: hidden;
+			position: relative;
+		}
+		.portrait canvas {
+			transform: rotate(-90deg) translate(59%, 29%);
+		}
+		.add_name {
+			font-size:20px;
+			letter-spacing:1.2px;
+			z-index: 999;
+			position:absolute;
+			top:50%;
+			left:50%;
+			transform:translate(-50%,-50%);
+			color:#ccc;
+		}
+	</style>
+</head>
+<body>
+<div id="signatureparent" class="flex column">
+	<div id="header" class="header">远程会诊专家报告签名</div>
+	<div class="f10" id="signature">
+		<canvas id="canvas_signature"></canvas>
+		<span id="signature_tip" class="add_name">请在此区域添加完整姓名</span>
+	</div>
+	<div class="footer">
+		<button type="button" class="reset"><i class="iconfont icon-qingkong"></i> 清空</button>
+		<button type="button" class="save"><i class="iconfont icon-baocun"></i> 保存</button>
+	</div>
+</div>
+<script src="libs/jquery.js"></script>
+<script src="libs/signature_pad.js"></script>
+<script>
+	var $sigdiv;
+	var canvas = document.getElementById("canvas_signature");
+	var orientations = (window.innerWidth > window.innerHeight) ? "landscape" : "portrait";
+	function getParam (name) {
+		name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+		var regexS = "[\\?&]" + name + "=([^&#]*)";
+		var regex = new RegExp(regexS);
+		var results = regex.exec(window.location.href);
+		if (results == null)
+			return "";
+		else
+			return results[1];
+	}
+	function resizeCanvas () {
+		if(orientations === "portrait"){
+			canvas.width = $("#signature").height();
+			canvas.height = $("#signature").width();
+		}else{
+			canvas.width = $("#signature").width();
+			canvas.height = $("#signature").height();
+		}
+	}
+	(function () {
+		var supportOrientation;
+		var updateOrientation = function(){
+			supportOrientation = (typeof window.orientation == 'number' && typeof window.onorientationchange == "object");
+			if (supportOrientation) {
+				updateOrientation = function () {
+					switch (window.orientation) {
+						case 90 :
+						case -90 :
+							orientations = "landscape";
+							break;
+						case 0 :
+						case 180 :
+							orientations = "portrait";
+							break;
+					}
+					if (!$(document.body).parent().hasClass(orientations)) {
+						$(document.body).parent().attr("class", orientations)
+						canvas !== undefined && resizeCanvas()
+					}
+				};
+			}else{
+				updateOrientation = function () {
+					if( !$(document.body).parent().hasClass(orientations) ){
+						$(document.body).parent().attr("class", orientations);
+						canvas !== undefined && resizeCanvas()
+					}
+				};
+			}
+			updateOrientation()
+		}
+		var init = function () {
+			updateOrientation();
+			if (supportOrientation) {
+				window.addEventListener("orientationchange", updateOrientation, false); 
+			} else {
+				window.setInterval(updateOrientation, 1000); 
+			}
+		};
+		window.addEventListener("DOMContentLoaded", init, false);
+		window.onresize = resizeCanvas;
+		if($sigdiv === undefined || $sigdiv === null){
+			$sigdiv = new SignaturePad(canvas);
+		}
+		$('.reset').bind('click', function(e){
+			$sigdiv.clear();
+		});
+		$('.save').bind('click', function(e){
+			if($sigdiv.isEmpty()){
+				return;
+			}
+			var canvasData = $sigdiv.toDataURL().split(',');
+			var imgdata = dataURLtoBlob("data:" + canvasData[0] + "," + canvasData[1]);
+			var formD = new FormData();
+			formD.append('file', imgdata);
+			formD.append('orderUuid', getParam('orderUuid'));
+			formD.append('orderType', getParam('orderType'));
+			orientations === "landscape" ? formD.append('turnRate', 0) : formD.append('turnRate', 270)
+			$.ajax({
+				url: "/order/uploadJSignature",
+				type: 'POST',
+				data: formD,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function (returndata) {
+					window.location.replace(returndata.url);
+					window.orientation == undefined && window.close()
+				},
+				error: function (returndata) {
+					console.log('upblob-error:returndata', JSON.stringify(returndata, null, '\t'));
+				}
+			});
+		});
+		function dataURLtoBlob(dataurl) {
+			var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+					bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+			while(n--){
+				u8arr[n] = bstr.charCodeAt(n);
+			}
+			return new Blob([u8arr], {type:mime});
+		}
+	})();
+</script>
+</body>
+</html>

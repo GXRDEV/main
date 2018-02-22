@@ -1,0 +1,78 @@
+<div class="confirmpay">    	
+	<div class="w1200">
+ 		<div class="blockdiv normal confirmdetail">
+ 			<div class="header margin40">
+    			<h2 class="h">远程门诊预约</h2>
+    		</div>
+    		<div class="boyder clearfix">
+    			<div class="fleft hasline">
+    				<p>医生信息</p>
+    				<div>
+    					<b>杨致富</b><span>主任工程师</span>
+    				</div>
+    				<div>
+    					中国中科学本枯叶顶替&emsp;普外科
+    				</div>
+    			</div>
+    			<div class="fleft hasline">
+    				<p>服务类型</p>
+    				<div>
+    					<b>远程门诊</b>
+    				</div>
+    			</div>
+    			<div class="fleft hasline">
+    				<p>门诊时间</p>
+    				<div style="font-size:18px;">
+    					2016-07-20(周六) 08：00
+    				</div>
+    			</div>
+    			<div class="fleft">
+    				<p>费用</p>
+    				<div>
+    					<b>￥200</b>
+    				</div>
+    			</div>
+    		</div>
+ 		</div>
+ 		<div class="blockdiv normal confirmperson">
+ 			<div class="header margin40">
+    			<h2 class="h">确认就诊人</h2>
+    		</div>
+    		<div class="boyder personlists clearfix">
+    			<div class="personlist fleft">
+    				<div class="innerlist selected">
+	    				<h4>刘志<span>(默认)</span></h4>
+	    				<div class="perinfo">
+	    					<p>联系方式：13512345678</p>
+	    					<p>身份证号：1123455663512345678</p>
+	    				</div>
+    				</div>
+    			</div>
+    			<div class="personlist fleft">
+    				<div class="innerlist">
+	    				<h4>刘志</h4>
+	    				<div class="perinfo">
+	    					<p>联系方式：13512345678</p>
+	    					<p>身份证号：1123455663512345678</p>
+	    				</div>
+    				</div>
+    			</div>
+    			<div class="addpersoninfo fleft">
+    				<div class="innerlist">
+	    				<i class="iconfont">&#xe614;</i>
+	    				<label>添加其他就诊人</label>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="footer">
+    			<label class="checkbox"><input type="checkbox" name="readme"/><span>我已了解并同意以下规则</span></label>
+    			<button class="submittopay" type="button">提交并付款</button>
+    		</div>
+ 		</div>
+ 	</div> 	
+</div>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.confirmPay();
+	});
+</script>

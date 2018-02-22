@@ -1,0 +1,56 @@
+<div v-if="room" class="side-column hassidebar">
+    <section id="side-column-fixed" class="side-column-fixed" :class="{'animated bounceInRight' : room, 'animated bounceOutRight' : !room}">
+        <div class="videoouter flex column">
+            <header class="state f0 flex acenter">
+                <div class="thumb">
+                    <img :src="(expInfo.info.listSpecialPicture || 'img/avatars/male.png') + '?x-oss-process=image/resize,m_fill,h_60,w_60'"
+                        alt="">
+                </div>
+                <div class="f1 whitespace">
+                    <p style="font-size: 14px;font-weight:bold;line-height: 1.4; margin: 0;">{{ expInfo.info.specialName }}&emsp;<span style="color:#aaa;font-size:12px;font-weight:normal;">{{ [expInfo.info.duty].concat(expInfo.info.profession || []).join(' / ') }}<span></p>
+                    <p style="font-size: 14px;line-height: 1.4; margin: 0;">{{ expInfo.info.hosName }}&emsp;{{ expInfo.info.depName }}</p>
+                </div>
+                <span class="flex acenter" :class="expInfo.state ? 'online' : 'offline'">{{ expInfo.state ? '在线' : '离线' }}</span>
+            </header>
+            <section v-if="video" style="font-size: 0;">
+                <iframe id="videoiframe" :src="frame" name="videoiframe" frameborder="no" border="0" allowscriptaccess="always" marginwidth="0" marginheight="0" allowfullscreen="true" wmode="opaque" allowTransparency="true" type="application/x-shockwave-flash" style="width:100%;height:0;"></iframe>
+            </section>
+            <section class="messagelist f1">
+                <dl>
+                    <template v-for="(dd, idx) in userMsg">
+                        <dt v-if="!dd.sendType" class="msgsystem">
+                            <span><i class="fa fa-volume-down"></i>{{ dd.msgContent }}</span>
+                        </dt>
+                        <dd v-else :class="dd.sendType == utype ? 'me' : 'you'">
+                            <img :src="dd.sendType == utype ? 'img/avatars/male.png' : 'img/avatars/female.png'" class="img-circle" alt="">
+                            <span v-if="dd.msgType=='RC:TxtMsg' || dd.msgType=='text'" class="f1" v-html="toemjc(dd.msgContent)"></span>
+                            <span v-if="dd.msgType=='RC:ImgMsg'" class="f1">
+                                <img :src="dd.msgContent || dd.fileUrl" @click="showPic(idx)" style="width: 100px;" alt="">
+                            </span>
+                            <span v-if="dd.msgType=='RC:VcMsg'" class="f1">
+                                <button type="button" @click="playMedia(idx)">
+                                    <label v-if="playId==dd.msgContent"><i class="iconfont icon-stop"></i>停止</label>
+                                    <label v-else><i class="iconfont icon-bofang"></i>播放</label>
+                                </button>
+                            </span>
+                        </dd>
+                    </template>
+                </dl>
+            </section>
+            <section v-if="status == 20" class="f0">
+                <div v-if="isInit" class="loading flex acenter jcenter" style="height: 120px;background: #EEEFF3;opacity: 1">
+                    <div style="background: transparent">
+                        <img :src="initImg" style="width:32px;" alt="">
+                        <p style="line-height: 3em;">{{ initMsg }}</p>
+                    </div>
+                </div>
+                <footer v-else class="messagebtns" style="position: relative">
+                    <div class="msg-form flex">
+                        <textarea v-model.trim="sendtext" @keyup.enter="sendMsg" class="f1"></textarea>
+                        <button type="button" :disabled="!sendtext" @click="sendMsg" class="btn btn-default">发送</button>
+                    </div>
+                </footer>
+            </section>
+        </div>
+    </section>    
+</div>

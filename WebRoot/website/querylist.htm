@@ -1,0 +1,82 @@
+<?
+	var list = @pager.list,
+		target = @target || '_self',
+		pageNumber = @pager.pageNumber,
+		pageSize = @pager.pageSize,
+		totalCount = @pager.totalCount,
+		pageCount = @pager.pageCount;
+?>
+<?for(var i = 0,l = list.length; i<l; i++){?>
+<div class="doclist fleft">
+	<?if(@action){?>
+		<a class="href" target="<?=target?>" href="#<?=(@action + '/' + list[i]['specialId'])?>"></a>
+	<?}?>
+	<div class="thumb">
+		<?if(list[i]['listSpecialPicture']){?>
+			<?if(list[i]['listSpecialPicture'].indexOf('://') != -1){?>
+				<img src="<?=list[i]['listSpecialPicture'].replace('http://','https://')?>?x-oss-process=image/resize,m_fill,h_100,w_100"/>
+			<?}else{?>
+				<img src="http://wx.15120.cn/SysApi2/Files/<?=list[i]['listSpecialPicture']?>"/>
+			<?}?>			
+		<?}else{?>
+			<img src="<?=@base?>img/defdoc.jpg"/>
+		<?}?>
+	</div>
+	<p class="whitespace hosp"><?=(list[i]['hosName']||'')?></p>
+	<p class="whitespace"><?=(list[i]['specialName']||'')?>&ensp;<?=(list[i]['depName']||'')?></p>
+	<p class="whitespace">
+		<?=(list[i]['duty']||'')?>
+		<?if((list[i]['profession']||'') == '教授'){?>
+			&ensp;<?=(list[i]['profession']||'')?>
+		<?}?>
+	</p>
+	<div class="begoodat">		
+		<div class="begoodattxt">
+			<?if(list[i]['specialty']){?>
+				擅长：<?=(list[i]['specialty'] || '')?>
+			<?}?>
+		</div>		
+	</div>
+</div>
+<?}?>
+<?if(totalCount < 1){?>
+	<div class="noresult"><span>提示：暂无相关专家</span></div>
+<?}?>
+<?if(pageCount > 1 && !@nopager){?>
+	<div class="pagenationDIV" data-hosid="<?=@pager.hosid?>" data-depid="<?=@pager.depid?>">
+		<div class="pagenationDIV_pages">
+			<?if(pageCount <= 6){?>
+				<?for(var i = 1,l = pageCount; i <= l; i++){?>
+					<a href="javascript:void(0)" class="page<?=(i==pageNumber?' curr':'')?>" data-id="<?=i?>"><?=i?></a>
+				<?}?>
+			<?}else{?>
+				<?if(pageNumber < 5){?>
+					<?for(var i = 1,l = 5; i <= l; i++){?>
+						<a href="javascript:void(0)" class="page<?=(i==pageNumber?' curr':'')?>" data-id="<?=i?>"><?=i?></a>
+					<?}?>
+					<span>…</span>
+					<a href="javascript:void(0)" class="page" data-id="<?=pageCount?>"><?=pageCount?></a>
+				<?}else{?>
+					<a href="javascript:void(0)" class="page" data-id="1">1</a>
+					<span>…</span>
+					<a href="javascript:void(0)" class="page" data-id="<?=(pageNumber-2)?>"><?=(pageNumber-2)?></a>
+					<a href="javascript:void(0)" class="page" data-id="<?=(pageNumber-1)?>"><?=(pageNumber-1)?></a>
+					<a href="javascript:void(0)" class="page curr" data-id="<?=pageNumber?>"><?=pageNumber?></a>
+					<?if(pageNumber + 1 < pageCount){?>
+						<a href="javascript:void(0)" class="page" data-id="<?=(pageNumber+1)?>"><?=(pageNumber+1)?></a>
+						<?if(pageNumber + 1 < pageCount - 1){?>
+							<span>…</span>
+						<?}?>
+						<a href="javascript:void(0)" class="page" data-id="<?=pageCount?>"><?=pageCount?></a>
+					<?}else if(pageNumber + 1 == pageCount){?>
+						<a href="javascript:void(0)" class="page" data-id="<?=pageCount?>"><?=pageCount?></a>
+					<?}?>
+				<?}?>
+				<span>共<?=pageCount?>页</span>
+			<?}?>
+		</div>
+		<?if(pageCount > 6){?>
+			<div class="pagenationDIV_pagesto"></div>
+		<?}?>
+	</div>
+<?}?>

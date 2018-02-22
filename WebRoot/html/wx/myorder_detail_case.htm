@@ -1,0 +1,31 @@
+<?
+	var cae = @data.caseinfo || {};
+?>
+<div class="mycaseinfos">    	
+ 	<div class="blockdiv">
+ 		<header><i class="iconfont">&#xe611;</i><span>患者详情</span></header>
+ 		<section>
+ 			<p>患者姓名：<?=cae.contactName || ''?></p>
+ 			<p>患者电话：<?=cae.telephone || ''?></p>
+ 			<p>患者性别：<?=cae.sex=='1' ? '男' : '女' ?></p>
+ 			<p>患者年龄：<?=cae.age || ''?></p>
+ 			<p>咨询目的：<?=cae.askProblem || ''?></p>
+ 		</section>
+ 	</div>
+ 	<div class="blockdiv">
+ 		<header><i class="iconfont">&#xe616;</i><span>病情描述</span></header>
+ 		<section>
+ 			<p><?=cae.presentIll || ''?></p>
+ 		</section>
+ 	</div>
+ 	<div class="blockdiv">
+ 		<header><i class="iconfont">&#xe616;</i><span>图片资料</span></header>
+ 		<section class="hhlist">
+ 			<?for(var i=0,imgs = @data.caseimages || [],l = imgs.length;i<l;i++){?>
+	 			<span class="text thumb">
+	 				<img src="<?=imgs[i].fileUrl || ''?>" alt=""/>
+	 			</span>
+ 			<?}?>
+ 		</section>
+ 	</div>
+</div>

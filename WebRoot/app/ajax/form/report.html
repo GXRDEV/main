@@ -1,0 +1,62 @@
+<div class="reportshow" style="min-height:568px;">
+    <div class="tab" v-if="edit">
+        <button type="button" :class="{ 'selected': tab == '1'}" @click="tab=1">录入</button>
+        <button type="button" :class="{ 'selected': tab == '2'}" @click="tab=2">上传</button>
+    </div>
+    <div class="tab" v-else>
+        <button type="button" :class="{ 'selected': tab == '1'}" @click="tab=1">文字报告</button>
+        <button type="button" :class="{ 'selected': tab == '2'}" @click="tab=2">文件报告</button>
+    </div>
+    <dl class="report-templet" v-if="tab=='1'">
+        <dd class="list" v-if="list.diagnosis">
+            <small style="color:#aaa">诊断意见</small>
+            <p style="line-height: 1.6em" v-text="list.diagnosis"></p>
+        </dd>
+        <dd class="list" v-if="list.treatPlan">
+            <small style="color:#aaa">治疗建议</small>
+            <p style="line-height: 1.6em" v-text="list.treatPlan"></p>
+        </dd>
+        <dd class="list" v-if="list.attentions">
+            <small style="color:#aaa">注意事项</small>
+            <p style="line-height: 1.6em" v-text="list.attentions"></p>
+        </dd>
+        <dd class="list" v-if="list.signature">
+            <small style="color:#aaa;display:block;">签名</small>
+            <img :src="list.signature" alt="" style="margin-top: 5px">
+        </dd>
+        <dd v-if="!list.diagnosis && !list.treatPlan && !list.attentions" class="noresult" style="height:478px;">
+            <div v-if="edit || usertype" >
+                <button type="button" class="no-btn" @click="sendreport">填写就诊报告</button>
+                <p>请详细填写本次会诊报告</p>
+                <p>包括：诊断意见、治疗建议、注意事项。</p>
+            </div>
+            <div v-else >
+                <p>暂无文字报告</p>
+            </div>
+        </dd>
+    </dl>
+    <dl class="report-templet" v-else>
+        <dd class="report-img" style="height: auto; overflow: hidden; margin-top: 10px" v-if="list.photoReport" >
+            <img :src="list.photoReport" alt="" style="min-width: 150px;width: 250px; height: auto" @click="maxImgShow">
+        </dd>
+        <dd v-if="!list.photoReport" class="noresult" style="height:478px;">
+            <div v-if="edit || usertype">
+                <button type="button" class="no-btn" @click="sendreport">上传会诊报告</button>
+                <p>请上传jpg,png,pdf等格式图片报告</p>
+            </div>
+            <div v-else>
+                <p>暂无文件报告</p>
+            </div>
+        </dd>
+    </dl>
+    <dl class="report-templet">
+        <dd v-if="edit || usertype" class="text-align-left" style="padding: 15px 0;margin: 10px 0;">
+            <button v-if="tab == 1 && status == 20" type="button" class="btn" @click="sendreport" v-show="(list.diagnosis && list.treatPlan && list.attentions)?true:false">编辑</button>
+            <button v-if="tab == 2 && status == 20" type="button" class="btn" @click="sendreport" v-show="!!list.photoReport">重新上传</button>
+        </dd>
+        <dd v-else class="text-align-center" style="padding: 15px 0;margin: 10px 0;">
+            <a :href="'/exportword/'+oid+'/'+ otype" class="btn btn-primary" style="min-width: 10em;" v-if="tab == 1">导出专家报告</a>
+            <a :href="'/download?fileUrl='+list.photoReport" class="btn btn-primary" style="min-width: 10em;" v-if="tab == 2 && list.photoReport">导出专家报告</a>
+        </dd>
+    </dl>
+</div>

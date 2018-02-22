@@ -1,0 +1,26 @@
+<div class="wxconfirmpay">    	
+	<div class="w1200">
+ 		<div class="blockdiv normal wxconfirmdetail">
+ 			<div class="header margin40">
+    			<h2 class="h"><i class="iconfont">&#xe616;</i>微信支付</h2>
+    			<input type="hidden" name="wxout_trade_no" class="out_trade_no" value="<?=@data['wxout_trade_no']?>">
+    		</div>
+    		<div class="boyder clearfix">
+    			<p>扫一扫付款（元）</p>
+    			<h2><?=@data['cost']?></h2>
+    			<div class="imgerm">
+    				<img src="<?=base?>kangxin/showqr?code_url=<?=@data.img?>"/>
+    				<div class="clearfix">
+    					<i class="iconfont fleft">&#xe615;</i>
+    					<span class="fright">打开微信扫一扫</span>
+    				</div>
+    			</div>
+    		</div>
+ 		</div>
+ 	</div> 	
+</div>
+<script>
+	seajs.use('view/website/main',function(website){
+		website.online_wxpay();
+	});
+</script>
